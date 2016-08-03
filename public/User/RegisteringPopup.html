@@ -2,18 +2,85 @@
 <html lang="en">
 <md-dialog aria-label="{{label}}"  ng-cloak>
 
-    <form>
+    <form novalidate ng-submit="submit(user)" name="userForm" class="css-form">
         <md-toolbar>
             <div class="md-toolbar-tools">
                 <h2>{{title}}</h2>
                 <span flex></span>
-                <md-button class="md-icon-button" ng-click="cancel()">
+                <md-button class="md-icon-button" ng-click="ctrl.cancel()">
                     <md-icon class="ion-close-round" aria-label="Close dialog"></md-icon>
                 </md-button>
             </div>
         </md-toolbar>
+        <md-dialog-content style = "float:left" >
+            <div class="md-dialog-content">
+                <md-input-container flex>
+                    <label>Nome</label>
+                    <input type="text" name="name" ng-model="user.nome" />
+                </md-input-container>
+                <md-input-container flex>
+                    <label>Cognome</label>
+                    <input type="text" name="cognome" ng-model="user.cognome"/>
+                </md-input-container>
+                <md-input-container flex>
+                    <label>Email</label>
+                    <input type="email" name="email" ng-model="user.email"
+                           ng-model-options="{ debounce: 100 }"
+                           required
+                           isMailAvailable/>
+
+                    <span ng-show="form.name.$pending.email">Checking if this email is available...</span>
+                    <span ng-show="form.name.$error.email">This email is already taken!</span>
+                </md-input-container>
+                <div>
+                    <md-input-container flex>
+                        <label>Password</label>
+                        <input type="password" name="password" ng-model="user.password" required/>
+
+                        <ng-messages for="userForm.password.$error" ng-if="userForm.password.$dirty">
+                            <ng-message when="required" class="error">This is required</ng-message>
+                        </ng-messages>
+
+
+                        <ng-messages for="userForm.password.$error" ng-if="signUpForm.password.$dirty">
+                            <ng-message when="required" class="error">devi inserire una password</ng-message>
+                        </ng-messages>
+                    </md-input-container>
+
+                    <md-input-container flex>
+                        <label>Repeat Password</label>
+                        <input type="password" name ="repeasted_password" ng-model="user.repeated_password" required/>
+                    </md-input-container>
+
+                    </div>
+                <input type="submit" id="submit" value="Submit" />
+            </div>
+            </md-dialog-content>
 
 
     </form>
+    <style type="text/css">
+
+        html {
+        background: url(src/background-6.jpg) no-repeat center center fixed;
+        -webkit-background-size: cover;
+        -moz-background-size: cover;
+        -o-background-size: cover;
+        background-size: cover;
+        }
+
+        form.ng-submitted .ng-invalid {
+        border-color: red;
+        border-width: 2px;
+        }
+
+        .css-form input.ng-invalid.ng-touched {
+        background-color: #FA787E;
+        }
+
+        .css-form input.ng-valid.ng-touched {
+        background-color: #78FA89;
+        }
+    </style>
 </md-dialog>
 </html>
