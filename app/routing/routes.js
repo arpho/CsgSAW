@@ -10,6 +10,6 @@ var users_routing = require('./user_routing')
     app.get('*', function(req, res) {
         res.sendfile('./public/index.html');
     });
-    app.post('/api/user/create',users_routing.crea)
+    app.post('/api/user/create/',users_routing.crea)
     app.post('/api/user/mail:email',users_routing.checkMail)
 };

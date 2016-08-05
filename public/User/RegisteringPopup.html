@@ -27,33 +27,41 @@
                     <input type="email" name="email" ng-model="user.email"
                            ng-model-options="{ debounce: 100 }"
                            required
-                           isMailAvailable/>
+                           unique-mail/>
 
-                    <span ng-show="form.name.$pending.email">Checking if this email is available...</span>
-                    <span ng-show="form.name.$error.email">This email is already taken!</span>
+                    <ng-messages for="userForm.email.$error" >
+                        <div ng-message="unique" class="error">Email già in uso</div>
+                        <div ng-message="required" class="error">Devi inserire un indirizzo mail</div>
+                    </ng-messages>
                 </md-input-container>
                 <div>
                     <md-input-container flex>
                         <label>Password</label>
                         <input type="password" name="password" ng-model="user.password" required/>
 
-                        <ng-messages for="userForm.password.$error" ng-if="userForm.password.$dirty">
+                        <div ng-messages for="userForm.password.$error" ng-if="userForm.password.$dirty">
                             <ng-message when="required" class="error">This is required</ng-message>
-                        </ng-messages>
+                        </div>
 
 
-                        <ng-messages for="userForm.password.$error" ng-if="signUpForm.password.$dirty">
-                            <ng-message when="required" class="error">devi inserire una password</ng-message>
-                        </ng-messages>
+                        <div ng-messages for="userForm.password.$error" ng-if="signUpForm.password.$dirty">
+                            <div ng-message when="required" class="error">devi inserire una password</div>
+                        </div>
                     </md-input-container>
 
                     <md-input-container flex>
-                        <label>Repeat Password</label>
-                        <input type="password" name ="repeasted_password" ng-model="user.repeated_password" required/>
+                        <label>Conferma Password</label>
+                        <input type="password" name ="confirm_password" ng-model="user.confirm_password" required
+                        compare-to = "user.password"
+                        />
+                        <div ng-messages="userForm.confirm_password.$error" >
+                            <div  ng-message="required" class="error">devi inserire una password di conferma!!!</div>
+                            <div ng-message="compareTo" class="error">le due password non sono uguali!!!</div>
+                        </div>
                     </md-input-container>
 
                     </div>
-                <input type="submit" id="submit" value="Submit" />
+                <input type="submit" id="submit" value="Submit" ng-disabled="userForm.$invalid"/>
             </div>
             </md-dialog-content>
 

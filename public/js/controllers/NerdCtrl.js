@@ -4,7 +4,6 @@ angular.module('csgSAW.controllers').controller('NerdController',['$scope','$mdD
 
 
     $scope.register = function(ev){
-            console.log('registering')
             var useFullScreen = ($mdMedia('sm') || $mdMedia('xs'))  && $scope.customFullscreen;
             $mdDialog.show({
                 controller: 'UserController',

@@ -9,6 +9,7 @@ angular.module('csgSAW.controllers').controller('UserController',['$scope','User
             $scope.user = {}
             $scope.submit = function(user){
                 console.log('submit',user)
+                Users.create(user)
             }
             self.finish = function($event) {
               $mdDialog.hide();
