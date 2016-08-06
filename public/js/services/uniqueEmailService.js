@@ -3,7 +3,9 @@ angular.module('CsgSAW.services').factory('UniqueMail', ['$q','$http', function(
 
     return  function(email){
         var deferred = $q.defer();
-        $http.post('/api/user/mail:'+email).then(function(ris){
+        var query = {email:email}
+        console.log('checking mail',query)
+        $http.post('/api/user/mail/',query).then(function(ris){
         //found mail
         console.log('rejected: mail usata',ris)
             deferred.reject();

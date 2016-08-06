@@ -1,8 +1,9 @@
 'use strict';
-angular.module('csgSAW.controllers').controller('UserController',['$scope','UserService','$mdDialog',function($scope,Users,$mdDialog){
+angular.module('csgSAW.controllers').controller('LoginController',['$scope','UserService','$mdDialog',function($scope,Users,$mdDialog){
      var self = this;
-     $scope.title =' Registrazione utente'
+     $scope.title =' Autenticazione utente'
      $scope.label = "questa è un'etichetta"
+     $scope.submiutButton = 'autentica'
         self.cancel = function($event) {
               $mdDialog.hide();
             };

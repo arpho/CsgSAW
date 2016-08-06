@@ -15,5 +15,17 @@ angular.module('csgSAW.controllers').controller('NerdController',['$scope','$mdD
                 fullScreen: useFullScreen
              })
     }
+    $scope.login = function(ev){
+                               var useFullScreen = ($mdMedia('sm') || $mdMedia('xs'))  && $scope.customFullscreen;
+                               $mdDialog.show({
+                                   controller: 'LoginController',
+                                   controllerAs: 'ctrl',
+                                   templateUrl: 'User/loginPopup.html',
+                                   parent: angular.element(document.body),
+                                   targetEvent: ev,
+                                   clickOutsideToClose: true,
+                                   fullScreen: useFullScreen
+                                })
+                       }
 
 }]);

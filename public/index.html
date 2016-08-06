@@ -38,6 +38,7 @@
     <script src="js/services/GeekService.js"></script>
     <script src="User/UserService.js"></script>
     <script src="User/UserCtrl.js"></script>
+    <script src="User/loginCtrl.js"></script>
     <script src="js/appRoutes.js"></script>
     <script src="js/services/uniqueEmailService.js"></script>
     <script src="User/uniqueEmailDirective.js"></script>
@@ -67,7 +68,7 @@
         </ul>
         <ul class="nav navbar-nav"  style = "float:right">
             <li> <a href ng-click="register($event)">Registrati</a></li>
-            <li><a>Log In</a></li>
+            <li><a href ng-click="login($event)">Log In</a></li>
 
         </ul>
     </nav>

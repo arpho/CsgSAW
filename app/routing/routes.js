@@ -11,5 +11,5 @@ var users_routing = require('./user_routing')
         res.sendfile('./public/index.html');
     });
     app.post('/api/user/create/',users_routing.crea)
-    app.post('/api/user/mail:email',users_routing.checkMail)
+    app.post('/api/user/mail/',users_routing.checkMail)
 };

@@ -2,7 +2,7 @@
 <html lang="en">
 <md-dialog aria-label="{{label}}"  ng-cloak>
 
-    <form novalidate ng-submit="submit(user)" name="userForm" class="css-form">
+    <form novalidate ng-submit="submit(user)" name="loginForm" class="css-form">
         <md-toolbar>
             <div class="md-toolbar-tools">
                 <h2>{{title}}</h2>
@@ -15,22 +15,11 @@
         <md-dialog-content style = "float:left" >
             <div class="md-dialog-content">
                 <md-input-container flex>
-                    <label>Nome</label>
-                    <input type="text" name="name" ng-model="user.nome" />
-                </md-input-container>
-                <md-input-container flex>
-                    <label>Cognome</label>
-                    <input type="text" name="cognome" ng-model="user.cognome"/>
-                </md-input-container>
-                <md-input-container flex>
                     <label>Email</label>
                     <input type="email" name="email" ng-model="user.email"
-                           ng-model-options="{ debounce: 100 }"
-                           required
-                           unique-mail/>
+                           required/>
 
-                    <ng-messages for="userForm.email.$error" >
-                        <div ng-message="unique" class="error">Email già in uso</div>
+                    <ng-messages for="loginForm.email.$error" >
                         <div ng-message="required" class="error">Devi inserire un indirizzo mail</div>
                     </ng-messages>
                 </md-input-container>
@@ -39,31 +28,23 @@
                         <label>Password</label>
                         <input type="password" name="password" ng-model="user.password" required/>
 
-                        <div ng-messages for="userForm.password.$error" ng-if="userForm.password.$dirty">
+                        <div ng-messages for="loginForm.password.$error" ng-if="loginForm.password.$dirty">
                             <ng-message when="required" class="error">This is required</ng-message>
                         </div>
 
 
-                        <div ng-messages for="userForm.password.$error" ng-if="signUpForm.password.$dirty">
+                        <div ng-messages for="loginForm.password.$error" ng-if="signUpForm.password.$dirty">
                             <div ng-message when="required" class="error">devi inserire una password</div>
                         </div>
                     </md-input-container>
 
                     <md-input-container flex>
-                        <label>Conferma Password</label>
-                        <input type="password" name ="confirm_password" ng-model="user.confirm_password" required
-                        compare-to = "user.password"
-                        />
-                        <div ng-messages="userForm.confirm_password.$error" >
-                            <div  ng-message="required" class="error">devi inserire una password di conferma!!!</div>
-                            <div ng-message="compareTo" class="error">le due password non sono uguali!!!</div>
-                        </div>
                     </md-input-container>
 
-                    </div>
-                <input type="submit" id="submit" value="Registra" ng-disabled="userForm.$invalid"/>
+                </div>
+                <input type="submit" id="submit" value="Autentica" ng-disabled="loginForm.$invalid"/>
             </div>
-            </md-dialog-content>
+        </md-dialog-content>
 
 
     </form>
