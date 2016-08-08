@@ -6,7 +6,8 @@
     "angular": "latest",
     "angular-route": "latest",
     "ng-material-floating-button": "ng-mfb#^0.6.2",
-    "angular-messages": "1.5.3"
+    "angular-messages": "1.5.3",
+    "angular-spinner": "^0.8.1"
   },
   "resolutions": {
     "angular": "1.5.3"
