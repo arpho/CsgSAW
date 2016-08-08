@@ -13,8 +13,8 @@ angular.module('CsgSAW.services').factory('UserService', ['$http', function($htt
                 console.log('problems',b)
                })
         },
-        login: function(user,callback){
-        $http.post('/api/user/login/',user).then(callback)
+        login: function(user){
+            return $http.post('/api/user/login/',user)
         }
     }
 

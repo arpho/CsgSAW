@@ -10,10 +10,11 @@ angular.module('csgSAW.controllers').controller('LoginController',['$scope','Use
             $scope.user = {}
             $scope.submit = function(user){
                 console.log('submit',user)
-                var callback = function(){
-                    console.log('utente verificato')
-                }
-                Users.login(user,callback)
+                Users.login(user).then(function(res){
+                     console.log('success',res)
+                }).catch(function(res){
+                console.log('failure',res)
+                })
             }
             self.finish = function($event) {
               $mdDialog.hide();

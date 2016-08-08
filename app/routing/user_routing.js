@@ -6,36 +6,28 @@ module.exports = {
 
         //creo il valore salt per l'utente
         var user = req.body
-        var ObjectID = require('mongodb').ObjectID;
+        console.log('creo utente', user)
         var crypto = require("crypto-js"),salt = crypto.lib.WordArray.random(128/8)
         var userLogin = require('../models/UserLogin'), UserData = require('../models/UserData'),
 
         key512Bits1000Iterations = crypto.PBKDF2(user.password, salt, { keySize: 512/32, iterations: 1000 });
         delete key512Bits1000Iterations.$super
-        var userInfo = new UserData({nome:user.nome,cognome:user.cognome,_id:new ObjectID})
-        ,loginUser = new userLogin({email:user.email,salt:salt,hashed_password:key512Bits1000Iterations,enabled:false,data_user:userInfo._id});
+        var userInfo = new UserData({nome:user.nome,cognome:user.cognome});
 
-        var tasks = []; //uso async parallel per eseguire i due inserimenti in parallelo
-        tasks.push(function(callback){ // loginUser.save
-            userInfo.save(function(err){
-                        callback(err)
-                    })
+        userInfo.save(function(err,userInfo){
+        if (err)
+        {
+            console.log(err)
+            res.status(404).send({'errore':err})
+        }
+        var loginUser = new userLogin({email:user.email,salt:salt,hashed_password:key512Bits1000Iterations,
+        enabled:false,data_user:userInfo._id});
+        loginUser.save(function(err,logUser){
+            if(err) res.status(404).send(err);
+            res.send({ok:true,msg:'utente creato'})
+        })
         })
 
-        tasks.push(function(callback){ // userInfo.save
-            loginUser.save(function(err){
-                callback(err)
-            })
-        })
-        var async = require('async')
-        async.parallel(tasks,function done(err,result){
-            if(err){
-                res.send({ok:false,err:err})
-                throw err;
-
-            }
-            res.send({ok:true,messsge:'utente creato'})
-        })
         },
 
 
