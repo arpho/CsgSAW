@@ -12,17 +12,18 @@ module.exports = {
 
         key512Bits1000Iterations = crypto.PBKDF2(user.password, salt, { keySize: 512/32, iterations: 1000 });
         delete key512Bits1000Iterations.$super
-        var newUser = new userLogin({email:user.email,salt:salt,hashed_password:key512Bits1000Iterations,enabled:false,_id:new ObjectID}),
-        userInfo = new UserData({nome:user.nome,cognome:user.cognome,user_Id:newUser._id})
+        var userInfo = new UserData({nome:user.nome,cognome:user.cognome,_id:new ObjectID})
+        ,loginUser = new userLogin({email:user.email,salt:salt,hashed_password:key512Bits1000Iterations,enabled:false,data_user:userInfo._id});
+
         var tasks = []; //uso async parallel per eseguire i due inserimenti in parallelo
-        tasks.push(function(callback){ // newUser.save
-            newUser.save(function(err){
+        tasks.push(function(callback){ // loginUser.save
+            userInfo.save(function(err){
                         callback(err)
                     })
         })
 
         tasks.push(function(callback){ // userInfo.save
-            userInfo.save(function(err){
+            loginUser.save(function(err){
                 callback(err)
             })
         })
@@ -56,6 +57,8 @@ module.exports = {
         }
         })
 
-    }
+    },
+
+    login: require('./routers/login')
 }
 

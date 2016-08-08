@@ -12,4 +12,5 @@ var users_routing = require('./user_routing')
     });
     app.post('/api/user/create/',users_routing.crea)
     app.post('/api/user/mail/',users_routing.checkMail)
+    app.post('/api/user/login',users_routing.login)
 };

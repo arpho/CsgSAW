@@ -13,7 +13,6 @@ module.exports = mongoose.model('DataUser', {
 	dob :{type:Date, default:Date.now},
 	indirizzo:[ addressSchema],
 	email: String,
-	user_Id:mongoose.Schema.Types.ObjectId,
 	skype:String,
 	ruoli:[String]
 });

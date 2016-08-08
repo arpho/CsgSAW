@@ -10,8 +10,10 @@ angular.module('csgSAW.controllers').controller('LoginController',['$scope','Use
             $scope.user = {}
             $scope.submit = function(user){
                 console.log('submit',user)
-            delete user['confirm_password'] // rimuovo il campo confirm_password prima di inviare al server l'ogetto
-                Users.create(user)
+                var callback = function(){
+                    console.log('utente verificato')
+                }
+                Users.login(user,callback)
             }
             self.finish = function($event) {
               $mdDialog.hide();
