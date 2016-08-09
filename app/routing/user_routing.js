@@ -8,25 +8,20 @@ module.exports = {
         var user = req.body
         console.log('creo utente', user)
         var crypto = require("crypto-js"),salt = crypto.lib.WordArray.random(128/8)
-        var userLogin = require('../models/UserLogin'), UserData = require('../models/UserData'),
-
-        key512Bits1000Iterations = crypto.PBKDF2(user.password, salt, { keySize: 512/32, iterations: 1000 });
+        var userModel = require('../models/User');
+        console.log('caricato modello db')
+        var key512Bits1000Iterations = crypto.PBKDF2(user.password, salt, { keySize: 512/32, iterations: 1000 });
         delete key512Bits1000Iterations.$super
-        var userInfo = new UserData({nome:user.nome,cognome:user.cognome});
 
-        userInfo.save(function(err,userInfo){
-        if (err)
-        {
-            console.log(err)
-            res.status(404).send({'errore':err})
-        }
-        var loginUser = new userLogin({email:user.email,salt:salt,hashed_password:key512Bits1000Iterations,
-        enabled:false,data_user:userInfo._id});
-        loginUser.save(function(err,logUser){
+
+
+        var User = new userModel({email:user.email,salt:salt,hashed_password:key512Bits1000Iterations,
+        nome:user.nome,cognome:user.cognome,enabled:false});
+        User.save(function(err,logUser){
             if(err) res.status(404).send(err);
             res.send({ok:true,msg:'utente creato'})
         })
-        })
+
 
         },
 
@@ -37,7 +32,7 @@ module.exports = {
         res.send({msg:'ok',salt:salt,key512Bits1000Iterations})*/
 
     checkMail: function(req,res){
-        var userLogin = require('../models/UserLogin')
+        var userLogin = require('../models/User')
         var query = req.body
         userLogin.find({query},function(err,emails){
         if (err){console.log('errore',err)}

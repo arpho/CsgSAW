@@ -9,9 +9,7 @@ angular.module('CsgSAW.services').factory('UserService', ['$http', function($htt
 
                 console.log('user created',a)
                 callback();
-            },function(b){
-                console.log('problems',b)
-               })
+            }).catch(function(b){console.log('problems',b)})
         },
         login: function(user){
             return $http.post('/api/user/login/',user)

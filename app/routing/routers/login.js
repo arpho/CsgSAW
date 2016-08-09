@@ -12,17 +12,17 @@ module.exports = function(req,res){
         }
         return out
     },
-    userLogin = require('../../models/UserLogin'),
-    userData = require('../../models/UserData'),
+    userLogin = require('../../models/User'),
     crypto = require("crypto-js")
     console.log('richiesta di login',user)
     var authenticated
-    userLogin.findOne({email:user.email}).populate('DataUser').exec(function(err,authenticatingUser){
-        if(err){
-        console.log(err)
+    userLogin.findOne({email:user.email,enabled:true},function(err,authenticatingUser){
+        if(err ||!authenticatingUser){
+        console.log(err,'non esiste')
         res.status(404).send(err)
         return
         }
+        console.log('found user', authenticatingUser)
         var crypto = require("crypto-js"),
         hashed_password = crypto.PBKDF2(user.password, authenticatingUser.salt, { keySize: 512/32, iterations: 1000 }),
         authenticated = checkPassword(hashed_password,authenticatingUser.hashed_password)
@@ -31,7 +31,7 @@ module.exports = function(req,res){
         console.log('utente autenticato',authenticated)
         if(!authenticated) {console.log('no')
         res.status(404).send({msg:'utente non autorizzato'})}
-        else  { console.log('si')
+        else  { console.log('si',userLogin)
         res.send({authenticated:authenticated,authenticatingUser})}
 
     })
