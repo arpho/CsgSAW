@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
 <md-dialog aria-label="{{label}}"  ng-cloak>
-
     <form novalidate ng-submit="submit(user)" name="loginForm" class="css-form">
         <md-toolbar>
             <div class="md-toolbar-tools">
@@ -14,13 +13,14 @@
         </md-toolbar>
         <md-dialog-content style = "float:left" >
             <div class="md-dialog-content">
+                <span us-spinner="{radius:30, width:8, length: 16}"ng-show = showSpinner></span>
                 <md-input-container flex>
                     <label>Email</label>
-                    <input type="email" name="email" ng-model="user.email"
+                    <input type="email" name="username" ng-model="user.email"
                            required/>
 
-                    <ng-messages for="loginForm.email.$error" >
-                        <div ng-message="required" class="error">Devi inserire un indirizzo mail</div>
+                    <ng-messages for="loginForm.username.$error" >
+                        <div ng-message="required" class="error">Devi inserire un indirizzo mail valido</div>
                     </ng-messages>
                 </md-input-container>
                 <div>

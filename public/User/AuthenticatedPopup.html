@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<md-dialog aria-label="rtyyiihgighikghikgh"  ng-cloak>
+    <md-toolbar>
+        <div class="md-toolbar-tools">
+            <h2>Utente autenticato</h2>
+            <span flex></span>
+            <md-button class="md-icon-button" ng-click="ctrl.cancel()">
+                <md-icon class="ion-close-round" aria-label="Close dialog"></md-icon>
+            </md-button>
+        </div>
+    </md-toolbar>
+    <md-dialog-content style = "float:left" >
+   <h1>{{self.welcome}}</h1>
+        </md-dialog-content>
+    <style type="text/css">
+
+        html {
+        background: url(src/background-6.jpg) no-repeat center center fixed;
+        -webkit-background-size: cover;
+        -moz-background-size: cover;
+        -o-background-size: cover;
+        background-size: cover;
+        }
+
+        form.ng-submitted .ng-invalid {
+        border-color: red;
+        border-width: 2px;
+        }
+
+        .css-form input.ng-invalid.ng-touched {
+        background-color: #FA787E;
+        }
+
+        .css-form input.ng-valid.ng-touched {
+        background-color: #78FA89;
+        }
+    </style>
+</md-dialog>
+</html>

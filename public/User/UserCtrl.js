@@ -1,6 +1,8 @@
 'use strict';
-angular.module('csgSAW.controllers').controller('UserController',['$scope','UserService','$mdDialog',function($scope,Users,$mdDialog){
+angular.module('csgSAW.controllers').controller('UserController',['$scope','UserService',
+'$mdDialog','app-messages',function($scope,Users,$mdDialog,messages){
      var self = this;
+     self.welcome = messages.getMessage('messaggio_benvenuto')
      $scope.title =' Registrazione utente'
      $scope.label = "questa è un'etichetta"
         self.cancel = function($event) {

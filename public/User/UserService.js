@@ -1,5 +1,5 @@
 'use strict';
-var User = {};
+var loggedUser = {},token, logged = false;
 angular.module('CsgSAW.services').factory('UserService', ['$http', function($http) {
     return {
         create: function(user,callback){
@@ -13,7 +13,30 @@ angular.module('CsgSAW.services').factory('UserService', ['$http', function($htt
         },
         login: function(user){
             return $http.post('/api/user/login/',user)
+        },
+        setLoggedUser : function(user){
+        loggedUser = user
+        },
+        getNome : function(){
+        return loggedUser.nome},
+        getCognome : function(){
+        return loggedUser.cognome},
+        getToken: function(){
+             return token
+        },
+        setLogged : function(status){
+            logged = status
+        },
+        hasRight : function(role){
+            for(var i=o;i<loggedUser.roles.length;i++){
+                if(role ==loggedUser.roles[i]) return true// se l'utente gode del diritto richiesto ritornsa true
+            }
+            return false;// l'utente non gode di tale diritto
         }
+        setToken: function(newToken){
+            token = newToken
+        }
+
     }
 
 }]);
