@@ -1,7 +1,7 @@
 'use strict';
 angular.module('csgSAW.controllers').controller('LoginController',['$scope','UserService','$mdMedia','$mdDialog',
-'app-messages', '$cookies', '$cookieStore', '$window',function($scope,Users,$mdMedia,$mdDialog,messages, $cookies,
-$cookieStore, $window){
+'app-messages', '$cookies',  '$window','$rootScope',function($scope,Users,$mdMedia,$mdDialog,messages, $cookies,
+ $window,$rootScope){
      var self = this;
      $scope.daRicordare = function(b){
      if (b) return 'Si'
@@ -14,9 +14,9 @@ $cookieStore, $window){
               $mdDialog.hide();
             };
             $scope.user = {}
-            $scope.user.remember = $cookieStore.get('remember')
-            $scope.user.email = $cookieStore.get('username')
-            $scope.user.password = $cookieStore.get('password')
+            $scope.user.remember = Boolean($cookies.get('remember').replace('"',''))
+            $scope.user.email = $cookies.get('username').replace('"','')
+            $scope.user.password = $cookies.get('password').replace('"','')
             $scope.submit = function(user){
                 $scope.showSpinner = true;
                 console.log('submit',user)
@@ -30,9 +30,14 @@ $cookieStore, $window){
                             return dat;
                         }
                         var today = new Date();
-                        $cookieStore.put('username',$scope.user.email,{expires:today.addDays(30)})
-                        $cookieStore.put('password',$scope.user.password,{expires:today.addDays(30)})
-                        $cookieStore.put('remember',$scope.user.remember,{expires:today.addDays(30)})
+                        $cookies.put('username',$scope.user.email,{expires:today.addDays(30)})
+                        $cookies.put('password',$scope.user.password,{expires:today.addDays(30)})
+                        $cookies.put('remember',$scope.user.remember,{expires:today.addDays(30)})
+                     }
+                     else{
+                        $cookies.remove('username')
+                        $cookies.remove('password')
+                        $cookies.remove('remember')
                      }
                      Users.setLoggedUser(res.data.authenticatingUser)
                      Users.setToken(res.data.token);
@@ -48,7 +53,9 @@ $cookieStore, $window){
                                          .textContent(welcome)
                                          .ariaLabel('')
                                          .ok('Ok')
-                                     );
+                                     ).then(function(){
+                                        $rootScope.$emit('loggedUser')
+                                     });
                 }).catch(function(res){
                 console.log('failure',res)
                 $mdDialog.show(

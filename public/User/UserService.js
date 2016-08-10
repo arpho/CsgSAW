@@ -35,6 +35,12 @@ angular.module('CsgSAW.services').factory('UserService', ['$http', function($htt
         },
         setToken: function(newToken){
             token = newToken
+        },
+        isLogged : function() {
+            return logged;
+        },
+        getLoggedUser : function(){
+            return loggedUser;
         }
 
     }

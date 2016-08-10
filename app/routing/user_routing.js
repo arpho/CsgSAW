@@ -45,6 +45,7 @@ module.exports = {
         })
 
     },
+    update: require('./routers/updateUser'),
 
     login: require('./routers/login')
 }

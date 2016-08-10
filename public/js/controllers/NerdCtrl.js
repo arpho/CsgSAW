@@ -1,5 +1,6 @@
-angular.module('csgSAW.controllers').controller('NerdController',['$scope','$mdDialog','$mdMedia','$mdToast','app-messages',
-  function($scope,$mdDialog,$mdMedia, $mdToast,messages) {
+angular.module('csgSAW.controllers').controller('NerdController',['$scope','$mdDialog','$mdMedia','$mdToast','UserService'
+,'app-messages',
+  function($scope,$mdDialog,$mdMedia, $mdToast,User,messages) {
 
     $scope.tagline = 'Nothing beats a pocket protector!';
     messages.putMessage('toastTitle','Test');
@@ -20,6 +21,9 @@ angular.module('csgSAW.controllers').controller('NerdController',['$scope','$mdD
             .targetEvent(ev)
         );
       };
+      $scope.isLogged = function(){
+        return User.isLogged();
+      }
 
     $scope.showCustomToast = function() {
             $mdToast.show({
@@ -64,7 +68,6 @@ angular.module('csgSAW.controllers').controller('NerdController',['$scope','$mdD
                                    fullScreen: useFullScreen
                                 })
                        }
-
 }]).controller('ToastCtrl',['$scope','$mdToast','$mdDialog','app-messages', function($scope, $mdToast, $mdDialog,messages) {
         console.log(messages)
         $scope.title = messages.getMessage('titleToast')

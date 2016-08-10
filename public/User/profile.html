@@ -1,0 +1,31 @@
+<div class="jumbotron text-center">
+    <h1>{{title}}</h1>
+
+    <p>{{ tagline }}</p>
+
+</div>
+<div>
+
+<form novalidate ng-submit="submit(user)" name="userForm" class="css-form" style="width:300px">
+
+
+
+    <md-input-container flex style="float:top">
+        <label>Nome</label>
+        <input type="text" name="name" ng-model="user.nome" />
+    </md-input-container>
+    <md-input-container flex style="float:top">
+        <label>Cognome</label>
+        <input type="text" name="cognome" ng-model="user.cognome"/>
+    </md-input-container>
+    <md-input-container flex style="float:top">
+        <label>Email</label>
+        <input type="email" name="email" ng-model="user.email"
+               ng-model-options="{ debounce: 100 }"
+               required/>
+    </md-input-container>
+            <label>Data Di nascita</label>
+        <md-datepicker ng-model="user.dob" md-placeholder="Quando sei nato"></md-datepicker>
+    <input type="submit" id="submit" value="Modifica" ng-disabled="userForm.$invalid"/>
+</form>
+</div>
