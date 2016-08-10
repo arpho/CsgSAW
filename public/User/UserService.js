@@ -32,7 +32,7 @@ angular.module('CsgSAW.services').factory('UserService', ['$http', function($htt
                 if(role ==loggedUser.roles[i]) return true// se l'utente gode del diritto richiesto ritornsa true
             }
             return false;// l'utente non gode di tale diritto
-        }
+        },
         setToken: function(newToken){
             token = newToken
         }

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
-<md-dialog aria-label="{{label}}"  ng-cloak>
-    <form novalidate ng-submit="submit(user)" name="loginForm" class="css-form">
+<md-dialog aria-label="{{label}}" ng-cloak>
+    <form novalidate ng-submit="submit(user)" name="loginForm" class="css-form" style ="background: url(src/background-6.jpg) no-repeat center center fixed" >
         <md-toolbar>
             <div class="md-toolbar-tools">
                 <h2>{{title}}</h2>
@@ -11,7 +11,7 @@
                 </md-button>
             </div>
         </md-toolbar>
-        <md-dialog-content style = "float:left" >
+        <md-dialog-content style = "float:left; " >
             <div class="md-dialog-content">
                 <span us-spinner="{radius:30, width:8, length: 16}"ng-show = showSpinner></span>
                 <md-input-container flex>
@@ -36,10 +36,9 @@
                         <div ng-messages for="loginForm.password.$error" ng-if="signUpForm.password.$dirty">
                             <div ng-message when="required" class="error">devi inserire una password</div>
                         </div>
-                    </md-input-container>
-
-                    <md-input-container flex>
-                    </md-input-container>
+                        <md-checkbox ng-model="user.remember" aria-label="Ricorda per 30 giorni">
+                        Ricorda per 30 giorni:  {{ daRicordare(user.remember) }}
+                    </md-checkbox></md-input-container>
 
                 </div>
                 <input type="submit" id="submit" value="Autentica" ng-disabled="loginForm.$invalid"/>
@@ -51,7 +50,7 @@
     <style type="text/css">
 
         html {
-        background: url(src/background-6.jpg) no-repeat center center fixed;
+
         -webkit-background-size: cover;
         -moz-background-size: cover;
         -o-background-size: cover;
