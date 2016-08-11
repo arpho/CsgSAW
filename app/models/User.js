@@ -12,7 +12,7 @@ module.exports = mongoose.model('User', {
                                         	indirizzo:[ addressSchema],
                                         	email: String,
                                         	skype:String,
-                                        	ruoli:[String],
+                                        	roles:[String],
     hashed_password:{words:[Number],sigBytes:Number},
    salt:{words:[Number],sigBytes:Number},
    // email: String

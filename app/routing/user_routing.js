@@ -8,7 +8,7 @@ module.exports = {
         var user = req.body
         console.log('creo utente', user)
         var crypto = require("crypto-js"),salt = crypto.lib.WordArray.random(128/8)
-        var userModel = require('../models/User');
+
         console.log('caricato modello db')
         var key512Bits1000Iterations = crypto.PBKDF2(user.password, salt, { keySize: 512/32, iterations: 1000 });
         delete key512Bits1000Iterations.$super
@@ -46,6 +46,7 @@ module.exports = {
 
     },
     update: require('./routers/updateUser'),
+    list: require('./routers/listUser'),
 
     login: require('./routers/login')
 }

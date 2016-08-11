@@ -21,6 +21,10 @@ angular.module('appRoutes', []).config(['$routeProvider', '$locationProvider', f
             templateUrl:'User/profile.html',
             controller:'ProfileController'
         })
+        .when('/listUsers',{
+            templateUrl:'User/UserList.html',
+            controller:'UserListCtrl'
+        })
 
     $locationProvider.html5Mode(true);
 

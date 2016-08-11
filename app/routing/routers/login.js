@@ -31,6 +31,7 @@ module.exports = function(req,res){
         else  {
             var token = tokenGenerator.generateToken();
             cache.setCache(token,authenticatingUser.email)
+            console.log('roles',authenticatingUser.roles)
             res.send({authenticated:authenticated,authenticatingUser:authenticatingUser,token:token})
         }
 

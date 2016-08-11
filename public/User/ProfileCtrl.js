@@ -1,7 +1,8 @@
 'use strict';
 angular.module('csgSAW.controllers').controller('ProfileController',['$scope','UserService',
-'$mdDialog','app-messages','$mdMedia','$rootScope',function($scope,Users,$mdDialog,messages,$mdMedia,$rootScope){
-    $scope.title = Users.getNome()||'Caro' + " " +(Users.getCognome() ||'amico')
+'$mdDialog','app-messages','$mdMedia','$rootScope','RoleService',function($scope,Users,$mdDialog,messages,$mdMedia,$rootScope,Roles){
+    $scope.user = Users.getLoggedUser();
+    $scope.title = Users.getNome()? 'Ciao '+ Users.getNome() : 'Ciao'
     $scope.tagline = 'gestisci il tuo profilo utente'
     $scope.login = function(ev){
                                    var useFullScreen = ($mdMedia('sm') || $mdMedia('xs'))  && $scope.customFullscreen;
@@ -15,20 +16,45 @@ angular.module('csgSAW.controllers').controller('ProfileController',['$scope','U
                                        fullScreen: useFullScreen
                                     })
     }
+    $scope.addAuthorization = function(power){
+        $scope.user.roles.push(power);
+    }
+
+    $scope.removeAuthorization = function(power){
+    $scope.user.roles.forEach(function(item,index){
+        if(item == power)
+        delete $scope.user.roles[index]
+    })
+    }
     $rootScope.$on('loggedUser',function(ev,args){
         $scope.user = Users.getLoggedUser();
-        $scope.title = Users.getNome() + " " +Users.getCognome()
+        $scope.title ="Ciao " + Users.getNome()
         $scope.user.dob = new Date($scope.user.dob);
+    console.log("autorizzazioni dell'utente",$scope.user.roles)
     })
     $scope.onlyWeekendsPredicate = function(date) {
         var day = date.getDay();
         return day === 0 || day === 6;
       }
      $scope.submit = function(){
-        console.log('updating')
+        console.log('updating',$scope.user)
+        //TODO: INVIARE TOKEN AL SERVER
+        Users.update($scope.user)
      }
     $scope.user = Users.getLoggedUser();
+    $scope.user.dob = new Date($scope.user.dob);
    if(!Users.isLogged()){
     $scope.login();
+   }
+   $scope.SiNo = function(b){
+    return b? 'si':'no'
+   }
+   Roles.list().then(function(res){
+        console.log('roles',res.data)
+   $scope.roles = res.data;
+   })
+
+   $scope.gotPower = function(user,power){
+        return Users.gotPower(user,power)
    }
 }])

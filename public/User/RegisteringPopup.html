@@ -59,6 +59,9 @@
                             <div  ng-message="required" class="error">devi inserire una password di conferma!!!</div>
                             <div ng-message="compareTo" class="error">le due password non sono uguali!!!</div>
                         </div>
+                        <md-checkbox ng-model="user.remember" aria-label="Ricorda per 30 giorni">
+                            Ricorda per 30 giorni:  {{ daRicordare(user.remember) }}
+                        </md-checkbox>
                     </md-input-container>
 
                     </div>

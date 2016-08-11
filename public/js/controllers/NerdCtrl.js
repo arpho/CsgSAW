@@ -24,6 +24,8 @@ angular.module('csgSAW.controllers').controller('NerdController',['$scope','$mdD
       $scope.isLogged = function(){
         return User.isLogged();
       }
+      $scope.user = User.getLoggedUser();
+     $scope.gotPower = User.gotPower;
 
     $scope.showCustomToast = function() {
             $mdToast.show({

@@ -20,12 +20,56 @@
     </md-input-container>
     <md-input-container flex style="float:top">
         <label>Email</label>
-        <input type="email" name="email" ng-model="user.email"
+        <input style="width:300px" type="email" name="email" ng-model="user.email"
                ng-model-options="{ debounce: 100 }"
                required/>
     </md-input-container>
-            <label>Data Di nascita</label>
-        <md-datepicker ng-model="user.dob" md-placeholder="Quando sei nato"></md-datepicker>
-    <input type="submit" id="submit" value="Modifica" ng-disabled="userForm.$invalid"/>
+        <div>
+            <label>Data di nascita</label>
+                <md-datepicker ng-model="user.dob" md-placeholder="Quando sei nato">
+                    <label>Data Di nascita</label>
+                </md-datepicker>
+        </div>
+    <md-input-container>
+        <md-checkbox ng-model="user.enabled" aria-label="abilitato" ng-disabled="!gotPower(user,'admin')">
+            Abilitato:  {{SiNo(user.enabled)  }}
+        </md-checkbox>
+    </md-input-container>
+        <input type="submit" id="submit" value="Modifica" />
+
 </form>
+    <div>
+        <div style="float:left"ng-show="gotPower(user,'admin')">
+            <table  class="table  table-striped" >
+                <thead>
+                <tr>
+                    <td>
+                        Autorizzazioni disponibili
+                    </td>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-repeat="role in roles">
+                    <td>{{role.role}}<button class="ion-plus" ng-click="addAuthorization(role.role)"></button></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <div style="float:left">
+            <table  class="table  table-striped" style="float:right">
+                <thead>
+                <tr>
+                    <td>
+                        Autorizzazioni concesse all'utente
+                    </td>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-repeat="role in user.roles">
+                    <td><button class="ion-minus" ng-click="removeAuthorization(role)" ng-show="gotPower(user,'superadmin')"></button>{{role}}</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
 </div>

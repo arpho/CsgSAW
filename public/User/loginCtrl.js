@@ -19,9 +19,7 @@ angular.module('csgSAW.controllers').controller('LoginController',['$scope','Use
             $scope.user.password = $cookies.get('password').replace('"','')
             $scope.submit = function(user){
                 $scope.showSpinner = true;
-                console.log('submit',user)
                 Users.login(user).then(function(res){
-                     console.log('success',res)
                      if($scope.user.remember){
                         Date.prototype.addDays = function(days)
                         {
@@ -44,6 +42,7 @@ angular.module('csgSAW.controllers').controller('LoginController',['$scope','Use
                      console.log('token',Users.getToken())
                      Users.setLogged(true);
                      var welcome = "benvenuto " + Users.getNome()
+                     console.log('autorizzazioni',res.data.authenticatingUser.roles)
                      messages.putMessage('messaggio_benvenuto',welcome)
                                  $mdDialog.show(
                                        $mdDialog.alert()
