@@ -6,5 +6,8 @@ module.exports = {
     },
     retrieve : function(key){
         return cache.get(key)
+    },
+    removeToken : function(key){
+    cache.del(key)
     }
 }

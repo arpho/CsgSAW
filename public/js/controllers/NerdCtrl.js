@@ -1,11 +1,17 @@
 angular.module('csgSAW.controllers').controller('NerdController',['$scope','$mdDialog','$mdMedia','$mdToast','UserService'
-,'app-messages',
-  function($scope,$mdDialog,$mdMedia, $mdToast,User,messages) {
+,'app-messages','$rootScope',
+  function($scope,$mdDialog,$mdMedia, $mdToast,User,messages,$rootScope) {
 
     $scope.tagline = 'Nothing beats a pocket protector!';
     messages.putMessage('toastTitle','Test');
     messages.putMessage('toastBody','questo è un toast test')
 
+    $rootScope.$on('loggedUser',function(ev,args){
+        $scope.user = User.getLoggedUser();
+        $scope.title ="Ciao " + User.getNome()
+        $scope.user.dob = new Date($scope.user.dob);
+    console.log("autorizzazioni dell'utente",$scope.user.roles)
+    })
     $scope.showAlert = function(ev) {
         // Appending dialog to document.body to cover sidenav in docs app
         // Modal dialogs should fully cover application

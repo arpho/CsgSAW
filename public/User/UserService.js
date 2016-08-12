@@ -24,8 +24,9 @@ angular.module('CsgSAW.services').factory('UserService', ['$http', function($htt
         getToken: function(){
              return token
         },
-        update: function(user){
-            return $http.put('/api/user/update/',user)
+        update: function(user,token){
+        var data = {token:token,user:user}
+            return $http.put('/api/user/update/',data)
         },
         setLogged : function(status){
             logged = status
@@ -45,8 +46,11 @@ angular.module('CsgSAW.services').factory('UserService', ['$http', function($htt
         getLoggedUser : function(){
             return loggedUser;
         },
-        list : function(){
-            return $http.get('/api/user/list');
+        getEmail : function(){
+            return loggedUser.email;
+        },
+        list : function(data){
+            return $http.post('/api/user/list/',data);
         },
         gotPower : function(user,power){
                  /*

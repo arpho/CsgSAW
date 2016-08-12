@@ -8,7 +8,7 @@ var roles_routing = require('./roles_routing')
 
     // frontend routes =========================================================
     app.get('/api/role/',roles_routing.list)
-    app.get('/api/user/list/',users_routing.list)
+    app.post('/api/user/list/',users_routing.list)
     // route to handle all angular requests
     app.get('*', function(req, res) {
         res.sendfile('./public/index.html');

@@ -5,6 +5,26 @@
     <title>UserList</title>
 </head>
 <body>
-
 </body>
 </html>
+
+<div class="jumbotron text-center">
+    <h1>Elenco Utenti</h1>
+
+    <p>{{ tagline }}</p>
+
+</div>
+<table  class="table  table-striped" >
+    <thead>
+    <tr>
+        <td>
+            Email
+        </td>
+    </tr>
+    </thead>
+    <tbody>
+    <tr ng-repeat="user in users">
+        <td>{{user.nome}}<button class="ion-checkmark" ng-click="addAuthorization(role.role)"></button></td>
+    </tr>
+    </tbody>
+</table>

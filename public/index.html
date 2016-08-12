@@ -41,6 +41,7 @@
     <script src="User/UserService.js"></script>
     <script src="User/UserCtrl.js"></script>
     <script src="User/loginCtrl.js"></script>
+    <script src="User/UserListCtrl.js"></script>
     <script src="js/appRoutes.js"></script>
     <script src="js/services/uniqueEmailService.js"></script>
     <script src="User/uniqueEmailDirective.js"></script>
@@ -75,7 +76,7 @@
         <ul class="nav navbar-nav"  style = "float:right">
             <li><a href="/profile" class="ion-person" ng-show="isLogged()"></a></li>
             <li> <a href ng-click="register($event)">Registrati</a></li>
-            <li> <a href="/listUser" ng-show="gotPower(user,'admin')">elenco utenti</a></li>
+            <li> <a href="/listUsers" ng-show="gotPower(user,'admin')">elenco utenti</a></li>
             <li><a href ng-click="login($event)">Log In</a></li>
 
         </ul>

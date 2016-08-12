@@ -22,7 +22,8 @@
         <label>Email</label>
         <input style="width:300px" type="email" name="email" ng-model="user.email"
                ng-model-options="{ debounce: 100 }"
-               required/>
+               required
+               disabled/><!-- cambiare la mail potrebbe invalidare il token, meglio registrare un nuovo utente-->
     </md-input-container>
         <div>
             <label>Data di nascita</label>
