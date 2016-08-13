@@ -16,5 +16,6 @@ var roles_routing = require('./roles_routing')
     app.post('/api/user/create/',users_routing.crea)
     app.post('/api/user/mail/',users_routing.checkMail)
     app.post('/api/user/login/',users_routing.login)
+    app.post('/api/user/trash',users_routing.trash)
     app.put('/api/user/update/',users_routing.update)
 };

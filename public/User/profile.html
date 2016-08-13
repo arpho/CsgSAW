@@ -6,7 +6,7 @@
 </div>
 <div>
 
-<form novalidate ng-submit="submit(user)" name="userForm" class="css-form" style="width:300px">
+<form novalidate ng-submit="submit(user)" name="userForm" class="css-form" style="width:300px;float:left">
 
 
 
@@ -39,7 +39,8 @@
         <input type="submit" id="submit" value="Modifica" />
 
 </form>
-    <div>
+
+    <div style="float:right">
         <div style="float:left"ng-show="gotPower(user,'admin')">
             <table  class="table  table-striped" >
                 <thead>
@@ -50,8 +51,8 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr ng-repeat="role in roles">
-                    <td>{{role.role}}<button class="ion-plus" ng-click="addAuthorization(role.role)"></button></td>
+                <tr ng-repeat="role in roles|filter:filterPower">
+                    <td ng-show="showPower(role.role,user)" >{{role.role}}<button class="ion-plus" ng-click="addAuthorization(role.role)"></button></td>
                 </tr>
                 </tbody>
             </table>
@@ -67,10 +68,55 @@
                 </thead>
                 <tbody>
                 <tr ng-repeat="role in user.roles">
-                    <td><button class="ion-minus" ng-click="removeAuthorization(role)" ng-show="gotPower(user,'superadmin')"></button>{{role}}</td>
+                    <td ng-show="showPower(role.role,user)"><button class="ion-minus" ng-click="removeAuthorization(role)" ng-show="gotPower(user,'superadmin')"></button>{{role}}</td>
                 </tr>
                 </tbody>
             </table>
         </div>
     </div>
+    <div Style="float:right">
+
+
+
+    </div>
+</div>
+<div style="float:bottom;width:300px;">
+    Informazioni di contatto
+<md-container style="float:right">
+
+    <table  class="table  table-striped" style="float:right">
+        <thead>
+       <i style="align:center;"> Indirizzi</i>
+        <tr>
+            <td>
+                Via
+            </td>
+
+            <td>
+                Città
+            </td>
+
+            <td>
+                cap
+            </td>
+        </tr>
+        </thead>
+
+        <tbody>
+        <tr ng-repeat="address in user.address">
+            <td>{{address.street}}</td>
+            <td>{{address.city}}</td>
+            <td>{{address.cap}}</td>
+        </tr>
+        </tbody>
+    </table>
+    <nav mfb-menu position="bl" effect="zoomin"  active-icon="ion-edit"
+         resting-icon="ion-plus-round" toggling-method="click"
+         class="app-menu"
+         menu-state="menuState" ng-class="{'fadeOut' : menuState === 'closed'}">
+        <button style="mfb-component__child-icon=left:0px" mfb-button label="aggiungi indirizzo " icon="ion-android-locate" ng-click="addAddress($event)"></button>
+        <button mfb-button label="aggiungi telefono" icon="ion-iphone" ng-click="addTelephone($event)"></button>
+    </nav>
+</md-container>
+
 </div>

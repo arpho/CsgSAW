@@ -12,9 +12,7 @@ module.exports = {
         console.log('caricato modello db')
         var key512Bits1000Iterations = crypto.PBKDF2(user.password, salt, { keySize: 512/32, iterations: 1000 });
         delete key512Bits1000Iterations.$super
-
-
-
+        var userModel = require('../models/User')
         var User = new userModel({email:user.email,salt:salt,hashed_password:key512Bits1000Iterations,
         nome:user.nome,cognome:user.cognome,enabled:false});
         User.save(function(err,logUser){
@@ -47,7 +45,7 @@ module.exports = {
     },
     update: require('./routers/updateUser'),
     list: require('./routers/listUser'),
-
+    trash: require('./routers/trashUser'),
     login: require('./routers/login')
 }
 

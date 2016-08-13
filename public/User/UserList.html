@@ -14,17 +14,32 @@
     <p>{{ tagline }}</p>
 
 </div>
-<table  class="table  table-striped" >
-    <thead>
-    <tr>
-        <td>
-            Email
-        </td>
-    </tr>
-    </thead>
-    <tbody>
-    <tr ng-repeat="user in users">
-        <td>{{user.nome}}<button class="ion-checkmark" ng-click="addAuthorization(role.role)"></button></td>
-    </tr>
-    </tbody>
-</table>
+<md-switch ng-model="search" aria-label="Switch 2" ng-true-value=true ng-false-value=false class="md-warn" >
+    mostra utenti: {{ search |AbilitatiSiNo}}
+</md-switch>
+<md-content>
+    <table  class="table  table-striped" >
+        <thead>
+        <tr>
+            <td>
+                Utenti
+            </td>
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-repeat="user in users|filter:{enabled:search}">
+            <td>
+                <div>
+                    <span style="float:top">{{user.nome}}</span>
+                    <span style="float:top">{{user.cognome}}</span>
+                    <span style="float:top">{{user.email}}</span>
+                    <span style="float:top">{{user._id}}</span>
+
+                    <button ng-show="! user.enabled" class="ion-checkmark" ng-click="enableUser(user)"></button>
+                    <button class="ion-trash-b" ng-click="trashUser(user)"/>
+                </div>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</md-content>

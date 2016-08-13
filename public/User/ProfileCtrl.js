@@ -27,16 +27,42 @@ angular.module('csgSAW.controllers').controller('ProfileController',['$scope','U
     })
     }
     $rootScope.$on('loggedUser',function(ev,args){
+
         $scope.user = Users.getLoggedUser();
         $scope.title ="Ciao " + Users.getNome()
         $scope.user.dob = new Date($scope.user.dob);
+
     })
     $scope.onlyWeekendsPredicate = function(date) {
         var day = date.getDay();
         return day === 0 || day === 6;
       }
+
+     $scope.showPower = function(role,user){
+        if(role!='superadmin') return true
+        if((role=='superadmin') && $scope.gotPower(user,'superadmin')) return true
+        return false
+     }
+     $scope.filterPower = function(power){
+     var out = true //per default il rupo non è stato
+     if($scope.user.roles){
+
+     $scope.user.roles.forEach(function(power){
+     console.log('checking '+power+ " "+$scope.gotPower($scope.user,power))
+        return !$scope.gotPower($scope.user,power)
+     })
+     }
+     return out
+     }
+     $scope.addAddress = function(ev){
+         console.log('adding address',ev)
+     }
+     $scope.addTelephone = function(ev){
+         console.log('adding telephone',ev)
+     }
+
      $scope.submit = function(){
-        Users.update($scope.user,Users.getToken()).then(function(data){
+        Users.update($scope.user,Users.getToken(),Users.getEmail).then(function(data){
             Users.setToken(data.data.token) //aggiorno il token
             var msg ='utente aggiornato correttamente'
             $mdDialog.show(

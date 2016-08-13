@@ -17,8 +17,7 @@ module.exports = function(req,res){
     var authenticated, tokenGenerator = require('../../utilities/tokenGenerator'), cache = require('../../utilities/wrapperCache')
     userLogin.findOne({email:user.email,enabled:true},function(err,authenticatingUser){
         if(err ||!authenticatingUser){
-        console.log(err,'non esiste')
-        res.status(404).send(err)
+        res.status(404).send()
         return
         }
         var crypto = require("crypto-js"),
@@ -26,7 +25,7 @@ module.exports = function(req,res){
         authenticated = checkPassword(hashed_password,authenticatingUser.hashed_password)
         delete authenticatingUser.hashed_password
         delete authenticatingUser.salt
-        if(!authenticated) {console.log('no')
+        if(!authenticated) {
         res.status(404).send({msg:'utente non autorizzato'})}
         else  {
             var token = tokenGenerator.generateToken();

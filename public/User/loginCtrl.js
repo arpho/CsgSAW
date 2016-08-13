@@ -39,10 +39,8 @@ angular.module('csgSAW.controllers').controller('LoginController',['$scope','Use
                      }
                      Users.setLoggedUser(res.data.authenticatingUser)
                      Users.setToken(res.data.token);
-                     console.log('token',Users.getToken())
                      Users.setLogged(true);
                      var welcome = "benvenuto " + Users.getNome()
-                     console.log('autorizzazioni',res.data.authenticatingUser.roles)
                      messages.putMessage('messaggio_benvenuto',welcome)
                                  $mdDialog.show(
                                        $mdDialog.alert()

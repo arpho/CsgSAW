@@ -11,6 +11,17 @@ angular.module('CsgSAW.services').factory('UserService', ['$http', function($htt
                 callback();
             }).catch(function(b){console.log('problems',b)})
         },
+        trash: function(_id,token,email){
+            /*
+            ivia la richiesta al server per cancellare un'utente
+            @param _id: String _id dell'utente da eliminare
+            @param token: String token valido
+            @param email: String email dell'utente che richiede l'azione
+            @return promise della richiesta $http
+            */
+            var data = {_id:_id,token:token,email:email}
+            return $http.post('/api/user/trash',data)
+        },
         login: function(user){
             return $http.post('/api/user/login/',user)
         },
@@ -24,8 +35,14 @@ angular.module('CsgSAW.services').factory('UserService', ['$http', function($htt
         getToken: function(){
              return token
         },
-        update: function(user,token){
-        var data = {token:token,user:user}
+        update: function(user,token,email){
+        /*
+        invia la richiesta di update user al server
+        @param: User: il modello utente che sarà inserito nel db
+        @param: String token dell'utente che effettua la richiesta
+        @param: String email dell'utente che effettua la richiesta
+        */
+        var data = {token:token,user:user,email:email}
             return $http.put('/api/user/update/',data)
         },
         setLogged : function(status){
