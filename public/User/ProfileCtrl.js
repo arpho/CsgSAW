@@ -43,16 +43,10 @@ angular.module('csgSAW.controllers').controller('ProfileController',['$scope','U
         if((role=='superadmin') && $scope.gotPower(user,'superadmin')) return true
         return false
      }
-     $scope.filterPower = function(power){
-     var out = true //per default il rupo non è stato
-     if($scope.user.roles){
-
-     $scope.user.roles.forEach(function(power){
-     console.log('checking '+power+ " "+$scope.gotPower($scope.user,power))
-        return !$scope.gotPower($scope.user,power)
-     })
+     $scope.filterPower = function(user){
+     return function(power){
+        return $scope.gotPower(user,power)
      }
-     return out
      }
      $scope.addAddress = function(ev){
          console.log('adding address',ev)

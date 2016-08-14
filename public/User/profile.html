@@ -51,7 +51,7 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr ng-repeat="role in roles|filter:filterPower">
+                <tr ng-repeat="role in roles|filter:filterPower(user)">
                     <td ng-show="showPower(role.role,user)" >{{role.role}}<button class="ion-plus" ng-click="addAuthorization(role.role)"></button></td>
                 </tr>
                 </tbody>
