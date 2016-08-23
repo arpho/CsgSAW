@@ -2,7 +2,7 @@
 'use strict';
 var mongoose = require('mongoose'),
 addressSchema = mongoose.Schema({street:String,city:String,cap: String,note:String}),
-contactSchema = mongoose.Schema({contatto:String,nome:String,note:String})
+contactSchema = mongoose.Schema({contact:String,type:String,note:String})
 // module.exports allows us to pass this to other files when it is called
 module.exports = mongoose.model('User', {
                                         	nome : String,

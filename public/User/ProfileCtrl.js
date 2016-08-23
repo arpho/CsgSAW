@@ -12,6 +12,11 @@ angular.module('csgSAW.controllers').controller('ProfileController',['$scope','U
         $scope.user.address.push(args)
         $mdDialog.hide();
     })
+    $rootScope.$on('addedContact',function(ev,args){
+        $scope.user.contacts = $scope.user.contacts ||[];
+        $scope.user.contacts.push(args)
+        $mdDialog.hide();
+    })
     $scope.login = function(ev){
                                    var useFullScreen = ($mdMedia('sm') || $mdMedia('xs'))  && $scope.customFullscreen;
                                    $mdDialog.show({
@@ -62,6 +67,18 @@ angular.module('csgSAW.controllers').controller('ProfileController',['$scope','U
                          controller: 'AddAddressController',
                          controllerAs: 'ctrl',
                          templateUrl: 'User/AddressPopup.html',
+                         parent: angular.element(document.body),
+                         targetEvent: ev,
+                         clickOutsideToClose: false,
+                         fullScreen: useFullScreen
+                      })
+     }
+     $scope.addContact = function(ev){
+         var useFullScreen = ($mdMedia('sm') || $mdMedia('xs'))  && $scope.customFullscreen;
+                     $mdDialog.show({
+                         controller: 'AddContactController',
+                         controllerAs: 'ctrl',
+                         templateUrl: 'User/ContactPopup.html',
                          parent: angular.element(document.body),
                          targetEvent: ev,
                          clickOutsideToClose: false,
@@ -131,36 +148,78 @@ angular.module('csgSAW.controllers').controller('ProfileController',['$scope','U
         var args = {address:$scope.user.address[index],index:index}
         messages.putMessage('updateAddress',args)
     }
+    $scope.updateContact = function(ev,index){
+        console.log('updating address', index,' ', $scope.user.address[index])
+        var useFullScreen = ($mdMedia('sm') || $mdMedia('xs'))  && $scope.customFullscreen;
+                             $mdDialog.show({
+                                 controller: 'UpdateContactController',
+                                 controllerAs: 'ctrl',
+                                 templateUrl: 'User/ContactPopup.html',
+                                 parent: angular.element(document.body),
+                                 targetEvent: ev,
+                                 clickOutsideToClose: false,
+                                 fullScreen: useFullScreen
+                              })
+        var args = {contacts:$scope.user.contacts[index],index:index}
+        messages.putMessage('updateContact',args)
+    }
     $scope.removeAddress = function(index){
         delete $scope.user.address[index]
+    }
+    $scope.removeContact = function(index){
+        delete $scope.user.contacts[index]
     }
 
    $scope.gotPower = function(user,power){
         return Users.gotPower(user,power)
    }
 }]).controller('AddAddressController',['$scope','$rootScope','$mdDialog',function($scope,$rootScope,$mdDialog){
-       $scope.title = 'nuovo indirizzo'
-       $scope.azione = 'aggiungi'
-       $scope.address = {}
-       $scope.cancel = function(){
-           $mdDialog.hide()
-       }
-       $scope.submit = function(address){
-           $rootScope.$emit('addedAddress',address);
-       }
-   }]).controller('UpdateAddressController',['$scope','$rootScope','$mdDialog','app-messages',function($scope,$rootScope,$mdDialog,messages){
-          $scope.title = 'modifica indirizzo'
-          $scope.azione = 'modifica'
+          $scope.title = 'nuovo indirizzo'
+          $scope.azione = 'aggiungi'
           $scope.address = {}
-          var index,args = messages.getMessage('updateAddress'),
-            index  = args.index;
-            $scope.address = args.address;
-
           $scope.cancel = function(){
               $mdDialog.hide()
           }
           $scope.submit = function(address){
-              $rootScope.$emit('updatedAddress',address,index);
-              $mdDialog.hide()
+              $rootScope.$emit('addedAddress',address);
           }
-      }])
+      }]).controller('UpdateAddressController',['$scope','$rootScope','$mdDialog','app-messages',function($scope,$rootScope,$mdDialog,messages){
+             $scope.title = 'modifica indirizzo'
+             $scope.azione = 'modifica'
+             $scope.address = {}
+             var index,args = messages.getMessage('updateAddress'),
+               index  = args.index;
+               $scope.address = args.address;
+
+             $scope.cancel = function(){
+                 $mdDialog.hide()
+             }
+             $scope.submit = function(address){
+                 $rootScope.$emit('updatedAddress',address,index);
+                 $mdDialog.hide()
+             }
+         }]).controller('AddContactController',['$scope','$rootScope','$mdDialog',function($scope,$rootScope,$mdDialog){
+                   $scope.title = 'nuovo contatto'
+                   $scope.azione = 'aggiungi'
+                   $scope.address = {}
+                   $scope.cancel = function(){
+                       $mdDialog.hide()
+                   }
+                   $scope.submit = function(contact){
+                       $rootScope.$emit('addedContact',contact);
+                   }
+               }]).controller('UpdateContactController',['$scope','$rootScope','$mdDialog','app-messages',function($scope,$rootScope,$mdDialog,messages){
+                      $scope.title = 'modifica Contatto'
+                      $scope.azione = 'modifica'
+                      var args = messages.getMessage('updateContact'),
+                        index  = args.index;
+                        $scope.contact = args.contact;
+
+                      $scope.cancel = function(){
+                          $mdDialog.hide()
+                      }
+                      $scope.submit = function(contact){
+                          $rootScope.$emit('updatedAddress',contact,index);
+                          $mdDialog.hide()
+                      }
+                  }])
