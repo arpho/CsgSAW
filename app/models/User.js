@@ -1,7 +1,8 @@
 // grab the mongoose module
 'use strict';
 var mongoose = require('mongoose'),
-addressSchema = mongoose.Schema({street:String,city:String,cap: String,note:String})
+addressSchema = mongoose.Schema({street:String,city:String,cap: String,note:String}),
+contactSchema = mongoose.Schema({contatto:String,nome:String,note:String})
 // module.exports allows us to pass this to other files when it is called
 module.exports = mongoose.model('User', {
                                         	nome : String,
@@ -10,6 +11,7 @@ module.exports = mongoose.model('User', {
                                         	sospeso :  Boolean,
                                         	dob :{type:Date, default:Date.now},
                                         	address:[ addressSchema],
+                                        	contacts:[contactSchema],
                                         	email: String,
                                         	skype:String,
                                         	roles:[String],

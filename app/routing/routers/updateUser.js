@@ -5,11 +5,8 @@ var User = require('../../models/User'),
  Cache = require('../../utilities/wrapperCache.js'),
  Token = require('../../utilities/tokenGenerator');
 var _id = mongoose.Types.ObjectId(user._id)
-console.log('token ricevuto:',token)
 //console.log('user',user)
-console.log('cache per token',Cache.retrieve(token));
 if(Cache.retrieve(token)==email){
-    console.log('token verificato')
     Cache.removeToken(token) //elimino il vecchio token
     token = Token.generateToken()
     Cache.setCache(token,email) // aggiorno il token in cache
@@ -20,7 +17,6 @@ if(Cache.retrieve(token)==email){
     return
     }
     res.send({status:'ok',token:token})
-    console.log('user updated')
     })
 }
 else{

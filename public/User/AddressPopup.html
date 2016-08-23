@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{title}}</title>
+</head>
+<body>
+
+<md-dialog aria-label="address Popup"  ng-cloak>
+    <md-toolbar>
+        <div class="md-toolbar-tools">
+            <h2>{{title}}</h2>
+            <span flex></span>
+            <md-button class="md-icon-button" ng-click="ctrl.cancel()">
+                <md-icon class="ion-close-round" aria-label="Close dialog"></md-icon>
+            </md-button>
+        </div>
+    </md-toolbar>
+        <form name="addressForm"   class="css-form" style ="background: url(src/background-6.jpg) no-repeat center center fixed"
+              ng-submit="submit(address)">
+            <md-dialog-content style = "float:left" >
+        <md-input-container flex style="float:top">
+                <label>Città</label>
+                <input type="text" name="città" ng-model="address.city" />
+            </md-input-container>
+        <md-input-container flex style="float:top">
+                <label>Via/Numero</label>
+                <input type="text" name="street" ng-model="address.street" />
+            </md-input-container>
+                <md-input-container flex style="float:top">
+                    <label>cap</label>
+                    <input type="text" name="note" ng-model="address.cap" />
+                </md-input-container>
+                <md-input-container flex style="float:top">
+                    <label>note</label>
+                    <input type="text" name="note" ng-model="address.note" />
+                </md-input-container>
+                <div>
+                <input type="submit" id="submit" value="{{azione}}" ng-disabled="loginForm.$invalid"/>
+                </div>
+            </md-dialog-content>
+        </form>
+</md-dialog>
+</body>
+</html>

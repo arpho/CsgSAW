@@ -17,6 +17,17 @@
 <md-switch ng-model="search" aria-label="Switch 2" ng-true-value=true ng-false-value=false class="md-warn" >
     mostra utenti: {{ search |AbilitatiSiNo}}
 </md-switch>
+<div style="
+;width:184px">
+<label>filtri</label>
+    <div style="float:top"><label>Nome</label>
+        <input type="text" name="nome" ng-model="filter.nome" style="float:top"/>
+    </div>
+<div style="float:top">
+    <label>Cognome</label>
+    <input type="text" name="cognome" ng-model="filter.cognome" style="float:top"/>
+</div>
+</div>
 <md-content>
     <table  class="table  table-striped" >
         <thead>
@@ -27,7 +38,7 @@
         </tr>
         </thead>
         <tbody>
-        <tr ng-repeat="user in users|filter:{enabled:search}">
+        <tr ng-repeat="user in users|filter:{enabled:search,nome:filter.nome,cognome:filter.cognome}">
             <td>
                 <div>
                     <span style="float:top">{{user.nome}}</span>

@@ -10,7 +10,6 @@ angular.module('csgSAW.controllers').controller('NerdController',['$scope','$mdD
         $scope.user = User.getLoggedUser();
         $scope.title ="Ciao " + User.getNome()
         $scope.user.dob = new Date($scope.user.dob);
-    console.log("autorizzazioni dell'utente",$scope.user.roles)
     })
     $scope.showAlert = function(ev) {
         // Appending dialog to document.body to cover sidenav in docs app
@@ -35,7 +34,7 @@ angular.module('csgSAW.controllers').controller('NerdController',['$scope','$mdD
 
     $scope.showCustomToast = function() {
             $mdToast.show({
-              hideDelay   : 3000,
+              hideDelay   : 5000,
               position    : 'top right',
               controller  : 'ToastCtrl',
               templateUrl : 'views/toast-template.html'

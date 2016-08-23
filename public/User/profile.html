@@ -99,14 +99,22 @@
             <td>
                 cap
             </td>
+
+            <td>
+                note
+            </td>
         </tr>
         </thead>
 
         <tbody>
-        <tr ng-repeat="address in user.address">
+        <tr ng-repeat="address in user.address" >
             <td>{{address.street}}</td>
             <td>{{address.city}}</td>
             <td>{{address.cap}}</td>
+            <td>{{address.note}}</td>
+            <td class="ion-edit" ng-click="updateAddress($event,$index)">
+            <td class="ion-trash-a" ng-click="removeAddress($event,$index)"></td>
+
         </tr>
         </tbody>
     </table>
