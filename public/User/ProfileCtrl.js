@@ -1,7 +1,10 @@
 'use strict';
+var contactTypes = ['email','cellulare','fisso','fax','skype']
 angular.module('csgSAW.controllers').controller('ProfileController',['$scope','UserService',
 '$mdDialog','app-messages','$mdMedia','$rootScope','RoleService',function($scope,Users,$mdDialog,messages,$mdMedia,$rootScope,Roles){
     $scope.user = Users.getLoggedUser();
+    $scope.showSpinner = false
+    var self = this
     $scope.title = Users.getNome()? 'Ciao '+ Users.getNome() : 'Ciao'
     $scope.tagline = 'gestisci il tuo profilo utente'
     $rootScope.$on('updatedAddress', function(ev,args){
@@ -53,12 +56,14 @@ angular.module('csgSAW.controllers').controller('ProfileController',['$scope','U
 
      $scope.showPower = function(role,user){
         if(role!='superadmin') return true
+        console.log('poteri',role,user)
         if((role=='superadmin') && $scope.gotPower(user,'superadmin')) return true
         return false
      }
      $scope.filterPower = function(user){
      return function(power){
-        return $scope.gotPower(user,power)
+     console.log('gotPower',user,power)
+        return $scope.gotPower(user.role,power)
      }
      }
      $scope.addAddress = function(ev){
@@ -149,7 +154,7 @@ angular.module('csgSAW.controllers').controller('ProfileController',['$scope','U
         messages.putMessage('updateAddress',args)
     }
     $scope.updateContact = function(ev,index){
-        console.log('updating address', index,' ', $scope.user.address[index])
+        console.log('updating contact', index,' ', $scope.user.address[index])
         var useFullScreen = ($mdMedia('sm') || $mdMedia('xs'))  && $scope.customFullscreen;
                              $mdDialog.show({
                                  controller: 'UpdateContactController',
@@ -160,7 +165,7 @@ angular.module('csgSAW.controllers').controller('ProfileController',['$scope','U
                                  clickOutsideToClose: false,
                                  fullScreen: useFullScreen
                               })
-        var args = {contacts:$scope.user.contacts[index],index:index}
+        var args = {contact:$scope.user.contacts[index],index:index}
         messages.putMessage('updateContact',args)
     }
     $scope.removeAddress = function(index){
@@ -177,7 +182,8 @@ angular.module('csgSAW.controllers').controller('ProfileController',['$scope','U
           $scope.title = 'nuovo indirizzo'
           $scope.azione = 'aggiungi'
           $scope.address = {}
-          $scope.cancel = function(){
+          var self = this;
+          self.cancel = function(){
               $mdDialog.hide()
           }
           $scope.submit = function(address){
@@ -190,8 +196,8 @@ angular.module('csgSAW.controllers').controller('ProfileController',['$scope','U
              var index,args = messages.getMessage('updateAddress'),
                index  = args.index;
                $scope.address = args.address;
-
-             $scope.cancel = function(){
+          var self = this;
+          self.cancel = function(){
                  $mdDialog.hide()
              }
              $scope.submit = function(address){
@@ -201,8 +207,13 @@ angular.module('csgSAW.controllers').controller('ProfileController',['$scope','U
          }]).controller('AddContactController',['$scope','$rootScope','$mdDialog',function($scope,$rootScope,$mdDialog){
                    $scope.title = 'nuovo contatto'
                    $scope.azione = 'aggiungi'
-                   $scope.address = {}
-                   $scope.cancel = function(){
+                   $scope.contact = {};
+                   var self = this;
+                   this.contact = $scope.contact
+                   this.contact.type = '';
+                   this.contactTypes = contactTypes
+
+                   self.cancel = function(){
                        $mdDialog.hide()
                    }
                    $scope.submit = function(contact){
@@ -214,12 +225,14 @@ angular.module('csgSAW.controllers').controller('ProfileController',['$scope','U
                       var args = messages.getMessage('updateContact'),
                         index  = args.index;
                         $scope.contact = args.contact;
-
-                      $scope.cancel = function(){
-                          $mdDialog.hide()
+                      var self = this;
+                     this.contact = $scope.contact
+                     this.contact.type = '';
+                     this.contactTypes = contactTypes
+                      self.cancel = function(){
+                                      $mdDialog.hide()
                       }
                       $scope.submit = function(contact){
-                          $rootScope.$emit('updatedAddress',contact,index);
                           $mdDialog.hide()
                       }
                   }])

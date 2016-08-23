@@ -80,6 +80,7 @@ angular.module('CsgSAW.services').factory('UserService', ['$http', function($htt
                  if(user.roles){
                      for (var i = 0;i<user.roles.length;i++){
                         if(user.roles[i]==power) return true
+                        console.log('gotPower',user.roles[i],power,user.roles[i]==power)
                     }
                 }
                 return false

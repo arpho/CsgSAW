@@ -5,7 +5,7 @@
 
 </div>
 <div>
-
+    <span us-spinner="{radius:30, width:8, length: 16}"ng-show = showSpinner></span>
 <form novalidate ng-submit="submit(user)" name="userForm" class="css-form" style="width:300px;float:left">
 
 
@@ -51,8 +51,8 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr ng-repeat="role in roles|filter:filterPower(user)">
-                    <td ng-show="showPower(role.role,user)" >{{role.role}}<button class="ion-plus" ng-click="addAuthorization(role.role)"></button></td>
+                <tr ng-repeat="role in roles">
+                    <td ng-show="!gotPower(user,role.role)" >{{role.role}}<button class="ion-plus" ng-click="addAuthorization(role.role)"></button></td>
                 </tr>
                 </tbody>
             </table>
@@ -139,10 +139,10 @@
             </thead>
 
             <tbody>
-            <tr ng-repeat="contacts in user.contacts" >
-                <td>{{contacts.type}}</td>
-                <td>{{contacts.contact}}</td>
-                <td>{{contacts.note}}</td>
+            <tr ng-repeat="contact in user.contacts" >
+                <td>{{contact.type}}</td>
+                <td>{{contact.contact}}</td>
+                <td>{{contact.note}}</td>
                 <td class="ion-edit" ng-click="updateContact($event,$index)">
                 <td class="ion-trash-a" ng-click="removeContact($index)"></td>
 
@@ -151,13 +151,14 @@
         </table>
     </div>
 </div>
-    <nav mfb-menu position="br" effect="zoomin"  active-icon="ion-edit"
-         resting-icon="ion-plus-round" toggling-method="click"
-         class="app-menu"
-         menu-state="menuState" ng-class="{'fadeOut' : menuState === 'closed'}">
-        <button style="mfb-component__child-icon=left:0px" mfb-button label="aggiungi indirizzo " icon="ion-android-locate" ng-click="addAddress($event)"></button>
-        <button mfb-button label="aggiungi informazione di contatto" icon="ion-iphone" ng-click="addContact($event)"></button>
-    </nav>
+
+<nav mfb-menu position="br" effect="fountain"  active-icon="ion-edit"
+     resting-icon="ion-plus-round" toggling-method="click"
+     class="app-menu"
+     menu-state="menuState" ng-class="{'fadeOut' : menuState === 'closed'}">
+    <button style="mfb-component__child-icon=left:0px" mfb-button label="aggiungi indirizzo " icon="ion-android-locate" ng-click="addAddress($event)"></button>
+    <button mfb-button label="aggiungi informazione di contatto" icon="ion-iphone" ng-click="addContact($event)"></button>
+</nav>
 </md-container>
 
 </div>

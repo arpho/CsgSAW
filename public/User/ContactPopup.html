@@ -16,16 +16,26 @@
             </md-button>
         </div>
     </md-toolbar>
-    <form name="addressForm"   class="css-form" style ="background: url(src/background-6.jpg) no-repeat center center fixed"
+    <form name="contactForm"   class="css-form" style ="background: url(src/background-6.jpg) no-repeat center center fixed"
           ng-submit="submit(contact)">
         <md-dialog-content style = "float:left" >
             <md-input-container flex style="float:top">
                 <label>tipo di contatto</label>
-                <input type="text" name="città" ng-model="contact.type" />
+                <md-select ng-model="ctrl.contact.type">
+                    <md-option><em>None</em></md-option>
+                    <md-option ng-repeat="tipo in ctrl.contactTypes" ng-value="tipo" ng-disabled="$index === 1">
+                        {{tipo}}
+                    </md-option>
+                </md-select>
             </md-input-container>
+
+
+
+
+
             <md-input-container flex style="float:top">
                 <label>numero/mail</label>
-                <input type="text" name="street" ng-model="contact.contact" />
+                <input type="text" name="contatto" ng-model="contact.contact" />
             </md-input-container>
 
             <md-input-container flex style="float:top">
