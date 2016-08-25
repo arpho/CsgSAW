@@ -50,6 +50,8 @@
     <script src="libs/angular-spinner/angular-spinner.js"></script>
     <script src="js/services/messagesService.js"></script>
     <script src="Role/RoleService.js"></script>
+    <script src="School/js/schoolCtrl.js"></script>
+    <script src="School/js/SchoolService.js"></script>
     <script src="js/app.js"></script>
 </head>
 
@@ -74,6 +76,7 @@
             <li><a href="/geeks">Geeks</a></li>
         </ul>
         <ul class="nav navbar-nav"  style = "float:right">
+            <li><a href="/schoolsList" class='ion-gear-b' ng-show="gotPower(user,'superadmin')"></a></li>
             <li><a href="/profile" class="ion-person" ng-show="isLogged()"></a></li>
             <li> <a href ng-click="register($event)">Registrati</a></li>
             <li> <a href="/listUsers" ng-show="gotPower(user,'admin')">elenco utenti</a></li>
