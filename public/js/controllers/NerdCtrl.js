@@ -40,7 +40,13 @@ angular.module('csgSAW.controllers').controller('NerdController',['$scope','$mdD
               templateUrl : 'views/toast-template.html'
             });
           };
-
+    $scope.check2BeEnabled = function(user){
+    var data = {token:User.getToken(),email:User.getEmail()}
+        User.users2BeEnabled(data).then(function(data){
+        User.setToken(data.data.token)
+        return $scope.gotPower(user,'admin') &&data.data.users2BeEnabled
+        })
+    }
     $scope.closeToast = function() {
             if (isDlgOpen) return;
             $mdToast

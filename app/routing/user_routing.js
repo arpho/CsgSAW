@@ -46,6 +46,25 @@ module.exports = {
     update: require('./routers/updateUser'),
     list: require('./routers/listUser'),
     trash: require('./routers/trashUser'),
-    login: require('./routers/login')
+    login: require('./routers/login'),
+    toBeEnabled: function(req,res){
+    var token = req.body.token,
+    email = req.body.email,
+    user = require('../models/User'),
+    Token = require('../utilities/tokenGenerator'),
+    check = Token.renewToken(token,email)
+    if(!check.valido) res.status(404).send('sessione scaduta')
+    else{
+    user.find({enabled:false},function(err,users){
+        if (err) {
+        res.status(404).send('errore del server')}
+        else{
+        var out = users.length >0
+        res.send({users2BeEnabled:out,token:check.token})
+        }
+    })
+    }
+
+    }
 }
 

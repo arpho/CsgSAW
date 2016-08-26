@@ -19,6 +19,7 @@ var users_routing = require('./user_routing'),
     app.post('/api/user/mail/',users_routing.checkMail)
     app.post('/api/user/login/',users_routing.login)
     app.post('/api/user/trash',users_routing.trash)
+    app.post('/api/user/2BeEnabled/',users_routing.toBeEnabled)
     app.put('/api/user/update/',users_routing.update)
     app.post('/api/school/crea',schools_routing.crea)
 };

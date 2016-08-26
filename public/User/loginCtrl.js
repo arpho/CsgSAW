@@ -40,6 +40,22 @@ angular.module('csgSAW.controllers').controller('LoginController',['$scope','Use
                      Users.setLoggedUser(res.data.authenticatingUser)
                      Users.setToken(res.data.token);
                      Users.setLogged(true);
+                     var data = {token:Users.getToken(),email:Users.getEmail()}
+                     Users.users2BeEnabled(data).then(function(data){
+                     Users.setToken(data.data.token)
+                     if( data.data.users2BeEnabled && Users.gotPower(res.data.authenticatingUser,'admin')){
+                        $mdDialog.show(
+                              $mdDialog.alert()
+                                .parent(angular.element(document.querySelector('#popupContainer')))
+                                .clickOutsideToClose(true)
+                                .title('nuovi iscritti')
+                                .textContent("c'è gente da autenticare")
+                                .ariaLabel('Alert Dialog Demo')
+                                .ok('Got it!')
+                            );
+
+                     }
+                     })
                      var welcome = "benvenuto " + Users.getNome()
                      messages.putMessage('messaggio_benvenuto',welcome)
                                  $mdDialog.show(

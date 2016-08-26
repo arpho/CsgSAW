@@ -56,7 +56,6 @@ angular.module('CsgSAW.services').factory('UserService', ['$http', function($htt
         },
         setToken: function(newToken){
             token = newToken
-            console.log('settato token')
         },
         isLogged : function() {
             return logged;
@@ -80,11 +79,12 @@ angular.module('CsgSAW.services').factory('UserService', ['$http', function($htt
                  if(user.roles){
                      for (var i = 0;i<user.roles.length;i++){
                         if(user.roles[i]==power) return true
-                        console.log('gotPower',user.roles[i],power,user.roles[i]==power)
                     }
                 }
                 return false
+        },
+        users2BeEnabled : function(data){
+            return $http.post('/api/user/2BeEnabled/',data)
         }
-
     }
 }]);

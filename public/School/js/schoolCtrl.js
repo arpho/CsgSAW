@@ -26,6 +26,7 @@ $scope.user = Users.getLoggedUser()
             })
          }
 $scope.title = 'gestione scuole gnosis'
+initialize()
 if(!Users.isLogged()){
     $scope.login();
    }
