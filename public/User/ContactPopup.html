@@ -23,7 +23,7 @@
                 <label>tipo di contatto</label>
                 <md-select ng-model="ctrl.contact.type">
                     <md-option><em>None</em></md-option>
-                    <md-option ng-repeat="tipo in ctrl.contactTypes" ng-value="tipo" ng-disabled="$index === 1">
+                    <md-option ng-repeat="tipo in ctrl.contactTypes" ng-value="tipo" >
                         {{tipo}}
                     </md-option>
                 </md-select>
