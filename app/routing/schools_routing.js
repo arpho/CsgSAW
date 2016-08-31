@@ -2,7 +2,6 @@
  var schoolModel = require('../models/School');
  module.exports = {
     list: function( req,res){
-    console.log('school list')
     var token = req.body.token,
     email = req.body.email, Token = require('../utilities/tokenGenerator'),
     checked = Token.renewToken(token,email)

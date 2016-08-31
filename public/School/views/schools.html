@@ -31,5 +31,11 @@
             </td>
         </tr>
         </tbody>
+        <nav mfb-menu position="br" effect="fountain"  active-icon="ion-edit" label="inserisci una nuova scuola"
+             ng-click="addSchool($event)"
+             resting-icon="ion-plus-round" toggling-method="click"
+             class="app-menu"
+             menu-state="menuState" ng-class="{'fadeOut' : menuState === 'closed'}">
+        </nav>
     </table>
 </md-content>

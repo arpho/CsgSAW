@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{title}}</title>
+</head>
+<body>
+
+<md-dialog aria-label="address Popup"  ng-cloak>
+    <md-toolbar>
+        <div class="md-toolbar-tools">
+            <h2>{{title}}</h2>
+            <span flex></span>
+            <md-button class="md-icon-button" ng-click="ctrl.cancel()">
+                <md-icon class="ion-close-round" aria-label="Close dialog"></md-icon>
+            </md-button>
+        </div>
+    </md-toolbar>
+    <form name="contactForm"   class="css-form" style ="background: url(src/background-6.jpg) no-repeat center center fixed"
+          ng-submit="submit(contact)">
+        <md-dialog-content style = "float:left" >
+            <md-input-container flex style="float:top">
+                <label>tipo di contatto</label>
+                <md-select ng-model="ctrl.contact.type">
+                    <md-option><em>None</em></md-option>
+                    <md-option ng-repeat="tipo in ctrl.contactTypes" ng-value="tipo" >
+                        {{tipo}}
+                    </md-option>
+                </md-select>
+            </md-input-container>
+
+
+
+
+
+            <md-input-container flex style="float:top">
+                <label>numero/mail</label>
+                <input type="text" name="contatto" ng-model="contact.contact" />
+            </md-input-container>
+
+            <md-input-container flex style="float:top">
+                <label>note</label>
+                <input type="text" name="note" ng-model="contact.note" />
+            </md-input-container>
+            <div>
+                <input type="submit" id="submit" value="{{azione}}" />
+            </div>
+        </md-dialog-content>
+    </form>
+</md-dialog>
+</body>
+</html>

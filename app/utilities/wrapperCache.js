@@ -8,6 +8,6 @@ module.exports = {
         return cache.get(key)
     },
     removeToken : function(key){
-    cache.del(key)
+    if(cache.get(key)) cache.del(key)
     }
 }

@@ -27,6 +27,19 @@ $scope.user = Users.getLoggedUser()
          }
 $scope.title = 'gestione scuole gnosis'
 initialize()
+$scope.addSchool = function(ev){
+         var useFullScreen = ($mdMedia('sm') || $mdMedia('xs'))  && $scope.customFullscreen;
+                     $mdDialog.show({
+                         controller: 'SchoolPopUpController',
+                         controllerAs: 'ctrl',
+                         templateUrl: 'School/views/schoolPopUp.html',
+                         parent: angular.element(document.body),
+                         targetEvent: ev,
+                         clickOutsideToClose: false,
+                         fullScreen: useFullScreen
+                      })
+
+}
 if(!Users.isLogged()){
     $scope.login();
    }
