@@ -17,14 +17,24 @@
         </div>
     </md-toolbar>
     <form name="contactForm"   class="css-form" style ="background: url(src/background-6.jpg) no-repeat center center fixed"
-          ng-submit="submit(contact)">
+          ng-submit="submit(school)">
         <md-dialog-content style = "float:left" >
             <md-input-container flex style="float:top">
-                <label>tipo di contatto</label>
-                <md-select ng-model="ctrl.contact.type">
+                <label>Sede</label>
+                <input type="text" ng-model="school.sede">
+            </md-input-container>
+            <md-input-container flex style="float:top">
+                <label>Denominazione</label>
+                <input type="text" ng-model="school.denominazione">
+
+
+            </md-input-container>
+            <md-input-container flex style="float:top">
+                <label>Responsabile</label>
+                <md-select ng-model="school.responsabile">
                     <md-option><em>None</em></md-option>
-                    <md-option ng-repeat="tipo in ctrl.contactTypes" ng-value="tipo" >
-                        {{tipo}}
+                    <md-option ng-repeat="user in ctrl.users" ng-value="user._id" >
+                        {{user.nome}}
                     </md-option>
                 </md-select>
             </md-input-container>
@@ -33,20 +43,132 @@
 
 
 
-            <md-input-container flex style="float:top">
-                <label>numero/mail</label>
-                <input type="text" name="contatto" ng-model="contact.contact" />
-            </md-input-container>
 
-            <md-input-container flex style="float:top">
-                <label>note</label>
-                <input type="text" name="note" ng-model="contact.note" />
-            </md-input-container>
             <div>
-                <input type="submit" id="submit" value="{{azione}}" />
+                <div name="contatti-indirizzi">
+                    <div name="contatti"
+                         style="float:left">
+                        <table  class="table  table-striped" style="float:right">
+                            <thead>
+                            <i style="align:center;"> Contatti</i>
+                            <tr>
+                                <td>
+                                    tipo di contatto
+                                </td>
+
+                                <td>
+                                    contatto
+                                </td>
+                                <td>
+                                    note
+                                </td>
+                            </tr>
+                            </thead>
+
+                            <tbody>
+                            <tr ng-repeat="contact in school.contacts" >
+                                <td>{{contact.type}}</td>
+                                <td>{{contact.contact}}</td>
+                                <td>{{contact.note}}</td>
+                                <td class="ion-edit" ng-click="updateContact($event,$index)">
+                                <td class="ion-trash-a" ng-click="removeContact($index)"></td>
+
+                            </tr>
+                            </tbody>
+                        </table>
+
+                    </div>
+                    <div name="indirizzi"
+                         style="float:left">
+                        <table  class="table  table-striped" style="float:right">
+                            <thead>
+                            <i style="align:center;"> Indirizzi</i>
+                            <tr>
+                                <td>
+                                    Via
+                                </td>
+
+                                <td>
+                                    Città
+                                </td>
+
+                                <td>
+                                    cap
+                                </td>
+
+                                <td>
+                                    note
+                                </td>
+                            </tr>
+                            </thead>
+
+                            <tbody>
+                            <tr ng-repeat="address in school.address" >
+                                <td>{{address.street}}</td>
+                                <td>{{address.city}}</td>
+                                <td>{{address.cap}}</td>
+                                <td>{{address.note}}</td>
+                                <td class="ion-edit" ng-click="updateAddress($event,$index)">
+                                <td class="ion-trash-a" ng-click="removeAddress($index)"></td>
+
+                            </tr>
+                            </tbody>
+                        </table>
+
+                    </div>
+
+
+            <div name="cartelle">
+                <table  class="table  table-striped" style="float:right">
+                    <thead>
+                    <i style="align:center;"> Cartelle d'archiviazione</i>
+                    <tr>
+                        <td>
+                            cartella
+                        </td>
+
+                        <td>
+                            Spazio
+                        </td>
+
+                        <td>
+                            uso
+                        </td>
+                    </tr>
+                    </thead>
+
+                    <tbody>
+                    <tr ng-repeat="folder in school.folders" >
+                        <td>{{address.cartella}}</td>
+                        <td>{{address.spazio}}</td>
+                        <td>{{address.uso}}</td>
+                        <td class="ion-edit" ng-click="updateAddress($event,$index)">
+                        <td class="ion-trash-a" ng-click="removeAddress($index)"></td>
+
+                    </tr>
+                    </tbody>
+                </table>
+
+            </div>
+                </div>
+                <input type="submit" id="submit" value="{{azione}}"  style="float:right"/>
             </div>
         </md-dialog-content>
+        <nav mfb-menu position="br" effect="fountain"  active-icon="ion-edit" label="aggiungi dettagli scuola"
+             bgcolor='#3F51B9'
+             ng-click="addSchool($event)"
+             resting-icon="ion-plus-round" toggling-method="click"
+             class="app-menu"
+             menu-state="menuState" ng-class="{'fadeOut' : menuState === 'closed'}">
+            <button style="mfb-component__child-icon=left:0px" mfb-button label="aggiungi indirizzo " icon="ion-android-locate" ng-click="addAddress($event)"></button>
+            <button mfb-button  bgcolor='#3F51B9' label="aggiungi informazione di contatto" icon="ion-iphone" ng-click="addContact($event)"></button>
+            <button mfb-button bgcolor='green' label="aggiungi cartelle" icon="ion-ios-folder-outline" ng-click="addFolder($event)"></button>
+        </nav>
+        </nav>
     </form>
+
 </md-dialog>
+
+
 </body>
 </html>

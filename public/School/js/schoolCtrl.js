@@ -22,12 +22,12 @@ $scope.user = Users.getLoggedUser()
          Schools.list(Users.getToken(),Users.getEmail()).then(function(schools){
                 $scope.schools = schools.data.data
                 Users.setToken(schools.data.token)
-                console.log('got schools',schools)
             })
          }
-$scope.title = 'gestione scuole gnosis'
+$scope.title = 'Gestione Sistema'
 initialize()
-$scope.addSchool = function(ev){
+$scope.addSchool = function(ev){ //TODO usare un semplice prompt dialog
+         messages.putMessage('schoolPopUpAction','aggiungi scuola')
          var useFullScreen = ($mdMedia('sm') || $mdMedia('xs'))  && $scope.customFullscreen;
                      $mdDialog.show({
                          controller: 'SchoolPopUpController',
@@ -43,7 +43,10 @@ $scope.addSchool = function(ev){
 if(!Users.isLogged()){
     $scope.login();
    }
-
+    $rootScope.$on('addedSchoolContact',function(ev,args){
+        console.log('nuovo contatto', args)
+        $scope.school.contacts.push(args.contact)
+    })
     $rootScope.$on('loggedUser',function(ev,args){
     initialize();
 

@@ -9,7 +9,7 @@ module.exports = mongoose.model('School', {
     responsabile: mongoose.Schema.Types.ObjectId,
     sede:String,
     denominazione:String,
-    indirizzo:[addressSchema],
-    contatti: [contactSchema],
-    cartelle:[{cartella:String,spazio:Number,uso:String}]
+    address:[addressSchema],
+    contacts: [contactSchema],
+    folders:[{cartella:String,spazio:Number,uso:String}]
 })
