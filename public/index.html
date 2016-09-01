@@ -81,7 +81,7 @@
             <li><a href="/profile" class="ion-person" ng-show="isLogged()"></a></li>
             <li> <a href ng-click="register($event)">Registrati</a></li>
             <li> <a href="/listUsers" ng-show="gotPower(user,'admin')">elenco utenti</a></li>
-            <li><a href ng-click="login($event)">Log In</a></li>
+            <li><a href ng-click="login($event)" ng-show="!isLogged()">Log In</a></li>
 
         </ul>
     </nav>

@@ -1,15 +1,16 @@
 'use strict';
+//TODO creare controller per popup modifica scuola
 angular.module('csgSAW.controllers').controller('SchoolPopUpController',['$scope','UserService','$mdMedia','$mdDialog',
 'app-messages', '$cookies',  '$window','$rootScope','SchoolService',function($scope,Users,$mdMedia,$mdDialog,messages, $cookies,
  $window,$rootScope,Schools){
     var self = this
-    $scope.school = {}
+    $scope.school = messages.getMessage('addingSchool')|| {} // inizializzo $scope.scope con i volori inseriti fino a questo momento
     $scope.addAddress = function(ev){
         console.log('aggiungi address')
     }
     $scope.addContact = function(ev){
-        console.log('aggiungi contatto')
         var useFullScreen = ($mdMedia('sm') || $mdMedia('xs'))  && $scope.customFullscreen;
+        messages.putMessage('addingSchool',$scope.school)// memorizzo $scope.school per ritrovarlo quando ricarico lo schoolPopUp
         $mdDialog.show({
             controller: 'AddSchoolContactController',
             controllerAs: 'ctrl',
@@ -23,19 +24,26 @@ angular.module('csgSAW.controllers').controller('SchoolPopUpController',['$scope
     $scope.addFolder = function(ev){
         console.log('aggiungi folder')
     }
-    $scope.title = 'creazione nuova scuola'
+    $scope.title = messages.getMessage('schoolPopUpTitle')||'creazione nuova scuola'
     var data = Users.generateDataPayload()
     Users.list(data).then(function(payload){
-        console.log('payload',payload)
         self.users = payload.data.users
-        Users.setToken = payload.data.token
+        Users.setToken(payload.data.token)
     })
     $scope.azione = messages.getMessage('schoolPopUpAction')
     self.cancel = function(){
                   $mdDialog.hide()
               }
     $scope.submit = function(school){
-        console.log('submit ',school)
+        console.log('submitTED SCHOOL ',school)
+        messages.putMessage('addingSchool',{})
+        var payload = Users.generateDataPayload()
+        payload.school = school
+        Schools.crea(payload).then(function(data){
+            Users.setToken(data.data.token)
+            $rootScope.$emit("submittedSchool",data.data.school)
+        })
+
     }
  }
  ]).controller('AddSchoolContactController',['$scope','$rootScope','$mdDialog',function($scope,$rootScope,$mdDialog){
@@ -52,5 +60,6 @@ angular.module('csgSAW.controllers').controller('SchoolPopUpController',['$scope
                       }
                       $scope.submit = function(contact){
                           $rootScope.$emit('addedSchoolContact',contact);
+
                       }
                   }])

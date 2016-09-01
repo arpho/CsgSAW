@@ -13,21 +13,30 @@
                 denominazione
             </td>
             <td>indirizzo</td>
-            <td>responsabile</td>
         </tr>
         </thead>
         <tbody>
-        <tr ng-repeat="school in shools">
+        <tr ng-repeat="school in schools" ng-click="clickRow($event,school)">
             <td>
+                <span style="float:top">{{school.sede}}</span>
                 <div>
-                    <span style="float:top">{{school.sede}}</span>
-                    <span style="float:top">{{school.denominazione}}</span>
-                    <span style="float:top">{{school.indirizzo.street+' '+ school.indirizzo.city+' '+}}</span>
-                    <span style="float:top">{{school.responsabile}}</span>
 
-                    <button ng-show="! user.enabled" class="ion-checkmark" ng-click="enableUser(user)"></button>
-                    <button class="ion-trash-b" ng-click="trashUser(user)"/>
+
+
+
+
+
                 </div>
+            </td>
+            <td>
+                <span style="float:top">{{school.denominazione}}</span>
+            </td>
+            <td>
+                <span style="float:top">{{school.indirizzo.street+' '+ school.indirizzo.city+' '}}</span>
+            </td>
+            <td>
+                <button class="ion-trash-b" ng-click="trashSchool(school)"/>
+            <td>
             </td>
         </tr>
         </tbody>

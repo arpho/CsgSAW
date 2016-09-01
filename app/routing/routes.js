@@ -21,5 +21,8 @@ var users_routing = require('./user_routing'),
     app.post('/api/user/trash',users_routing.trash)
     app.post('/api/user/2BeEnabled/',users_routing.toBeEnabled)
     app.put('/api/user/update/',users_routing.update)
-    app.post('/api/school/crea',schools_routing.crea)
+    app.post('/api/schools/crea/',schools_routing.crea)
+    app.post('/api/user/retrieveUser/',users_routing.retrieveUser)
+    app.post('/api/schools/trash/',schools_routing.trash)
+    app.post('/api/schools/update/',schools_routing.update)
 };

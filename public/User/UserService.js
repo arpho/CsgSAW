@@ -72,6 +72,9 @@ angular.module('CsgSAW.services').factory('UserService', ['$http', function($htt
         list : function(data){
             return $http.post('/api/user/list/',data);
         },
+        retrieveUser : function(payload){
+            return $http.post('/api/user/retrieveUser/',payload)
+        },
         gotPower : function(user,power){
                  /*
                  verifica che l'utente abbia l'autorizzazione richiesta

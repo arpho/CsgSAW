@@ -47,6 +47,7 @@ module.exports = {
     list: require('./routers/listUser'),
     trash: require('./routers/trashUser'),
     login: require('./routers/login'),
+    retrieveUser : require('./routers/retrieveUser'),
     toBeEnabled: function(req,res){
     var token = req.body.token,
     email = req.body.email,
