@@ -36,7 +36,17 @@
             Abilitato:  {{SiNo(user.enabled)  }}
         </md-checkbox>
     </md-input-container>
-        <input type="submit" id="submit" value="Modifica" />
+    <md-input-container flex style="float:top">
+        <label>scuola di appartenenza</label>
+        <md-select ng-model="user.school">
+            <md-option><em>None</em></md-option>
+            <md-option ng-repeat="school in schools" ng-value="school._id" >
+                {{school.sede+' '+school.denominazione}}
+            </md-option>
+        </md-select>
+    </md-input-container>
+
+    <input type="submit" id="submit" value="Modifica" />
 
 </form>
 
@@ -156,6 +166,7 @@
      resting-icon="ion-plus-round" toggling-method="click"
      class="app-menu"
      menu-state="menuState" ng-class="{'fadeOut' : menuState === 'closed'}">
+    <button style="mfb-component__child-icon=left:0px" mfb-button label="spedisci una mail " icon="ion-android-send" ng-click="sendMail($event)"></button>
     <button style="mfb-component__child-icon=left:0px" mfb-button label="aggiungi indirizzo " icon="ion-android-locate" ng-click="addAddress($event)"></button>
     <button mfb-button label="aggiungi informazione di contatto" icon="ion-iphone" ng-click="addContact($event)"></button>
 </nav>

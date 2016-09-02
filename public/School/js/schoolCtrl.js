@@ -9,6 +9,19 @@ angular.module('csgSAW.controllers').controller('SchoolController',['$scope','Us
     //$scope.schools = $scope.schools || []
      initialize()
  })
+ $rootScope.$on('updatedSchool', function(args){
+    $mdDialog.hide()
+    messages.putMessage('toastTitle','Conferma');
+                            messages.putMessage('toastBody','scuola aggiornata regolarmente')
+                        $mdToast.show({
+                                      hideDelay   : 5000,
+                                      position    : 'top right',
+                                      controller  : 'ToastCtrl',
+                                      templateUrl : 'views/toast-template.html'
+                                    });
+    //$scope.schools = $scope.schools || []
+     initialize()
+ })
  $scope.clickRow = function(ev,school){
  console.log('clicked row',school)
  messages.putMessage('addingSchool',school)
@@ -16,7 +29,7 @@ angular.module('csgSAW.controllers').controller('SchoolController',['$scope','Us
  messages.putMessage('schoolPopUpAction','Modifica')
  var useFullScreen = ($mdMedia('sm') || $mdMedia('xs'))  && $scope.customFullscreen;
                       $mdDialog.show({
-                          controller: 'SchoolPopUpController',
+                          controller: 'SchoolUpdatePopUpController',
                           controllerAs: 'ctrl',
                           templateUrl: 'School/views/schoolPopUp.html',
                           targetEvent: ev,
@@ -39,14 +52,14 @@ angular.module('csgSAW.controllers').controller('SchoolController',['$scope','Us
                     Users.setToken(data.data.token)
                     initialize()
                  }).catch(function(data){
-                    messages.putMessage('toastTitle','Ops!!');
+                        messages.putMessage('toastTitle','Ops!!');
                         messages.putMessage('toastBody','qualcosa non è andata bene ')
-                    $mdToast.show({
-                                  hideDelay   : 5000,
-                                  position    : 'top right',
-                                  controller  : 'ToastCtrl',
-                                  templateUrl : 'views/toast-template.html'
-                                });
+                        $mdToast.show({
+                                      hideDelay   : 5000,
+                                      position    : 'top right',
+                                      controller  : 'ToastCtrl',
+                                      templateUrl : 'views/toast-template.html'
+                        });
 
                  })
             })
@@ -66,7 +79,8 @@ angular.module('csgSAW.controllers').controller('SchoolController',['$scope','Us
 var initialize = function(){
 $scope.user = Users.getLoggedUser()
         $scope.user.dob = new Date($scope.user.dob);
-         Schools.list(Users.getToken(),Users.getEmail()).then(function(schools){
+        var data = Users.generateDataPayload();
+         Schools.list(data).then(function(schools){
                 $scope.schools = schools.data.data
                 Users.setToken(schools.data.token)
             })
@@ -94,7 +108,22 @@ if(!Users.isLogged()){
         $scope.school = messages.getMessage('addingSchool') // inizializzo $scope.school
         $scope.school.contacts = $scope.school.contacts || []
         $scope.school.contacts.push(args)
+        //TODO occorre aprire schoolPopup con il giusto controller
         console.log('school with contacts',$scope.school)
+        $mdDialog.show({
+                                 controller: 'SchoolPopUpController',
+                                 controllerAs: 'ctrl',
+                                 templateUrl: 'School/views/schoolPopUp.html',
+                                 parent: angular.element(document.body),
+                                 targetEvent: ev,
+                                 clickOutsideToClose: false
+                              })// riapro il popup school
+    })
+    $rootScope.$on('addedSchoolAddress',function(ev,args){
+        $scope.school = messages.getMessage('addingSchool') // inizializzo $scope.school
+        $scope.school.address = $scope.school.address || []
+        $scope.school.address.push(args)
+        console.log('school with address',$scope.school)
         $mdDialog.show({
                                  controller: 'SchoolPopUpController',
                                  controllerAs: 'ctrl',

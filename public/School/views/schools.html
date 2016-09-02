@@ -16,7 +16,7 @@
         </tr>
         </thead>
         <tbody>
-        <tr ng-repeat="school in schools" ng-click="clickRow($event,school)">
+        <tr ng-repeat="school in schools" >
             <td>
                 <span style="float:top">{{school.sede}}</span>
                 <div>
@@ -34,6 +34,9 @@
             <td>
                 <span style="float:top">{{school.indirizzo.street+' '+ school.indirizzo.city+' '}}</span>
             </td>
+            <td>
+                <button class="ion-edit" ng-click="clickRow($event,school)"/>
+            <td>
             <td>
                 <button class="ion-trash-b" ng-click="trashSchool(school)"/>
             <td>

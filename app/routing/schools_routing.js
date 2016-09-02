@@ -23,9 +23,8 @@
     update: function(req,res){
         var body = req.body,Token = require('../utilities/tokenGenerator'),checkToken = Token.renewToken(body.token,body.email)
                 ,school = body.school,mongoose = require('mongoose');
-                console.log('updating school',school)
                 if(checkToken.valido){
-                    console.log('token valido')
+                    console.log('updating school token valido')
                     var _id = mongoose.Types.ObjectId(school._id)
                     schoolModel.update({_id:_id},school,function(err,school){
                     if(err){

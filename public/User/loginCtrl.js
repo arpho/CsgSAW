@@ -44,6 +44,16 @@ angular.module('csgSAW.controllers').controller('LoginController',['$scope','Use
                      Users.users2BeEnabled(data).then(function(data){
                      Users.setToken(data.data.token)
                      if( data.data.users2BeEnabled && Users.gotPower(res.data.authenticatingUser,'admin')){
+                        messages.putMessage('toastTitle','Avviso');
+                        messages.putMessage('toastBody',"c'è gente da autenticare")
+                        $mdToast.show({
+                                                              hideDelay   : 10000,
+                                                              position    : 'top right',
+                                                              controller  : 'ToastCtrl',
+                                                              templateUrl : 'views/toast-template.html'
+                                                            });
+
+
                         $mdDialog.show(
                               $mdDialog.alert()
                                 .parent(angular.element(document.querySelector('#popupContainer')))

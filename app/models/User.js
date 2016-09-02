@@ -14,6 +14,7 @@ module.exports = mongoose.model('User', {
                                         	contacts:[contactSchema],
                                         	email: String,
                                         	skype:String,
+                                        	school: mongoose.Schema.Types.ObjectId,
                                         	roles:[String],
     hashed_password:{words:[Number],sigBytes:Number},
    salt:{words:[Number],sigBytes:Number},

@@ -1,12 +1,22 @@
 'use strict';
 var contactTypes = ['email','cellulare','fisso','fax','skype']
 angular.module('csgSAW.controllers').controller('ProfileController',['$scope','UserService',
-'$mdDialog','app-messages','$mdMedia','$rootScope','RoleService',function($scope,Users,$mdDialog,messages,$mdMedia,$rootScope,Roles){
+'$mdDialog','app-messages','$mdMedia','$rootScope','RoleService','SchoolService',
+function($scope,Users,$mdDialog,messages,$mdMedia,$rootScope,Roles,Schools){
     $scope.user = Users.getLoggedUser();
+    var data = Users.generateDataPayload()
+    data.query = {};
     $scope.showSpinner = false
     var self = this
     $scope.title = Users.getNome()? 'Ciao '+ Users.getNome() : 'Ciao'
     $scope.tagline = 'gestisci il tuo profilo utente'
+    Schools.list(data).then(function(payload){
+        $scope.schools = payload.data.data
+        Users.setToken(payload.token)
+    })
+    $scope.sendMail = function(ev){
+    console.log('invio mail')
+    }
     $rootScope.$on('updatedAddress', function(ev,args){
         console.log(' updated address', args)
     })

@@ -8,9 +8,11 @@ angular.module('CsgSAW.services').factory('SchoolService', ['$http', function($h
         crea: function(data){
             return $http.post('/api/schools/crea/',data)
         },
-        list: function(token,email){
-         var data = {token:token,email:email}
+        list: function(data){
             return $http.post('/api/schools/list/',data)
+        },
+        update: function(data){
+            return $http.post('/api/schools/update/',data)
         }
     }
 }])
