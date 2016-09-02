@@ -32,7 +32,7 @@
                 <span style="float:top">{{school.denominazione}}</span>
             </td>
             <td>
-                <span style="float:top">{{school.indirizzo.street+' '+ school.indirizzo.city+' '}}</span>
+                <span style="float:top">{{school.address[0].street+' '+ school.address[0].city+' '+ school.address[0].cap}}</span>
             </td>
             <td>
                 <button class="ion-edit" ng-click="clickRow($event,school)"/>

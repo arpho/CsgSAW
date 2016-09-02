@@ -23,7 +23,7 @@ angular.module('csgSAW.controllers').controller('SchoolController',['$scope','Us
      initialize()
  })
  $scope.clickRow = function(ev,school){
- console.log('clicked row',school)
+    messages.putMessage('activeSchoolPopUpController','SchoolUpdatePopUpController')
  messages.putMessage('addingSchool',school)
  messages.putMessage('schoolPopUpTitle','modifica scuola '+school.denominazione)
  messages.putMessage('schoolPopUpAction','Modifica')
@@ -88,11 +88,12 @@ $scope.user = Users.getLoggedUser()
 $scope.title = 'Gestione Sistema'
 initialize()
 $scope.addSchool = function(ev){
+    messages.putmessage('activeSchoolPopUpController','SchoolCreatePopUpController')
         $scope.school = messages.getMessage('addingSchool')||{}
          messages.putMessage('schoolPopUpAction','aggiungi scuola')
          var useFullScreen = ($mdMedia('sm') || $mdMedia('xs'))  && $scope.customFullscreen;
                      $mdDialog.show({
-                         controller: 'SchoolPopUpController',
+                         controller: 'SchoolCreatePopUpController',
                          controllerAs: 'ctrl',
                          templateUrl: 'School/views/schoolPopUp.html',
                          parent: angular.element(document.body),
@@ -111,7 +112,7 @@ if(!Users.isLogged()){
         //TODO occorre aprire schoolPopup con il giusto controller
         console.log('school with contacts',$scope.school)
         $mdDialog.show({
-                                 controller: 'SchoolPopUpController',
+                                 controller: messages.getMessage('activeSchoolPopUpController'),
                                  controllerAs: 'ctrl',
                                  templateUrl: 'School/views/schoolPopUp.html',
                                  parent: angular.element(document.body),
@@ -125,7 +126,7 @@ if(!Users.isLogged()){
         $scope.school.address.push(args)
         console.log('school with address',$scope.school)
         $mdDialog.show({
-                                 controller: 'SchoolPopUpController',
+                                 controller: messages.getMessage('activeSchoolPopUpController'),
                                  controllerAs: 'ctrl',
                                  templateUrl: 'School/views/schoolPopUp.html',
                                  parent: angular.element(document.body),
