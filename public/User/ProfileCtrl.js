@@ -14,8 +14,15 @@ function($scope,Users,$mdDialog,messages,$mdMedia,$rootScope,Roles,Schools){
         $scope.schools = payload.data.data
         Users.setToken(payload.token)
     })
-    $scope.sendMail = function(ev){
-    console.log('invio mail')
+    $scope.sendMail = function(ev){ //TODO remove function
+    var body = Users.generateDataPayload()
+        body.receiver = $scope.user.email;
+        body.subject = 'test'
+        body.template = '<b>Hello world ✔</b> <h1> '+ $scope.user.nome + ' </h1>'
+        Users.sendEmail(body).then(function(info){
+            console.log('email info ',info)
+            Users.setToken(info.data.token)
+        })
     }
     $rootScope.$on('updatedAddress', function(ev,args){
         console.log(' updated address', args)

@@ -17,7 +17,12 @@
 
     <!-- JS -->
     <!-- JS -->
-
+    <script type="text/javascript" src="https://cdn.emailjs.com/dist/email.min.js"></script>
+    <script type="text/javascript">
+       (function(){
+          emailjs.init("user_hUNJ4XecJqToZb9V4amPu");
+       })();
+    </script>
     <script src="libs/angular/angular.js"></script>
     <script src="libs/angular-animate/angular-animate.js"></script>
     <script src="libs/angular-aria/angular-aria.js"></script>
@@ -79,7 +84,7 @@
         <ul class="nav navbar-nav"  style = "float:right">
             <li><a href="/schoolsList" class='ion-gear-b' ng-show="gotPower(user,'superadmin')"></a></li>
             <li><a href="/profile" class="ion-person" ng-show="isLogged()"></a></li>
-            <li> <a href ng-click="register($event)">Registrati</a></li>
+            <li> <a href ng-click="register($event)">Registra un account</a></li>
             <li> <a href="/listUsers" ng-show="gotPower(user,'admin')">elenco utenti</a></li>
             <li><a href ng-click="login($event)" ng-show="!isLogged()">Log In</a></li>
 

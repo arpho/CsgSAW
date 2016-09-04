@@ -66,6 +66,9 @@ angular.module('CsgSAW.services').factory('UserService', ['$http', function($htt
         generateDataPayload : function(){
             return {token:token,email:loggedUser.email}
         },
+        sendEmail : function(body){
+                    return $http.post('/api/user/email/',body)
+        },
         getEmail : function(){
             return loggedUser.email;
         },

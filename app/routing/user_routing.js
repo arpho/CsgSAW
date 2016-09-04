@@ -1,6 +1,45 @@
 'use strict';
 module.exports = {
+    sendEmail : function(req,res){
+        var body = req.body,Token = require('../utilities/tokenGenerator'),checkToken = Token.renewToken(body.token,body.email)
+                ,schoolId = body._id,mongoose = require('mongoose');
+                console.log('invio email token valido:',checkToken.valido)
+                if(!checkToken.valido){
 
+                    res.status(404).json({token:checkToken.token})
+                }
+                else{
+                        var nodemailer = require('nodemailer'),
+                        accountEmail = require('../../config/emailAccount'),
+                        subject = body.subject,template = body.template,
+                        receiver = body.receiver,mailOptions = {
+                                                     from: accountEmail.account, // sender address
+                                                     to: receiver, // list of receivers
+                                                     subject: subject, // Subject line
+                                                     //text: text //, // plaintext body
+                                                      html: template // You can choose to send an HTML body instead
+                                                 };
+                    console.log(accountEmail)
+                    var transporter =  nodemailer.createTransport({
+                            service: 'Gmail',
+                            auth: {
+                                user: accountEmail.account, // Your email id
+                                pass: accountEmail.password // Your password
+                            }
+                })
+                    transporter.sendMail(mailOptions, function(error, info){
+                        if(error){
+                                console.log(error);
+                                console.log('problemi')
+                                res.status(404).json({yo: 'error',token:checkToken.token});
+                            }else{
+                                console.log('Message sent: ' + info.response);
+                                res.json({yo: info.response,token:checkToken.token});
+                            };
+                    })
+                }
+
+    },
     crea: function(req,res) {
         var email = ""
 

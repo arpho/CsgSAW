@@ -25,4 +25,5 @@ var users_routing = require('./user_routing'),
     app.post('/api/user/retrieveUser/',users_routing.retrieveUser)
     app.post('/api/schools/trash/',schools_routing.trash)
     app.post('/api/schools/update/',schools_routing.update)
+    app.post('/api/user/email/',users_routing.sendEmail)
 };

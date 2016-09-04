@@ -47,6 +47,7 @@
                     <span style="float:top">{{user._id}}</span>
 
                     <button ng-show="! user.enabled" class="ion-checkmark" ng-click="enableUser(user)"></button>
+                    <button class="ion-android-send" ng-click="sendMessage(user)"></button>
                     <button class="ion-trash-b" ng-click="trashUser(user)"/>
                 </div>
             </td>
