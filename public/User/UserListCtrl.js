@@ -2,6 +2,20 @@
 angular.module('csgSAW.controllers').controller('UserListController',['$scope','UserService','$mdMedia','$mdDialog',
 'app-messages', '$cookies',  '$window','$rootScope','$mdToast',function($scope,Users,$mdMedia,$mdDialog,messages, $cookies,
  $window,$rootScope,$mdToast){
+    $scope.userDetail = function(ev,user){
+        console.log('dettaglio utente',user)
+        messages.putMessage('userDetail',user) // passo l'utente al controller del popup di dettaglio
+        var useFullScreen = ($mdMedia('sm') || $mdMedia('xs'))  && $scope.customFullscreen;
+         $mdDialog.show({
+                                                    controller: 'userDetailController',
+                                                    controllerAs: 'ctrl',
+                                                    templateUrl: 'User/views/userDetail.html',
+                                                    parent: angular.element(document.body),
+                                                    targetEvent: ev,
+                                                    clickOutsideToClose: true,
+                                                    fullScreen: useFullScreen
+                                                 })
+    }
     $scope.sendMessage = function(user){
         console.log('sending message to', user.email)
         var body = Users.generateDataPayload()

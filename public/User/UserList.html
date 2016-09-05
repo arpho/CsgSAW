@@ -44,8 +44,7 @@
                     <span style="float:top">{{user.nome}}</span>
                     <span style="float:top">{{user.cognome}}</span>
                     <span style="float:top">{{user.email}}</span>
-                    <span style="float:top">{{user._id}}</span>
-
+                    <button class="ion-edit" ng-click="userDetail($event,user)"></button>
                     <button ng-show="! user.enabled" class="ion-checkmark" ng-click="enableUser(user)"></button>
                     <button class="ion-android-send" ng-click="sendMessage(user)"></button>
                     <button class="ion-trash-b" ng-click="trashUser(user)"/>
