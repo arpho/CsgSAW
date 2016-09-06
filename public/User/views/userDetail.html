@@ -41,9 +41,12 @@
                 </md-option>
             </md-select>
         </md-input-container>
-
+        <md-input-container>
+            <label>email</label>
+            <input type="email" ng-model="user.email" disabled style="height:20px"/>
+        </md-input-container>
             <div style="float:right">
-                <div style="float:left"ng-show="gotPower(user,'admin')">
+                <div style="float:left">
                     <table  class="table  table-striped" >
                         <thead>
                         <tr>
@@ -79,9 +82,87 @@
 
 
 
+
             <div>
 
                 <input type="submit" id="submit" value="Modifica"/>
+                <div name="informazioni di contatto" style="width:500px"ng-cloack>
+                    <md-content>
+                        <md-tabs md-dynamic-height md-border-bottom>
+                    <md-tab label ="indirizzi">
+                        <table  class="table  table-striped" style="float:right">
+                            <thead>
+                            <i style="align:center;"> Indirizzi</i>
+                            <tr>
+                                <td>
+                                    Via
+                                </td>
+
+                                <td>
+                                    Città
+                                </td>
+
+                                <td>
+                                    cap
+                                </td>
+
+                                <td>
+                                    note
+                                </td>
+                            </tr>
+                            </thead>
+
+                            <tbody>
+                            <tr ng-repeat="address in user.address" >
+                                <td>{{address.street}}</td>
+                                <td>{{address.city}}</td>
+                                <td>{{address.cap}}</td>
+                                <td>{{address.note}}</td>
+                                <td class="ion-edit" ng-click="updateAddress($event,$index)">
+                                <td class="ion-trash-a" ng-click="removeAddress($index)"></td>
+
+                            </tr>
+                            </tbody>
+                        </table>
+                        <button style="mfb-component__child-icon=left:0px" mfb-button label="aggiungi indirizzo " icon="ion-android-locate" ng-click="addAddress($event)"></button>
+                    </md-tab>
+                            <md-tab label ="Contatti">
+
+                                <table  class="table  table-striped" style="float:right">
+                                    <thead>
+                                    <i style="align:center;"> Contatti</i>
+                                    <tr>
+                                        <td>
+                                            tipo di contatto
+                                        </td>
+
+                                        <td>
+                                            contatto
+                                        </td>
+                                        <td>
+                                            note
+                                        </td>
+                                    </tr>
+                                    </thead>
+
+                                    <tbody>
+                                    <tr ng-repeat="contact in user.contacts" >
+                                        <td>{{contact.type}}</td>
+                                        <td>{{contact.contact}}</td>
+                                        <td>{{contact.note}}</td>
+                                        <td class="ion-edit" ng-click="updateContact($event,$index)">
+                                        <td class="ion-trash-a" ng-click="removeContact($index)"></td>
+
+                                    </tr>
+                                    </tbody>
+                                </table>
+                                <button mfb-button label="aggiungi informazione di contatto" icon="ion-iphone" ng-click="addContact($event)"></button>
+                            </md-tab>
+                            </md-tabs>
+                        </md-content>
+
+
+                </div>
             </div>
         </md-dialog-content>
     </form>

@@ -12,7 +12,7 @@ angular.module('csgSAW.controllers').controller('UserListController',['$scope','
                                                     templateUrl: 'User/views/userDetail.html',
                                                     parent: angular.element(document.body),
                                                     targetEvent: ev,
-                                                    clickOutsideToClose: true,
+                                                    clickOutsideToClose: false,
                                                     fullScreen: useFullScreen
                                                  })
     }
@@ -41,14 +41,19 @@ angular.module('csgSAW.controllers').controller('UserListController',['$scope','
                  );
         })
     }
-     var data = Users.generateDataPayload(), initialize = function(){
+
+     var  initialize = function(){
+     var data = Users.generateDataPayload();
+          console.log('inizializzo il controller')
         Users.list(data).then(function(data){
                     $scope.users = data.data.users;
                     Users.setToken(data.data.token)
                     var body = Users.generateDataPayload()
-                    Schools.list(data).then(function(info){
+                    console.log('userlistctrl')
+                    Schools.list(body).then(function(info){
                     $scope.schools = info.data.data
                     console.log('schools',$scope.schools)
+                    console.log('token dalle scuole ',info.data.token)
                     Users.setToken(info.data.token)
                     }).catch(function(info){
                     console.log('errore',info)
@@ -59,9 +64,11 @@ angular.module('csgSAW.controllers').controller('UserListController',['$scope','
         initialize()
       })
      if(Users.isLogged()){
+        console.log('utente loggato')
          initialize()
      }
      else{
+        console.log('utente non loggato')
         $scope.login();
      }
 

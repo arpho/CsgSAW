@@ -3,17 +3,19 @@ var contactTypes = ['email','cellulare','fisso','fax','skype']
 angular.module('csgSAW.controllers').controller('ProfileController',['$scope','UserService',
 '$mdDialog','app-messages','$mdMedia','$rootScope','RoleService','SchoolService',
 function($scope,Users,$mdDialog,messages,$mdMedia,$rootScope,Roles,Schools){
-    $scope.user = Users.getLoggedUser();
-    var data = Users.generateDataPayload()
-    data.query = {};
+    var initialize = function(){
+        $scope.user = Users.getLoggedUser();
+    $scope.title = Users.getNome()? 'Ciao '+ Users.getNome() : 'Ciao'
+        var data = Users.generateDataPayload()
+        Schools.list(data).then(function(payload){
+            $scope.schools = payload.data.data
+            Users.setToken(payload.data.token)
+    })
+    }
+
     $scope.showSpinner = false
     var self = this
-    $scope.title = Users.getNome()? 'Ciao '+ Users.getNome() : 'Ciao'
-    $scope.tagline = 'gestisci il tuo profilo utente'
-    Schools.list(data).then(function(payload){
-        $scope.schools = payload.data.data
-        Users.setToken(payload.token)
-    })
+    $scope.tagline = 'gestisci il tuo profilo'
     $scope.sendMail = function(ev){ //TODO remove function
     var body = Users.generateDataPayload()
         body.receiver = $scope.user.email;
@@ -61,9 +63,7 @@ function($scope,Users,$mdDialog,messages,$mdMedia,$rootScope,Roles,Schools){
     }
     $rootScope.$on('loggedUser',function(ev,args){
 
-        $scope.user = Users.getLoggedUser();
-        $scope.title ="Ciao " + Users.getNome()
-        $scope.user.dob = new Date($scope.user.dob);
+        initialize()
 
     })
     $scope.onlyWeekendsPredicate = function(date) {
@@ -149,6 +149,7 @@ function($scope,Users,$mdDialog,messages,$mdMedia,$rootScope,Roles,Schools){
    if(!Users.isLogged()){
     $scope.login();
    }
+   else initialize()
    $scope.SiNo = function(b){
     return b? 'si':'no'
    }

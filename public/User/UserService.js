@@ -55,7 +55,8 @@ angular.module('CsgSAW.services').factory('UserService', ['$http', function($htt
             return false;// l'utente non gode di tale diritto
         },
         setToken: function(newToken){
-            token = newToken
+        console.log('aggiornato token')
+        token = newToken
         },
         isLogged : function() {
             return logged;
@@ -73,6 +74,7 @@ angular.module('CsgSAW.services').factory('UserService', ['$http', function($htt
             return loggedUser.email;
         },
         list : function(data){
+            console.log('richiesta lista utenti')
             return $http.post('/api/user/list/',data);
         },
         retrieveUser : function(payload){

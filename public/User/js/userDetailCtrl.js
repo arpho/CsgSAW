@@ -5,17 +5,31 @@ angular.module('csgSAW.controllers').controller('userDetailController',['$scope'
 function($scope,Users,$mdDialog,messages,$mdMedia,$rootScope,Roles,Schools){
     $scope.user = messages.getMessage('userDetail');
     var data = Users.generateDataPayload()
-    data.query = {};
     $scope.showSpinner = false
     var self = this
           self.cancel = function(){
               $mdDialog.hide()
           }
-    $scope.title = Users.getNome()? 'Ciao '+ Users.getNome() : 'Ciao'
+    $scope.addContact = function(ev){
+        var useFullScreen = ($mdMedia('sm') || $mdMedia('xs'))  && $scope.customFullscreen;
+                             $mdDialog.show({
+                                 controller: 'AddContactController',
+                                 controllerAs: 'ctrl',
+                                 templateUrl: 'User/ContactPopup.html',
+                                 parent: angular.element(document.body),
+                                 targetEvent: ev,
+                                 clickOutsideToClose: false,
+                                 fullScreen: useFullScreen
+                              })
+    }
+    $scope.title = 'scheda di ' + $scope.user.nome
     $scope.tagline = 'gestisci il  profilo utente di '+$scope.user.nome
+    console.log('userdetailctrl',data.token)
     Schools.list(data).then(function(payload){
         $scope.schools = payload.data.data
-        Users.setToken(payload.token)
+        Users.setToken(payload.data.token)
+    }).catch(function(info){
+        console.log('token non valido',info)
     })
     $scope.sendMail = function(ev){ //TODO remove function
     var body = Users.generateDataPayload()
@@ -27,18 +41,19 @@ function($scope,Users,$mdDialog,messages,$mdMedia,$rootScope,Roles,Schools){
             Users.setToken(info.data.token)
         })
     }
-    $rootScope.$on('updatedAddress', function(ev,args){
-        console.log(' updated address', args)
+    $rootScope.$on('updatedAddress', function(ev,address){
+        console.log(' updated address', address)
     })
-    $rootScope.$on('addedAddress',function(ev,args){
+    $rootScope.$on('addedAddress',function(ev,address){
         $scope.user.address = $scope.user.address ||[];
-        $scope.user.address.push(args)
+        $scope.user.address.push(address)
         $mdDialog.hide();
     })
-    $rootScope.$on('addedContact',function(ev,args){
+    $rootScope.$on('addedContact',function(ev,contact){
         $scope.user.contacts = $scope.user.contacts ||[];
-        $scope.user.contacts.push(args)
+        $scope.user.contacts.push(contact)
         $mdDialog.hide();
+
     })
     $scope.login = function(ev){
                                    var useFullScreen = ($mdMedia('sm') || $mdMedia('xs'))  && $scope.customFullscreen;
@@ -65,7 +80,7 @@ function($scope,Users,$mdDialog,messages,$mdMedia,$rootScope,Roles,Schools){
     }
     $rootScope.$on('loggedUser',function(ev,args){
 
-        $scope.user = Users.getLoggedUser();
+        $scope.user = messages.getMessage('detailUser')
         $scope.title ="Ciao " + Users.getNome()
         $scope.user.dob = new Date($scope.user.dob);
 
@@ -133,7 +148,7 @@ function($scope,Users,$mdDialog,messages,$mdMedia,$rootScope,Roles,Schools){
 
         }).catch(function(data){
                             Users.setToken(data.data.token) //aggiorno il token
-                            var msg ='OPs, loggati nuovamente e riprova'
+                            var msg ='Ops, loggati nuovamente e riprova'
                             $mdDialog.show(
                                                                    $mdDialog.alert()
                                                                      .parent(angular.element(document.querySelector('#popupContainer')))
@@ -148,7 +163,6 @@ function($scope,Users,$mdDialog,messages,$mdMedia,$rootScope,Roles,Schools){
 
                         })
      }
-    $scope.user = Users.getLoggedUser();
     $scope.user.dob = new Date($scope.user.dob);
    if(!Users.isLogged()){
     $scope.login();

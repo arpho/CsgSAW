@@ -1,5 +1,6 @@
 'use strict';
 module.exports = function(req,res){
+console.log('lista utenti')
 var email = req.body.email,
  token = req.body.token,
  Cache = require('../../utilities/wrapperCache'),

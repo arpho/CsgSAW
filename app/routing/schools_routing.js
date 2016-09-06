@@ -2,6 +2,7 @@
  var schoolModel = require('../models/School');
  module.exports = {
     list: function( req,res){
+    console.log('lista scuole')
     var token = req.body.token,
     email = req.body.email, Token = require('../utilities/tokenGenerator'),
     checked = Token.renewToken(token,email)
@@ -10,7 +11,7 @@
         res.status(404).send('errore')
     }
     else{
-
+    console.log('token valido')
     schoolModel.find({}, function(err,schools){
     if(err){
         console.log(err)

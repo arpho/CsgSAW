@@ -9,6 +9,7 @@ angular.module('CsgSAW.services').factory('SchoolService', ['$http', function($h
             return $http.post('/api/schools/crea/',data)
         },
         list: function(data){
+            console.log('richiesta lista scuola')
             return $http.post('/api/schools/list/',data)
         },
         update: function(data){
