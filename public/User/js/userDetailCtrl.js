@@ -8,6 +8,9 @@ function($scope,Users,$mdDialog,messages,$mdMedia,$rootScope,Roles,Schools){
     data.query = {};
     $scope.showSpinner = false
     var self = this
+          self.cancel = function(){
+              $mdDialog.hide()
+          }
     $scope.title = Users.getNome()? 'Ciao '+ Users.getNome() : 'Ciao'
     $scope.tagline = 'gestisci il  profilo utente di '+$scope.user.nome
     Schools.list(data).then(function(payload){
@@ -57,6 +60,7 @@ function($scope,Users,$mdDialog,messages,$mdMedia,$rootScope,Roles,Schools){
     $scope.user.roles.forEach(function(item,index){
         if(item == power)
         delete $scope.user.roles[index]
+        console.log('autorizzazione rimossa')
     })
     }
     $rootScope.$on('loggedUser',function(ev,args){

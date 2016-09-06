@@ -11,12 +11,12 @@
     }
     else{
 
-    schoolModel.find({}, function(err,scholls){
+    schoolModel.find({}, function(err,schools){
     if(err){
         console.log(err)
         res.status(404).send({msg:'errore del server'})
     }
-    res.json({msg:'ok',data: scholls,token:checked.token})
+    res.json({msg:'ok',data: schools,token:checked.token})
    })
     }
     },

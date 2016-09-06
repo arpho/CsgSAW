@@ -15,6 +15,7 @@ if(email==Cache.retrieve(token)){
             res.status(404).send()
         }
         res.json({status:'ok',users:users,token:token})
+        console.log(' listUser.js token aggiornato')
     })
 }
 else{

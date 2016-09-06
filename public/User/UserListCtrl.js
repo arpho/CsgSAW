@@ -1,7 +1,7 @@
 'use strict';
 angular.module('csgSAW.controllers').controller('UserListController',['$scope','UserService','$mdMedia','$mdDialog',
-'app-messages', '$cookies',  '$window','$rootScope','$mdToast',function($scope,Users,$mdMedia,$mdDialog,messages, $cookies,
- $window,$rootScope,$mdToast){
+'app-messages', '$cookies',  '$window','$rootScope','$mdToast','SchoolService',function($scope,Users,$mdMedia,$mdDialog,messages, $cookies,
+ $window,$rootScope,$mdToast,Schools){
     $scope.userDetail = function(ev,user){
         console.log('dettaglio utente',user)
         messages.putMessage('userDetail',user) // passo l'utente al controller del popup di dettaglio
@@ -41,12 +41,25 @@ angular.module('csgSAW.controllers').controller('UserListController',['$scope','
                  );
         })
     }
-     var data = {token:Users.getToken(),email:Users.getEmail()}
+     var data = Users.generateDataPayload(), initialize = function(){
+        Users.list(data).then(function(data){
+                    $scope.users = data.data.users;
+                    Users.setToken(data.data.token)
+                    var body = Users.generateDataPayload()
+                    Schools.list(data).then(function(info){
+                    $scope.schools = info.data.data
+                    console.log('schools',$scope.schools)
+                    Users.setToken(info.data.token)
+                    }).catch(function(info){
+                    console.log('errore',info)
+                    })
+                 });
+     }
+      $rootScope.$on('loggedUser',function(ev,args){
+        initialize()
+      })
      if(Users.isLogged()){
-         Users.list(data).then(function(data){
-            $scope.users = data.data.users;
-            Users.setToken(data.data.token)
-         });
+         initialize()
      }
      else{
         $scope.login();
@@ -107,13 +120,16 @@ angular.module('csgSAW.controllers').controller('UserListController',['$scope','
              $scope.user.dob = new Date($scope.user.dob);
      var data = {token:Users.getToken(),email:Users.getEmail()}
 
-         Users.list(data).then(function(data){
-            $scope.users = data.data.users;
-            Users.setToken(data.data.token)
-         });
+
      });
 }]).filter('AbilitatiSiNo',function(){
     return function(value){
         return value? 'abilitati':'non abilitati'
     }
+}).filter('sedeScuola',function(){
+        return function(input, schools){
+            for(var i=0;i<schools.length;i++){
+                if (input == schools[i]._id) return schools[i].sede
+            }
+        }
 })

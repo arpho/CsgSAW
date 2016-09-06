@@ -2,15 +2,89 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-
+    <title>{{title}}</title>
 </head>
 <body>
-<md-dialog>
-    <md-dialog-content>
 
-        fghhh
-    </md-dialog-content>
+<md-dialog aria-label="address Popup"  ng-cloak>
+    <md-toolbar>
+        <div class="md-toolbar-tools">
+            <h2>{{title}}</h2>
+            <span flex></span>
+            <md-button class="md-icon-button" ng-click="ctrl.cancel()">
+                <md-icon class="ion-close-round" aria-label="Close dialog"></md-icon>
+            </md-button>
+        </div>
+    </md-toolbar>
+    <form name="addressForm"   class="css-form" style ="background: url(src/background-6.jpg) no-repeat center center fixed"
+          ng-submit="submit(address)">
+        <md-dialog-content style = "float:left" >
+            <md-input-container flex style="float:top">
+                <label>Nome</label>
+                <input type="text" name="città" ng-model="user.nome" />
+            </md-input-container>
+            <md-input-container flex style="float:top">
+                <label>Cognome</label>
+                <input type="text" name="street" ng-model="user.cognome" />
+            </md-input-container>
+            <md-input-container>
+                <md-checkbox ng-model="user.enabled" aria-label="abilitato" >
+                    Abilitato:  {{SiNo(user.enabled)  }}
+                </md-checkbox>
+            </md-input-container>
+            <md-input-container flex style="float:top">
+            <label>scuola di appartenenza</label>
+            <md-select ng-model="user.school">
+                <md-option><em>None</em></md-option>
+                <md-option ng-repeat="school in schools" ng-value="school._id" >
+                    {{school.sede+' '+school.denominazione}}
+                </md-option>
+            </md-select>
+        </md-input-container>
+
+            <div style="float:right">
+                <div style="float:left"ng-show="gotPower(user,'admin')">
+                    <table  class="table  table-striped" >
+                        <thead>
+                        <tr>
+                            <td>
+                                Autorizzazioni disponibili
+                            </td>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr ng-repeat="role in roles">
+                            <td ng-show="!gotPower(user,role.role)" >{{role.role}}<button class="ion-plus" ng-click="addAuthorization(role.role)"></button></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div style="float:left">
+                    <table  class="table  table-striped" style="float:right">
+                        <thead>
+                        <tr>
+                            <td>
+                                Autorizzazioni concesse all'utente
+                            </td>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr ng-repeat="role in user.roles">
+                            <td ng-show="showPower(role.role,user)"><button class="ion-minus" ng-click="removeAuthorization(role)" ng-show="gotPower(user,'superadmin')"></button>{{role}}</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+
+
+            <div>
+
+                <input type="submit" id="submit" value="Modifica"/>
+            </div>
+        </md-dialog-content>
+    </form>
 </md-dialog>
-
 </body>
 </html>
