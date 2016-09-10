@@ -32,6 +32,7 @@
                     Abilitato:  {{SiNo(user.enabled)  }}
                 </md-checkbox>
             </md-input-container>
+
             <md-input-container flex style="float:top">
             <label>scuola di appartenenza</label>
             <md-select ng-model="user.school">
@@ -124,7 +125,7 @@
                             </tr>
                             </tbody>
                         </table>
-                        <button style="mfb-component__child-icon=left:0px" mfb-button label="aggiungi indirizzo " icon="ion-android-locate" ng-click="addAddress($event)"></button>
+                        <button style="mfb-component__child-icon=left:0px" mfb-button label="aggiungi indirizzo " position="tr" icon="ion-android-locate" ng-click="addAddress($event)"></button>
                     </md-tab>
                             <md-tab label ="Contatti">
 
@@ -156,7 +157,7 @@
                                     </tr>
                                     </tbody>
                                 </table>
-                                <button mfb-button label="aggiungi informazione di contatto" icon="ion-iphone" ng-click="addContact($event)"></button>
+                                <button mfb-button label="aggiungi informazione di contatto" icon="ion-iphone" position="tr" ng-click="addContact($event)"></button>
                             </md-tab>
                             </md-tabs>
                         </md-content>

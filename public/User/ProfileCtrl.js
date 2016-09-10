@@ -39,6 +39,9 @@ function($scope,Users,$mdDialog,messages,$mdMedia,$rootScope,Roles,Schools){
         $scope.user.contacts.push(args)
         $mdDialog.hide();
     })
+    $rootScope.$on('opendetail',function(ev,args){
+        console.log('cicia')
+    })
     $scope.login = function(ev){
                                    var useFullScreen = ($mdMedia('sm') || $mdMedia('xs'))  && $scope.customFullscreen;
                                    $mdDialog.show({

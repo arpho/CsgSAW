@@ -2,7 +2,8 @@
 module.exports = function(app) {
 var users_routing = require('./user_routing'),
  roles_routing = require('./roles_routing'),
- schools_routing = require('./schools_routing');
+ schools_routing = require('./schools_routing'),
+ configs_routing = require('./configs_routing');
      // server routes ===========================================================
     // handle things like api calls
     // authentication routes
@@ -26,4 +27,7 @@ var users_routing = require('./user_routing'),
     app.post('/api/schools/trash/',schools_routing.trash)
     app.post('/api/schools/update/',schools_routing.update)
     app.post('/api/user/email/',users_routing.sendEmail)
+    app.post('/api/config/retrieve',configs_routing.retrieve)
+    app.post('/api/config/list',configs_routing.list)
+    app.post('/api/config/update',configs_routing.update)
 };

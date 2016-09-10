@@ -48,6 +48,7 @@ function($scope,Users,$mdDialog,messages,$mdMedia,$rootScope,Roles,Schools){
         $scope.user.address = $scope.user.address ||[];
         $scope.user.address.push(address)
         $mdDialog.hide();
+        $rootScope.$emit('openDetail')
     })
     $rootScope.$on('addedContact',function(ev,contact){
         $scope.user.contacts = $scope.user.contacts ||[];

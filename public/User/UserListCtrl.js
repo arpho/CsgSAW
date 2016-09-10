@@ -120,6 +120,9 @@ angular.module('csgSAW.controllers').controller('UserListController',['$scope','
         },function(){
         })
     }
+    $scope.$on('openDetail',function(ev,args){
+    console.log('aprire dettaglio')
+    })
 
      $rootScope.$on('loggedUser',function(ev,args){
              $scope.user = Users.getLoggedUser();
