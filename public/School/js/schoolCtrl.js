@@ -1,7 +1,7 @@
 'use strict';
 angular.module('csgSAW.controllers').controller('SchoolController',['$scope','UserService','$mdMedia','$mdDialog',
-'app-messages', '$cookies',  '$window','$rootScope','SchoolService','$mdToast',function($scope,Users,$mdMedia,$mdDialog,messages, $cookies,
- $window,$rootScope,Schools,$mdToast){
+'app-messages', '$cookies',  '$window','$rootScope','SchoolService','$mdToast','ConfigService',function($scope,Users,$mdMedia,$mdDialog,messages, $cookies,
+ $window,$rootScope,Schools,$mdToast,Configs){
  $scope.showSpinner = false;
  $scope.gotPower = Users.gotPower
  $rootScope.$on('submittedSchool', function(args){
@@ -22,6 +22,15 @@ angular.module('csgSAW.controllers').controller('SchoolController',['$scope','Us
     //$scope.schools = $scope.schools || []
      initialize()
  })
+ $scope.edited = function(ev){
+    console.log('edited fired',$scope.accountEmail.actualValue)
+    var accountEmail = $scope.accountEmail
+    var body = {}
+    body.config = accountEmail;
+    Configs.upsert(body, function(payload){
+    console.log('config aggiornata')
+    })
+ }
  $scope.clickRow = function(ev,school){
     messages.putMessage('activeSchoolPopUpController','SchoolUpdatePopUpController')
  messages.putMessage('addingSchool',school)
@@ -83,10 +92,16 @@ $scope.user = Users.getLoggedUser()
          Schools.list(data).then(function(schools){
                 $scope.schools = schools.data.data
                 Users.setToken(schools.data.token)
+                var  body =  {}
+                body.config ='accountEmail'
+                Configs.retrieve(body,function(payload){
+                $scope.accountEmail = payload.data.data[0]
+                $scope.accountEmail.label = body.config
+                })
             })
          }
 $scope.title = 'Gestione Sistema'
-initialize()
+
 $scope.addSchool = function(ev){
     messages.putmessage('activeSchoolPopUpController','SchoolCreatePopUpController')
         $scope.school = messages.getMessage('addingSchool')||{}
@@ -103,8 +118,13 @@ $scope.addSchool = function(ev){
 
 }
 if(!Users.isLogged()){
+    console.log('utente non loggato')
     $scope.login();
    }
+   $rootScope.$on('loggedUser', function(){
+   console.log('utente appena  loggato')
+    initialize()
+   })
     $rootScope.$on('addedSchoolContact',function(ev,args){
         $scope.school = messages.getMessage('addingSchool') // inizializzo $scope.school
         $scope.school.contacts = $scope.school.contacts || []

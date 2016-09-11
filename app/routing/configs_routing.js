@@ -6,7 +6,7 @@ module.exports = {
         email = req.body.email, Token = require('../utilities/tokenGenerator'),
         checked = Token.renewToken(token,email)
         if(!checked.valido){
-                console.log('school.list sessione scaduta')
+                console.log('config.list sessione scaduta')
                 res.status(404).send('errore')
             }
             else{
@@ -22,15 +22,17 @@ module.exports = {
 
 },
 retrieve: function(req,res){
+    console.log('richiesto config')
     var token = req.body.token,
         email = req.body.email, Token = require('../utilities/tokenGenerator'),
         label = req.body.config,
         checked = Token.renewToken(token,email)
                 if(!checked.valido){
-                        console.log('school.list sessione scaduta')
+                        console.log('config.retrieve sessione scaduta')
                         res.status(404).send('errore')
                     }
                     else{
+                        console.log('sessione ok')
                         config.find({label:label},function(err,config){
                             if(err){
                                 console.err(err)
@@ -48,11 +50,11 @@ update: function(req,res){
         newConfig = req.body.config,
         checked = Token.renewToken(token,email);
         if(!checked.valido){
-                                console.log('school.list sessione scaduta')
+                                console.log('config.update sessione scaduta')
                                 res.status(404).send('errore')
                             }
         else{
-            config.update({_id:newConfig._id.newConfig,function(err,config){
+            config.findOneAndUpdate({label:newConfig.label},newConfig,{upsert:true},function(err,config){
                 if(err){
                     console.err(err)
                     res.status(404).send()
@@ -61,7 +63,6 @@ update: function(req,res){
                         var out = {ok:true,msg:'configurazione aggiornata',token:checked.token}
                         res.json(out)
                 }
-            }})
+            })}
         }
-}
 }

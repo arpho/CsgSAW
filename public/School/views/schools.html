@@ -2,7 +2,19 @@
     <h1>{{title}}</h1>
     </div>
 
+<md-input-container>
+    <label>email scuola</label>
+    <input type="text" ng-model="accountEmail.actualValue" ng-change="edited($ev)"
+           ng-model-options="{updateOn: 'default blur', debounce: {default: 900, blur: 0} }"
+    >
+</md-input-container>
+<md-input-container>
+    <label>password account mail</label>
+    <input type="password" ng-model="emailPassword">
+</md-input-container>
+
 <md-content>
+    <label>Scuole</label>
     <table  class="table  table-striped" >
         <thead>
         <tr>

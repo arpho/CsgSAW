@@ -27,7 +27,7 @@ var users_routing = require('./user_routing'),
     app.post('/api/schools/trash/',schools_routing.trash)
     app.post('/api/schools/update/',schools_routing.update)
     app.post('/api/user/email/',users_routing.sendEmail)
-    app.post('/api/config/retrieve',configs_routing.retrieve)
-    app.post('/api/config/list',configs_routing.list)
-    app.post('/api/config/update',configs_routing.update)
+    app.post('/api/config/retrieve/',configs_routing.retrieve)
+    app.post('/api/config/list/',configs_routing.list)
+    app.post('/api/config/update/',configs_routing.update)
 };
