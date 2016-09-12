@@ -31,11 +31,10 @@ module.exports = {
                                         })
                     },
                      functions = [retrieveAccount,retrievePassword]
-                    async.series(functions,
+                    async.parallel(functions,
                     function(err,results){
                     accountEmail.account = results[0]
                     accountEmail.password = results[1]
-                     console.log('accountEmail',accountEmail)
                     var receiver = body.receiver,mailOptions = {
                                                                          from: accountEmail.account, // sender address
                                                                          to: receiver, // list of receivers
@@ -56,7 +55,7 @@ module.exports = {
                                                                                             console.log('problemi')
                                                                                             res.status(404).json({yo: 'error',token:checkToken.token});
                                                                                         }else{
-                                                                                            console.log('Message sent: ' + info.response);
+                                                                                            //console.log('Message sent: ' + info.response);
                                                                                             res.json({yo: info.response,token:checkToken.token});
                                                                                         };
                                                                                 })
@@ -75,7 +74,6 @@ module.exports = {
         console.log('creo utente', user)
         var crypto = require("crypto-js"),salt = crypto.lib.WordArray.random(128/8)
 
-        console.log('caricato modello db')
         var key512Bits1000Iterations = crypto.PBKDF2(user.password, salt, { keySize: 512/32, iterations: 1000 });
         delete key512Bits1000Iterations.$super
         var userModel = require('../models/User')
