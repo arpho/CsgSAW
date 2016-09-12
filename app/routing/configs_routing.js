@@ -22,7 +22,6 @@ module.exports = {
 
 },
 retrieve: function(req,res){
-    console.log('richiesto config')
     var token = req.body.token,
         email = req.body.email, Token = require('../utilities/tokenGenerator'),
         label = req.body.config,
@@ -32,7 +31,6 @@ retrieve: function(req,res){
                         res.status(404).send('errore')
                     }
                     else{
-                        console.log('sessione ok')
                         config.find({label:label},function(err,config){
                             if(err){
                                 console.err(err)

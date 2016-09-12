@@ -21,10 +21,10 @@ angular.module('CsgSAW.services').factory('ConfigService', ['$http','UserService
         var callBack = prepareCallBack(cBack)
         return $http.post('/api/config/retrieve/',body).then(callBack)
      },
-           upsert: function(body,cBack){
+           upsert: function(body,cBack,onError){
               prepareBody(body)
               var callBack = prepareCallBack(cBack)
-              $http.post('/api/config/update/',body).then(callBack)
+              $http.post('/api/config/update/',body).then(callBack).catch(onError)
            },
                  list: function(body,cBack){
                     prepareBody(body)

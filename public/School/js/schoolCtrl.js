@@ -28,7 +28,53 @@ angular.module('csgSAW.controllers').controller('SchoolController',['$scope','Us
     var body = {}
     body.config = accountEmail;
     Configs.upsert(body, function(payload){
-    console.log('config aggiornata')
+        messages.putMessage('toastTitle','Eseguito');
+                                messages.putMessage('toastBody','account email aggiornato corrrettamente')
+                            $mdToast.show({
+                                          hideDelay   : 5000,
+                                          position    : 'top left',
+                                          controller  : 'ToastCtrl',
+                                          templateUrl : 'views/toast-template.html'
+                                        });
+
+    },function(error){
+             messages.putMessage('toastTitle','Non Eseguito');
+                                                 messages.putMessage('toastBody',' Account email non  aggiornato corrrettamente')
+                                             $mdToast.show({
+                                                           hideDelay   : 5000,
+                                                           position    : 'top left',
+                                                           controller  : 'ToastCtrl',
+                                                           templateUrl : 'views/toast-template.html'
+                                                         });
+         }
+
+    )
+ }
+ $scope.passwordEdited = function(ev){
+    console.log('aggiorno password account email',$scope.emailPassword.actualValue)
+    var body = {}
+    body.config = $scope.emailPassword;
+    body.config.label = body.config.label ||'passwordEmail'
+    Configs.upsert(body,function(payload){
+    messages.putMessage('toastTitle','Eseguito');
+                                    messages.putMessage('toastBody','Password account email aggiornata corrrettamente')
+                                $mdToast.show({
+                                              hideDelay   : 5000,
+                                              position    : 'top left',
+                                              controller  : 'ToastCtrl',
+                                              templateUrl : 'views/toast-template.html'
+                                            });
+
+
+    },function(error){
+        messages.putMessage('toastTitle','Non Eseguito');
+                                            messages.putMessage('toastBody','Password account email non  aggiornata corrrettamente')
+                                        $mdToast.show({
+                                                      hideDelay   : 5000,
+                                                      position    : 'top left',
+                                                      controller  : 'ToastCtrl',
+                                                      templateUrl : 'views/toast-template.html'
+                                                    });
     })
  }
  $scope.clickRow = function(ev,school){
@@ -97,6 +143,14 @@ $scope.user = Users.getLoggedUser()
                 Configs.retrieve(body,function(payload){
                 $scope.accountEmail = payload.data.data[0]
                 $scope.accountEmail.label = body.config
+                body.config = 'passwordEmail'
+                Configs.retrieve(body,function(payload){
+                     console.log('ok passwordEmail',payload.data.data[0],'ricevuto')
+                      // inizializzo la configurazione se non esiste
+                     $scope.emailPassword = payload.data.data[0] ||{}
+                     $scope.emailPassword.label = 'passwordEmail'
+                     $scope.emailPassword.actualValue = $scope.emailPassword.actualValue ||""
+                })
                 })
             })
          }
@@ -121,6 +175,9 @@ if(!Users.isLogged()){
     console.log('utente non loggato')
     $scope.login();
    }
+else{
+    initialize()
+}
    $rootScope.$on('loggedUser', function(){
    console.log('utente appena  loggato')
     initialize()

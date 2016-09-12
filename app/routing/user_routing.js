@@ -10,33 +10,60 @@ module.exports = {
                 }
                 else{
                         var nodemailer = require('nodemailer'),
-                        accountEmail = require('../../config/emailAccount'),
+                        accountEmail = {},
                         subject = body.subject,template = body.template,
-                        receiver = body.receiver,mailOptions = {
-                                                     from: accountEmail.account, // sender address
-                                                     to: receiver, // list of receivers
-                                                     subject: subject, // Subject line
-                                                     //text: text //, // plaintext body
-                                                      html: template // You can choose to send an HTML body instead
-                                                 };
-                    console.log(accountEmail)
-                    var transporter =  nodemailer.createTransport({
-                            service: 'Gmail',
-                            auth: {
-                                user: accountEmail.account, // Your email id
-                                pass: accountEmail.password // Your password
-                            }
-                })
-                    transporter.sendMail(mailOptions, function(error, info){
-                        if(error){
-                                console.log(error);
-                                console.log('problemi')
-                                res.status(404).json({yo: 'error',token:checkToken.token});
-                            }else{
-                                console.log('Message sent: ' + info.response);
-                                res.json({yo: info.response,token:checkToken.token});
-                            };
+                        async = require('async'),Configs = require('../models/Config'),
+
+                     retrieveAccount = function(done){ // prima funzione serie asincrona
+                    Configs.findOne({label: "accountEmail"},function(err,account){
+                        if(err){
+                        done(err)
+                        }
+                        done(null,account.actualValue)
                     })
+                    },
+                    retrievePassword = function(done){ // seconda funzione serie asincrona
+                    Configs.findOne({label:  "passwordEmail"},function(err,email){
+                                            if(err){
+                                            done(err)
+                                            }
+                                            done(null,email.actualValue)
+                                        })
+                    },
+                     functions = [retrieveAccount,retrievePassword]
+                    async.series(functions,
+                    function(err,results){
+                    accountEmail.account = results[0]
+                    accountEmail.password = results[1]
+                     console.log('accountEmail',accountEmail)
+                    var receiver = body.receiver,mailOptions = {
+                                                                         from: accountEmail.account, // sender address
+                                                                         to: receiver, // list of receivers
+                                                                         subject: subject, // Subject line
+                                                                         //text: text //, // plaintext body
+                                                                          html: template // You can choose to send an HTML body instead
+                                                                     },
+                     transporter =  nodemailer.createTransport({
+                                                 service: 'Gmail',
+                                                 auth: {
+                                                     user: accountEmail.account, // Your email id
+                                                     pass: accountEmail.password // Your password
+                                                 }
+                                     })
+                     transporter.sendMail(mailOptions, function(error, info){
+                                                                                    if(error){
+                                                                                            console.log(error);
+                                                                                            console.log('problemi')
+                                                                                            res.status(404).json({yo: 'error',token:checkToken.token});
+                                                                                        }else{
+                                                                                            console.log('Message sent: ' + info.response);
+                                                                                            res.json({yo: info.response,token:checkToken.token});
+                                                                                        };
+                                                                                })
+                    })
+
+
+
                 }
 
     },
