@@ -62,5 +62,39 @@ update: function(req,res){
                         res.json(out)
                 }
             })}
-        }
+        },
+path:
+function(req,res){
+    var token = req.body.token,
+            email = req.body.email, Token = require('../utilities/tokenGenerator'),
+            path = req.body.path,
+            checked = Token.renewToken(token,email);
+            if(!checked.valido){
+                                            console.log('config.update sessione scaduta')
+                                            res.status(404).send('errore')
+                                        }
+                    else{
+                        var fs = require('fs'), path ='/', out = [], async = require('async')
+                        fs.readdir(path,(err,data)=>{
+                        	if(err) throw err;
+                        	//console.log(data)
+                        	async.each(data,(item,done)=>{
+                        		console.log('checking ', item)
+                        		fs.stat(path+item,(err,stats) =>{
+                        			if(err) {
+                        				res.status(404).send()
+                        				done(err)
+                        			}
+                        			out.push({file:item,isDirectory:stats.isDirectory()?[]:null})
+                        			console.log({file:item,isDirectory:stats.isDirectory()?[]:null})
+                        			done()
+                        		})
+                        	},
+                        		(err,results) =>{  // callback di async.each)
+                        			res.json({token:checked.token,data:out})
+                        		})
+
+                        })
+                    }
+}
 }

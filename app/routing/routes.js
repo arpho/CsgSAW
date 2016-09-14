@@ -30,4 +30,5 @@ var users_routing = require('./user_routing'),
     app.post('/api/config/retrieve/',configs_routing.retrieve)
     app.post('/api/config/list/',configs_routing.list)
     app.post('/api/config/update/',configs_routing.update)
+    app.post('/api/config/path/',configs_routing.path)
 };
