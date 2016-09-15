@@ -79,14 +79,12 @@ function(req,res){
                         	if(err) throw err;
                         	//console.log(data)
                         	async.each(data,(item,done)=>{
-                        		console.log('checking ', item)
                         		fs.stat(path+item,(err,stats) =>{
                         			if(err) {
                         				res.status(404).send()
                         				done(err)
                         			}
-                        			out.push({label:item,children:stats.isDirectory()?[]:null})
-                        			console.log({file:item,isDirectory:stats.isDirectory()?[]:null})
+                        			out.push({label:item,value:item,children:stats.isDirectory()?[]:null,selected:false})
                         			done()
                         		})
                         	},

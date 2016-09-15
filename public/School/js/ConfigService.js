@@ -28,6 +28,11 @@ angular.module('CsgSAW.services').factory('ConfigService', ['$http','UserService
                  list: function(body,cBack){
                     prepareBody(body)
                     $http.post('/api/config/list/',body).then(callBack(cBack))
+                 },
+                 readPath: function(body,cBack,onError){
+                       prepareBody(body)
+                       var callBack = prepareCallBack(cBack)
+                       $http.post('/api/config/path/', body).then(callBack).catch(onError)
                  }
      }
 }])

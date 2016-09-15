@@ -138,6 +138,11 @@ $scope.user = Users.getLoggedUser()
 
         $scope.pathSet = function(ev){
             console.log('vuoi settare il path')
+            var body = {config:'/'}
+            Configs.readPath(body,function(data){
+                console.log('path',data.data)
+                messages.putMessage('readPath',[{label:'/',value:'/',children:data.data.data}])
+            })
             var useFullScreen = ($mdMedia('sm') || $mdMedia('xs'))  && $scope.customFullscreen;
             messages.putMessage('titlePopUp','setta il path')
             messages.putMessage('path',$scope.path)
