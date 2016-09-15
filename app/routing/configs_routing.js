@@ -84,7 +84,7 @@ function(req,res){
                         				res.status(404).send()
                         				done(err)
                         			}
-                        			out.push({label:item,value:item,children:stats.isDirectory()?[]:null,selected:false})
+                        			out.push({label:item,value:item,children:stats.isDirectory()?[{label:'test'}]:null,selected:false})
                         			done()
                         		})
                         	},
