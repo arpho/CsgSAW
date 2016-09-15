@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{title}}</title>
+</head>
+<body>
+
+<md-dialog aria-label="address Popup"  ng-cloak>
+    <md-toolbar>
+        <div class="md-toolbar-tools">
+            <h2>{{title}}</h2>
+            <span flex></span>
+            <md-button class="md-icon-button" ng-click="ctrl.cancel()">
+                <md-icon class="ion-close-round" aria-label="Close dialog"></md-icon>
+            </md-button>
+        </div>
+    </md-toolbar>
+    <div ng-controller="MyCtrl as fancy">
+        <div ivh-treeview="fancy.bag"
+             ivh-treeview-use-checkboxes="true"
+             defaultSelectedState="false"
+             ivh-treeview-on-cb-change="fancy.otherAwesomeCallback(ivhNode, ivhIsSelected, ivhTree)">
+        </div>
+    </div>
+</md-dialog>
+
+
+</body>
+</html>

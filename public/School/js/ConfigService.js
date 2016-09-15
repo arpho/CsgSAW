@@ -7,7 +7,6 @@ angular.module('CsgSAW.services').factory('ConfigService', ['$http','UserService
     },
     prepareCallBack = function(cBack){
     return function(payload){
-        console.log('prepareCallback',payload)
         Users.setToken(payload.data.token)
         //continuo con il callback del controller
         cBack(payload)

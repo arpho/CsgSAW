@@ -15,6 +15,19 @@
            ng-change="passwordEdited($ev)"
     >
 </md-input-container>
+<md-input-container>
+    <label>path registrazioni</label>
+    <input type="text" ng-model="path.actualValue"
+           ng-click="pathSet($ev)"
+    >
+
+        <md-button class="md-fab md-primary ion-edit " ng-click="pathSet($event)" aria-label="cambia path registrazioni" position="tr">
+
+            <md-tooltip md-visible="demo.showTooltip">
+                Cambia path registrazion
+            </md-tooltip>
+        </md-button>
+</md-input-container>
 
 <md-content>
     <label>Scuole</label>

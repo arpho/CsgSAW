@@ -135,6 +135,22 @@ var initialize = function(){
 $scope.user = Users.getLoggedUser()
         $scope.user.dob = new Date($scope.user.dob);
         var data = Users.generateDataPayload();
+
+        $scope.pathSet = function(ev){
+            console.log('vuoi settare il path')
+            var useFullScreen = ($mdMedia('sm') || $mdMedia('xs'))  && $scope.customFullscreen;
+            messages.putMessage('titlePopUp','setta il path')
+            messages.putMessage('path',$scope.path)
+                                 $mdDialog.show({
+                                     controller: 'SetPathController',
+                                     controllerAs: 'ctrl',
+                                     templateUrl: 'School/views/setPath.html',
+                                     parent: angular.element(document.body),
+                                     targetEvent: ev,
+                                     clickOutsideToClose: false,
+                                        fullScreen: useFullScreen
+                                  })
+        }
          Schools.list(data).then(function(schools){
                 $scope.schools = schools.data.data
                 Users.setToken(schools.data.token)
@@ -145,11 +161,16 @@ $scope.user = Users.getLoggedUser()
                 $scope.accountEmail.label = body.config
                 body.config = 'passwordEmail'
                 Configs.retrieve(body,function(payload){
-                     console.log('ok passwordEmail',payload.data.data[0],'ricevuto')
                       // inizializzo la configurazione se non esiste
                      $scope.emailPassword = payload.data.data[0] ||{}
                      $scope.emailPassword.label = 'passwordEmail'
                      $scope.emailPassword.actualValue = $scope.emailPassword.actualValue ||""
+                     // recupero il setting per il path
+                     body.config = 'resourcePath'
+                     Configs.retrieve(body,function(payload){
+                        $scope.path = payload.data.data[0] || {}
+                        $scope.path.label = 'resourcePath'
+                     })
                 })
                 })
             })
@@ -157,7 +178,7 @@ $scope.user = Users.getLoggedUser()
 $scope.title = 'Gestione Sistema'
 
 $scope.addSchool = function(ev){
-    messages.putmessage('activeSchoolPopUpController','SchoolCreatePopUpController')
+    messages.putMessage('activeSchoolPopUpController','SchoolCreatePopUpController')
         $scope.school = messages.getMessage('addingSchool')||{}
          messages.putMessage('schoolPopUpAction','aggiungi scuola')
          var useFullScreen = ($mdMedia('sm') || $mdMedia('xs'))  && $scope.customFullscreen;

@@ -85,7 +85,7 @@ function(req,res){
                         				res.status(404).send()
                         				done(err)
                         			}
-                        			out.push({file:item,isDirectory:stats.isDirectory()?[]:null})
+                        			out.push({label:item,children:stats.isDirectory()?[]:null})
                         			console.log({file:item,isDirectory:stats.isDirectory()?[]:null})
                         			done()
                         		})
