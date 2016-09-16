@@ -67,32 +67,38 @@ path:
 function(req,res){
     var token = req.body.token,
             email = req.body.email, Token = require('../utilities/tokenGenerator'),
-            path = req.body.path,
+            Path = req.body.path||'/',
             checked = Token.renewToken(token,email);
+            console.log('richiesto path: ',Path)
             if(!checked.valido){
                                             console.log('config.update sessione scaduta')
                                             res.status(404).send('errore')
                                         }
                     else{
-                        var fs = require('fs'), path ='/', out = [], async = require('async')
-                        fs.readdir(path,(err,data)=>{
-                        	if(err) throw err;
-                        	//console.log(data)
-                        	async.each(data,(item,done)=>{
-                        		fs.stat(path+item,(err,stats) =>{
-                        			if(err) {
-                        				res.status(404).send()
-                        				done(err)
-                        			}
-                        			out.push({label:item,value:item,children:stats.isDirectory()?[{label:'test'}]:null,selected:false})
-                        			done()
-                        		})
-                        	},
-                        		(err,results) =>{  // callback di async.each)
-                        			res.json({token:checked.token,data:out})
-                        		})
+                        var fs = require('fs'),  out = [], async = require('async')
+                        fs.readdir(Path,(err,data)=>{
+                        	if(err){
+                        	 console.log(err)
+                        	  throw err;
+                        	}
 
-                        })
+                        	async.each(data,(item,done)=>{
+                                                    		fs.stat(Path+item,(err,stats) =>{
+                                                    			if(err) {
+                                                    				res.status(404).send()
+                                                    				done(err)
+                                                    			}
+                                                    			out.push({label:item,value:item,path:Path+item,children:stats.isDirectory()?[{label:''}]:null,selected:false})
+                                                    			done()
+                                                    		})
+                                                    	},
+                                                    		(err,results) =>{  // callback di async.each)
+                                                    			res.json({token:checked.token,data:out})
+                                                    		})
+                        	})
+
+
+                        }
                     }
 }
-}
+

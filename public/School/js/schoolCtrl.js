@@ -137,7 +137,6 @@ $scope.user = Users.getLoggedUser()
         var data = Users.generateDataPayload();
 
         $scope.pathSet = function(ev){
-            console.log('vuoi settare il path')
             var body = {config:'/'}
             Configs.readPath(body,function(data){
                 console.log('path',data.data)
