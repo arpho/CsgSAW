@@ -22,6 +22,22 @@ angular.module('csgSAW.controllers').controller('SchoolController',['$scope','Us
     //$scope.schools = $scope.schools || []
      initialize()
  })
+ $rootScope.$on('pathSelected',function(ev,args){
+ $scope.path.actualValue = args
+ $scope.path.label = 'path'
+ var body = {config:$scope.path}
+ Configs.upsert(body,function(){
+    $mdDialog.hide()
+    messages.putMessage('toastBody','path registrazioni aggiornato corrrettamente')
+                                $mdToast.show({
+                                              hideDelay   : 5000,
+                                              position    : 'top left',
+                                              controller  : 'ToastCtrl',
+                                              templateUrl : 'views/toast-template.html'
+                                            });
+
+ })
+ })
  $scope.edited = function(ev){
     console.log('edited fired',$scope.accountEmail.actualValue)
     var accountEmail = $scope.accountEmail
@@ -131,12 +147,7 @@ angular.module('csgSAW.controllers').controller('SchoolController',['$scope','Us
                                         fullScreen: useFullScreen
                                      })
      }
-var initialize = function(){
-$scope.user = Users.getLoggedUser()
-        $scope.user.dob = new Date($scope.user.dob);
-        var data = Users.generateDataPayload();
-
-        $scope.pathSet = function(ev){
+$scope.pathSet = function(ev){
             var body = {config:'/'}
             Configs.readPath(body,function(data){
                 console.log('path',data.data)
@@ -155,6 +166,11 @@ $scope.user = Users.getLoggedUser()
                                         fullScreen: useFullScreen
                                   })
         }
+var initialize = function(){
+        $scope.user = Users.getLoggedUser()
+        $scope.user.dob = new Date($scope.user.dob);
+        var data = Users.generateDataPayload();
+
          Schools.list(data).then(function(schools){
                 $scope.schools = schools.data.data
                 Users.setToken(schools.data.token)
@@ -170,10 +186,10 @@ $scope.user = Users.getLoggedUser()
                      $scope.emailPassword.label = 'passwordEmail'
                      $scope.emailPassword.actualValue = $scope.emailPassword.actualValue ||""
                      // recupero il setting per il path
-                     body.config = 'resourcePath'
+                     body.config = 'path'
                      Configs.retrieve(body,function(payload){
                         $scope.path = payload.data.data[0] || {}
-                        $scope.path.label = 'resourcePath'
+                        $scope.path.label = 'path'
                      })
                 })
                 })

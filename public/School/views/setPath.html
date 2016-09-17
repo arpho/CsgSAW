@@ -22,7 +22,16 @@
              defaultSelectedState="false"
              ivh-treeview-on-cb-change="fancy.otherAwesomeCallback(ivhNode, ivhIsSelected, ivhTree)"
              ivh-treeview-on-cb-expand="fancy.otherAwesomeCallback(ivhNode, ivhIsSelected, ivhTree)">
+
         </div>
+        <md-input-container>
+            <md-button class="md-fab md-primary ion-checkmark-round " ng-click="fancy.pathSet($event)" aria-label="cambia path registrazioni" position="br">
+
+                <md-tooltip md-visible="demo.showTooltip">
+                    seleziona
+                </md-tooltip>
+            </md-button>
+        </md-input-container>
     </div>
 </md-dialog>
 

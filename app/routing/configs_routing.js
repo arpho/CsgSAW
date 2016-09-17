@@ -75,6 +75,7 @@ function(req,res){
                                             res.status(404).send('errore')
                                         }
                     else{
+                        console.log('path token valido')
                         var fs = require('fs'),  out = [], async = require('async')
                         fs.readdir(Path,(err,data)=>{
                         	if(err){

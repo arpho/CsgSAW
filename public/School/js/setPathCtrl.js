@@ -7,29 +7,34 @@ $scope.path = messages.getMessage('path')
 self.cancel = function(){
                                       $mdDialog.hide()
                       }
-                     }]).controller('PathController',['app-messages','ConfigService', function(messages,Configs,ivhTreeviewMgr) {
+                     }]).controller('PathController',['$scope','$rootScope','app-messages','ConfigService','ivhTreeviewMgr', function($scope,$rootScope,messages,Configs,ivhTreeviewMgr) {
                           this.customOpts = {
                             useCheckboxes: true,
                             onToggle:  function(ev){
                              console.log('clicked item', ev)
                             }
                           };
-                          var generatePath = function(node, parent){
+                          var lastPath,generatePath = function(node, parent){
                               var path = parent[0].label + node.label + '/'
                               return path
                           }
                           this.otherAwesomeCallback = function(a,b, c){
                             console.log('clicked',a,b,c)
-                            console.log('chiederò contenuto di ',generatePath(a,c))
                             var path = a.path+'/'|| generatePath(a,c),
                               body = {path:path}
+                            console.log('chiederò contenuto di ',path)
+                              lastPath = path
                             Configs.readPath(body,function(data){
                             console.log('got path', data)
                             a.children = data.data.data
-                            ivhTreeviewMgr.deselectEach(c)
+                            ivhTreeviewMgr.deselectAll(c)
+                            a.selected = true;
                             })
 
-
+                          this.pathSet = function(ev){
+                          console.log('setted path:',lastPath)
+                          $rootScope.$emit('pathSelected',lastPath)
+                          }
 
                           }
 
