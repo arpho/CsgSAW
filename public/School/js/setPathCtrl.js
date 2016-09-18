@@ -18,6 +18,11 @@ self.cancel = function(){
                               var path = parent[0].label + node.label + '/'
                               return path
                           }
+                          this.toggleCallback = function(a,b,c){
+                            console.log('toggle',a,b,c)
+                            if(a.children&& a.children[0].label=='')
+                            this.otherAwesomeCallback(a,false,c)
+                          }
                           this.otherAwesomeCallback = function(a,b, c){
                             console.log('clicked',a,b,c)
                             var path = a.path+'/'|| generatePath(a,c),

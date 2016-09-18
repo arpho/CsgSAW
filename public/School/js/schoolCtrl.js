@@ -151,7 +151,7 @@ $scope.pathSet = function(ev){
             var body = {config:'/'}
             Configs.readPath(body,function(data){
                 console.log('path',data.data)
-                messages.putMessage('readPath',[{label:'/',value:'/',children:data.data.data}])
+                messages.putMessage('readPath',[{label:'/',value:'/',children:data.data.data,path:'/'}])
             })
             var useFullScreen = ($mdMedia('sm') || $mdMedia('xs'))  && $scope.customFullscreen;
             messages.putMessage('titlePopUp','setta il path')
