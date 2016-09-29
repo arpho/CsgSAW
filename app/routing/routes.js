@@ -3,6 +3,7 @@ module.exports = function(app) {
 var users_routing = require('./user_routing'),
  roles_routing = require('./roles_routing'),
  schools_routing = require('./schools_routing'),
+ upload_routing = require('./upload_routing'),
  configs_routing = require('./configs_routing');
      // server routes ===========================================================
     // handle things like api calls
@@ -31,4 +32,5 @@ var users_routing = require('./user_routing'),
     app.post('/api/config/list/',configs_routing.list)
     app.post('/api/config/update/',configs_routing.update)
     app.post('/api/config/path/',configs_routing.path)
+    app.post('/api/upload/',upload_routing.upload)
 };

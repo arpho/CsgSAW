@@ -1,0 +1,15 @@
+<div class="jumbotron text-center">
+    <h1>{{title}}</h1>
+</div>
+
+
+
+
+<md-content>
+<div ng-show="isLogged">
+    <form>
+        <input type="file" ng-file-select="fileSelected($files)" accept="'image/*'">
+        <input type="submit" ng-click="uploadFile()" >
+    </form>
+</div>
+</md-content>

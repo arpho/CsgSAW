@@ -40,6 +40,7 @@
     <script src="libs/angular-route/angular-route.js"></script>
 
     <!-- ANGULAR CUSTOM -->
+    <script src="libs/angular-file-upload/dist/angular-file-upload.js"></script>
     <script src="js/controllers/MainCtrl.js"></script>
     <script src="js/controllers/NerdCtrl.js"></script>
     <script src="js/services/NerdService.js"></script>
@@ -64,6 +65,7 @@
     <script src="School/js/ConfigService.js"></script>
     <script src="School/js/schoolPopUpCtrl.js"></script>
     <script src="User/js/userDetailCtrl.js"></script>
+    <script src="File/js/fileCtrl.js"></script>
     <script src="js/app.js"></script>
 </head>
 
@@ -89,6 +91,7 @@
         </ul>
         <ul class="nav navbar-nav"  style = "float:right">
             <li><a href="/schoolsList" class='ion-gear-b' ng-show="gotPower(user,'superadmin')"></a></li>
+            <li><a href="/files" class='ion-headphone' ng-show="gotPower(user,'responsabile audio')"></a></li>
             <li><a href="/profile" class="ion-person" ng-show="isLogged()"></a></li>
             <li> <a href ng-click="register($event)">Registra un account</a></li>
             <li> <a href="/listUsers" ng-show="gotPower(user,'admin')">elenco utenti</a></li>

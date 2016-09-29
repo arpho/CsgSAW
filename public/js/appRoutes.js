@@ -29,6 +29,10 @@ angular.module('appRoutes', []).config(['$routeProvider', '$locationProvider', f
             templateUrl:'School/views/schools.html',
             controller:'SchoolController'
         })
+        .when('/files',{
+            templateUrl:'File/views/files.html',
+            controller:'FilesController'
+        })
 
     $locationProvider.html5Mode(true);
 

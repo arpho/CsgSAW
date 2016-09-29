@@ -6,7 +6,8 @@ generateToken = function(){
 renewToken = function(oldToken,email){
     var  Cache = require('./wrapperCache');
      //Token = require('../../utilities/tokenGenerator');
-     if(email!= Cache.retrieve(oldToken)) return {valido:false};
+     console.log('oldtoken',oldToken,Cache.retrieve(oldToken))
+     if(email!= Cache.retrieve(oldToken)||!oldToken) return {valido:false};
      else{
         //token valido lo rinnovo
          Cache.removeToken(oldToken)
