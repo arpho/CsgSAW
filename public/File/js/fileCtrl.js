@@ -1,22 +1,22 @@
 'use strict';
 angular.module('csgSAW.controllers').controller('FilesController',['$scope','UserService','$mdMedia','$mdDialog',
-'app-messages',   '$window','$rootScope','SchoolService','$mdToast','ConfigService','$upload',
+'app-messages',   '$window','$rootScope','SchoolService','$mdToast','ConfigService',
 function($scope,Users,$mdMedia,$mdDialog,messages,
- $window,$rootScope,Schools,$mdToast,Configs,$upload){
- $scope.uploadFile = function(){
+ $window,$rootScope,Schools,$mdToast,Configs){
+ $scope.uploadFile = function(files){
 
   $scope.fileSelected = function(files) {
       if (files && files.length) {
          $scope.file = files[0];
       }
 
-      $upload.upload({
+      /*$upload.upload({
         url: '/api/upload', //node.js route
         file: $scope.file
       })
       .success(function(data) {
         console.log(data, 'uploaded');
-       });
+       });*/
 
      };
  };

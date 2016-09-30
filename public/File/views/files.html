@@ -7,9 +7,19 @@
 
 <md-content>
 <div ng-show="isLogged">
-    <form>
-        <input type="file" ng-file-select="fileSelected($files)" accept="'image/*'">
-        <input type="submit" ng-click="uploadFile()" >
-    </form>
+    <md-input-container>
+
+         <input type="file" flow-btn />
+            <!--table>
+                <tr ng-repeat="file in $flow.files">
+                    <td>{{$index+1}}</td>
+                    <td>{{file.name}}</td>
+                    <td>{{file.msg}}</td>
+                </tr>
+            </table-->
+
+    </md-input-container>
+
+    <span flow-btn class="ion-ios-upload"> Upload    </span>
 </div>
 </md-content>
