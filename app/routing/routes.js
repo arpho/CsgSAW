@@ -15,7 +15,7 @@ var users_routing = require('./user_routing'),
     app.post('/api/user/list/',users_routing.list)
     // route to handle all angular requests
     app.get('*', function(req, res) {
-        res.sendfile('./public/index.html');
+        res.sendFile('/home/giuseppe/projects/csgSAW/public/index.html');
     });
     app.post('/api/user/create/',users_routing.crea)
     app.post('/api/user/mail/',users_routing.checkMail)
