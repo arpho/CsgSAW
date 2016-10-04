@@ -9,7 +9,7 @@
 <div ng-show="isLogged">
     <md-input-container>
 
-         <input type="file" flow-btn />
+         <input type="file" nv-file-select="" uploader="uploader"  />
             <!--table>
                 <tr ng-repeat="file in $flow.files">
                     <td>{{$index+1}}</td>
@@ -19,7 +19,14 @@
             </table-->
 
     </md-input-container>
-
-    <span flow-btn class="ion-ios-upload"> Upload    </span>
+    <button type="button" class="btn btn-success btn-xs" ng-click="item.upload()" ng-disabled="item.isReady || item.isUploading || item.isSuccess">
+        <span class="glyphicon glyphicon-upload"></span> Upload
+    </button>
+    <ul>
+        <li ng-repeat="item in uploader.queue">
+            Name: <span ng-bind="item.file.name"></span><br/>
+            <button ng-click="item.upload()">upload</button>
+        </li>
+    </ul>
 </div>
 </md-content>

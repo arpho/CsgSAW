@@ -1,8 +1,8 @@
 'use strict';
 angular.module('csgSAW.controllers').controller('FilesController',['$scope','UserService','$mdMedia','$mdDialog',
-'app-messages',   '$window','$rootScope','SchoolService','$mdToast','ConfigService',
+'app-messages',   '$window','$rootScope','SchoolService','$mdToast','ConfigService','FileUploader',
 function($scope,Users,$mdMedia,$mdDialog,messages,
- $window,$rootScope,Schools,$mdToast,Configs){
+ $window,$rootScope,Schools,$mdToast,Configs,FileUploader){
  $scope.uploadFile = function(files){
 
   $scope.fileSelected = function(files) {
@@ -21,6 +21,9 @@ function($scope,Users,$mdMedia,$mdDialog,messages,
      };
  };
  var initialize = function(){
+    var uploader = $scope.uploader = new FileUploader({
+                url: '/api/upload/'
+            });
     $scope.title = "Elenco registrazioni"
     $scope.user = Users.getLoggedUser()
     console.log('uploader',$scope.uploader)
