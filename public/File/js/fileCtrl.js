@@ -21,12 +21,12 @@ function($scope,Users,$mdMedia,$mdDialog,messages,
      };
  };
  var initialize = function(){
-    var uploader = $scope.uploader = new FileUploader({
+    var uploader = $scope.Uploader = new FileUploader({
                 url: '/api/upload/'
             });
     $scope.title = "Elenco registrazioni"
     $scope.user = Users.getLoggedUser()
-    console.log('uploader',$scope.uploader)
+    console.log('uploader',$scope.Uploader)
  }
   $scope.isLogged = Users.isLogged
   $scope.login = function(ev){
@@ -51,7 +51,6 @@ function($scope,Users,$mdMedia,$mdDialog,messages,
  }
 
     $rootScope.$on('loggedUser', function(){
-    console.log('utente appena  loggato')
      initialize()
     })
  }])

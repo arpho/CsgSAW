@@ -5,11 +5,13 @@
 
 
 
-<md-content flow-init>
+<md-content >
+    <body nv-file-drop="" Uploader="Uploader">
 <div ng-show="isLogged">
     <md-input-container>
-
-         <input type="file" nv-file-select="" uploader="uploader"  />
+        <h3>Upload queue</h3>
+        <p>Queue length: {{ Uploader.queue.length }}</p>
+         <input type="file" nv-file-select="" Uploader="Uploader"  />
             <!--table>
                 <tr ng-repeat="file in $flow.files">
                     <td>{{$index+1}}</td>
@@ -23,10 +25,12 @@
         <span class="glyphicon glyphicon-upload"></span> Upload
     </button>
     <ul>
-        <li ng-repeat="item in uploader.queue">
+        <li ng-repeat="item in Uploader.queue">
             Name: <span ng-bind="item.file.name"></span><br/>
-            <button ng-click="item.upload()">upload</button>
+            Name: <span ng-bind="item.file.name"></span><br/>
+
         </li>
     </ul>
 </div>
+</body>
 </md-content>
