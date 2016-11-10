@@ -1,0 +1,40 @@
+<div class="jumbotron text-center">
+    <h1>{{title}}</h1>
+</div>
+
+
+
+
+<md-content >
+    <body nv-file-drop="" Uploader="Uploader">
+    <div ng-show="isLogged">
+        <md-input-container>
+            <h3>Upload queue</h3>
+            <p>Queue length: {{ files.length }}</p>
+            <input type="file" file-upload multiple/>
+            <ul>
+                <li ng-repeat="file in files">{{file.name}}</li>
+            </ul>
+
+            <!--table>
+                <tr ng-repeat="file in $flow.files">
+                    <td>{{$index+1}}</td>
+                    <td>{{file.name}}</td>
+                    <td>{{file.msg}}</td>
+                </tr>
+            </table-->
+
+        </md-input-container>
+        <button type="button" class="btn btn-success btn-xs" ng-click="uploadFiles()" ng-disabled="item.isReady || item.isUploading || item.isSuccess">
+            <span class="glyphicon glyphicon-upload"></span> Upload
+        </button>
+        <ul>
+            <li ng-repeat="item in Uploader.queue">
+                Name: <span ng-bind="item.file.name"></span><br/>
+                Name: <span ng-bind="item.file.size"></span><br/>
+
+            </li>
+        </ul>
+    </div>
+    </body>
+</md-content>

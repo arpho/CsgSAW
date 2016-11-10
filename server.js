@@ -10,6 +10,7 @@ var methodOverride = require('method-override');
 var db = require('./config/db');
 var https = require('https');
 var fs = require('fs');
+const formidable = require('formidable');
 // configuration ===========================================
 	var hskey = fs.readFileSync('./config/arpho-key.pem');
     var hscert = fs.readFileSync('./config/arpho-cert.pem'),
@@ -22,7 +23,7 @@ var HOST = 'localhost';
 
 //server = https.createServer(options, app).listen(port, HOST);
  mongoose.connect(db.url); // connect to our mongoDB database (commented out after you enter in your own credentials)
-
+ //app.use(formidable());
 // get all data/stuff of the body (POST) parameters
 app.use(bodyParser.json()); // parse application/json 
 app.use(bodyParser.json({ type: 'application/vnd.api+json' })); // parse application/vnd.api+json as json
