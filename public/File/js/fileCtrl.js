@@ -3,6 +3,7 @@ angular.module('csgSAW.controllers').controller('FilesController',['$scope','Use
 'app-messages',   '$window','$rootScope','SchoolService','$mdToast','ConfigService','FileUploader','FileService',
 function($scope,Users,$mdMedia,$mdDialog,messages,
  $window,$rootScope,Schools,$mdToast,Configs,FileUploader,FileService){
+
  $scope.uploadFile = function(files){
 
   $scope.fileSelected = function(files) {
@@ -37,11 +38,11 @@ function($scope,Users,$mdMedia,$mdDialog,messages,
                 });
             });
 
-            $scope.uploadFiles = function(){
+            $scope.uploadFile = function(registrazione){
             console.log('uploading');
             var formData = new FormData();
             formData.append('file',$scope.files[0])
-            console.log('invoco il servizio')
+            console.log('invoco il servizio',$scope.files)
             FileService.upload(formData,function(a){
                 console.log('callback upload',a)
             })

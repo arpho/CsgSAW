@@ -1,10 +1,20 @@
 'use strict';
 module.exports = function(app) {
+var express = require('express')
+      , router = express.Router()
+      ,path = require('path');
 var users_routing = require('./user_routing'),
+ //fileUpload = require('express-fileupload'),
+ busboy = require('connect-busboy'),
+ multer = require('multer'),
+ upload_destination = path.join(__dirname, '/uploads'),
+ uploading = multer({dest:upload_destination}),
  roles_routing = require('./roles_routing'),
  schools_routing = require('./schools_routing'),
  upload_routing = require('./upload_routing'),
  configs_routing = require('./configs_routing');
+ app.use(busboy())
+ //app.use(fileUpload())
      // server routes ===========================================================
     // handle things like api calls
     // authentication routes
@@ -32,5 +42,6 @@ var users_routing = require('./user_routing'),
     app.post('/api/config/list/',configs_routing.list)
     app.post('/api/config/update/',configs_routing.update)
     app.post('/api/config/path/',configs_routing.path)
+    //router.post('/api/upload/',uploading.single('registrazione'),upload_routing.upload)
     app.post('/api/upload/',upload_routing.upload)
 };
