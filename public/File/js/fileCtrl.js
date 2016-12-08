@@ -1,9 +1,9 @@
 'use strict';
 angular.module('csgSAW.controllers').controller('FilesController',['$scope','UserService','$mdMedia','$mdDialog',
-'app-messages',   '$window','$rootScope','SchoolService','$mdToast','ConfigService','FileUploader','FileService',
+'app-messages',   '$window','$rootScope','SchoolService','$mdToast','ConfigService','FileService','Upload',
 function($scope,Users,$mdMedia,$mdDialog,messages,
- $window,$rootScope,Schools,$mdToast,Configs,FileUploader,FileService){
-
+ $window,$rootScope,Schools,$mdToast,Configs,FileService,Upload){
+console.log('uploaDER',Upload)
  $scope.uploadFile = function(files){
 
   $scope.fileSelected = function(files) {
@@ -41,7 +41,7 @@ function($scope,Users,$mdMedia,$mdDialog,messages,
             $scope.uploadFile = function(registrazione){
             console.log('uploading');
             var formData = new FormData();
-            formData.append('file',$scope.files[0])
+            formData.append('files',$scope.files[0])
             console.log('invoco il servizio',$scope.files)
             FileService.upload(formData,function(a){
                 console.log('callback upload',a)

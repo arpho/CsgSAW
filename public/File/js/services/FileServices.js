@@ -17,6 +17,7 @@ angular.module('CsgSAW.services').factory('FileService', ['$http','UserService',
                }
             }).then(function(data){
             console.log('uploaded',data)
+            callback(data)
             }).catch(function(a){
                 console.log('problemi uploading',a)
             })

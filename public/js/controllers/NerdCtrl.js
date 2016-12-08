@@ -5,7 +5,21 @@ angular.module('csgSAW.controllers').controller('NerdController',['$scope','$mdD
     $scope.tagline = 'Nothing beats a pocket protector!';
     messages.putMessage('toastTitle','Test');
     messages.putMessage('toastBody','questo è un toast test')
-
+    $scope.login = function(ev){
+                               var useFullScreen = ($mdMedia('sm') || $mdMedia('xs'))  && $scope.customFullscreen;
+                               $mdDialog.show({
+                                   controller: 'LoginController',
+                                   controllerAs: 'ctrl',
+                                   templateUrl: 'User/loginPopup.html',
+                                   parent: angular.element(document.body),
+                                   targetEvent: ev,
+                                   clickOutsideToClose: true,
+                                   fullScreen: useFullScreen
+                                })
+                       }
+    if (!User.isLogged()){
+         $scope.login()
+    }
     $rootScope.$on('loggedUser',function(ev,args){
         $scope.user = User.getLoggedUser();
         $scope.title ="Ciao " + User.getNome()
@@ -69,18 +83,6 @@ angular.module('csgSAW.controllers').controller('NerdController',['$scope','$mdD
                 fullScreen: useFullScreen
              })
     }
-    $scope.login = function(ev){
-                               var useFullScreen = ($mdMedia('sm') || $mdMedia('xs'))  && $scope.customFullscreen;
-                               $mdDialog.show({
-                                   controller: 'LoginController',
-                                   controllerAs: 'ctrl',
-                                   templateUrl: 'User/loginPopup.html',
-                                   parent: angular.element(document.body),
-                                   targetEvent: ev,
-                                   clickOutsideToClose: true,
-                                   fullScreen: useFullScreen
-                                })
-                       }
 }]).controller('ToastCtrl',['$scope','$mdToast','$mdDialog','app-messages', function($scope, $mdToast, $mdDialog,messages) {
         console.log(messages)
         $scope.title = messages.getMessage('titleToast')

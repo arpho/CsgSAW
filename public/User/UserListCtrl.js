@@ -7,7 +7,7 @@ angular.module('csgSAW.controllers').controller('UserListController',['$scope','
         messages.putMessage('userDetail',user) // passo l'utente al controller del popup di dettaglio
         var useFullScreen = ($mdMedia('sm') || $mdMedia('xs'))  && $scope.customFullscreen;
          $mdDialog.show({
-                                                    controller: 'userDetailController',
+                                                    controller: 'UserDetailController',
                                                     controllerAs: 'ctrl',
                                                     templateUrl: 'User/views/userDetail.html',
                                                     parent: angular.element(document.body),

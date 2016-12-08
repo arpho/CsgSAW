@@ -9,6 +9,7 @@
     "crypto-js": "^3.1.6",
     "express": "^4.14.0",
     "express-formidable": "^1.0.0",
+    "fileupload": "^1.0.0",
     "formidable": "^1.0.17",
     "fs": "0.0.1-security",
     "google-fonts": "^1.0.0",

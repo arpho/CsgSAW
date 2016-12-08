@@ -1,6 +1,6 @@
 'use strict';
 var contactTypes = ['email','cellulare','fisso','fax','skype']
-angular.module('csgSAW.controllers').controller('userDetailController',['$scope','UserService',
+angular.module('csgSAW.controllers').controller('UserDetailController',['$scope','UserService',
 '$mdDialog','app-messages','$mdMedia','$rootScope','RoleService','SchoolService',
 function($scope,Users,$mdDialog,messages,$mdMedia,$rootScope,Roles,Schools){
     $scope.user = messages.getMessage('userDetail');
