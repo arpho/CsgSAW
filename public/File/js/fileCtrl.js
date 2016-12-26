@@ -3,13 +3,42 @@ angular.module('csgSAW.controllers').controller('FilesController',['$scope','Use
 'app-messages',   '$window','$rootScope','SchoolService','$mdToast','ConfigService','FileService','Upload',
 function($scope,Users,$mdMedia,$mdDialog,messages,
  $window,$rootScope,Schools,$mdToast,Configs,FileService,Upload){
+
+
+
+ var vm = this;
+     vm.submit = function(){ //function to call on form submit
+         if (vm.upload_form.file.$valid && vm.file) { //check if from is valid
+             vm.upload(vm.file); //call upload function
+         }
+     }
+
+
 console.log('uploaDER',Upload)
+ vm.upload = function(file){
+    console.log('upload')
+    var data = new FormData()
+    data.append('registrazione',file)
+
+    FileService.upload(data,
+    function(data){
+        console.log('callback success',data)
+    },
+    function(data){
+        console.log('callback failure',data)
+    }
+    )
+  }
  $scope.uploadFile = function(files){
+     if (vm.file){
+        vm.upload(vm.file)
+     }
 
   $scope.fileSelected = function(files) {
       if (files && files.length) {
          $scope.file = files[0];
       }
+
 
       /*$upload.upload({
         url: '/api/upload', //node.js route
@@ -38,10 +67,10 @@ console.log('uploaDER',Upload)
                 });
             });
 
-            $scope.uploadFile = function(registrazione){
+            $scope.uploadFileOld = function(registrazione){
             console.log('uploading');
             var formData = new FormData();
-            formData.append('files',$scope.files[0])
+            formData.append('regitrazione',$scope.files[0])
             console.log('invoco il servizio',$scope.files)
             FileService.upload(formData,function(a){
                 console.log('callback upload',a)

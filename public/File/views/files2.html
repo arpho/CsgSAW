@@ -9,18 +9,23 @@
     <body nv-file-drop="" Uploader="Uploader">
     <div ng-show="isLogged">
         <md-input-container>
-            <form name="myForm" id ="myForm" enctype="multipart/form-data" ng-submit ="uploadFile(file-registrazione)">
+            <form name="up.upload_form" id ="myForm" enctype="multipart/form-data" ng-submit ="uploadFile(file-registrazione)">
 
             <h3>Upload queue</h3>
             <p>Queue length: {{ files.length }}</p>
-            <input type="file" file-upload name="registrazione" id="registrazione" file-model="file-registrazione" />
+            <input type="file"
+                   ngf-select
+                   ng-model="up.file"
+                   name="registrazione"  aria-label="seleziona un file da caricare" id="registrazione" file-model="registrazione" />
             <ul>
                 <li ng-repeat="file in files">{{file.name}}</li>
             </ul>
                 <button type="submit" class="btn btn-success btn-xs"  ng-disabled="item.isReady || item.isUploading || item.isSuccess">
-                    <span class="glyphicon glyphicon-upload"></span> Upload
+                    <span class="glyphicon glyphicon-cloud-upload"></span> Upload
                 </button>
-
+                <div class="progress">
+                    <div class="progress-bar" role="progressbar"></div>
+                </div>
             <!--table>
                 <tr ng-repeat="file in $flow.files">
                     <td>{{$index+1}}</td>

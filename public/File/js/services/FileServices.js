@@ -1,15 +1,17 @@
 'use strict';
 angular.module('CsgSAW.services').factory('FileService', ['$http','UserService', function($http,UserService) {
         return {
-        upload : function(formData,callback){
+        upload : function(data,callbackSuccess, callbackFailure){
             var payload = UserService.generateDataPayload()
-            formData.append('token',payload.token)
-            formData.append('email',payload.email)
-            $http.post('/api/upload/', formData, {
+            /*data.token = payload.token
+            data.email = payload.email*/
+            data.append('token',payload.token)
+            data.append('email',payload.email)
+            $http.post('/api/upload/', data, {
                transformRequest: angular.identity,
                headers: {'Content-Type': undefined,
                params: {
-                             formData
+                             data
                            },
                            responseType: "arraybuffer"
 
@@ -17,9 +19,10 @@ angular.module('CsgSAW.services').factory('FileService', ['$http','UserService',
                }
             }).then(function(data){
             console.log('uploaded',data)
-            callback(data)
+            callbackSuccess(data)
             }).catch(function(a){
                 console.log('problemi uploading',a)
+                callbackFailure(a)
             })
         }
         }

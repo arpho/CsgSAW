@@ -31,7 +31,8 @@ angular.module('appRoutes', []).config(['$routeProvider', '$locationProvider', f
         })
         .when('/files',{
             templateUrl:'File/views/files2.html',
-            controller:'FilesController'
+            controller:'FilesController',
+            controllerAs: 'up'
         })
 
     $locationProvider.html5Mode(true);
