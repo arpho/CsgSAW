@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{title}}</title>
+</head>
+<body>
+
+<md-dialog aria-label="uploadFile Popup"  ng-cloak>
+    <md-toolbar>
+        <div class="md-toolbar-tools">
+            <h2>{{title}}</h2>
+            <span flex></span>
+            <md-button class="md-icon-button" ng-click="ctrl.cancel()">
+                <md-icon class="ion-close-round" aria-label="Close dialog"></md-icon>
+            </md-button>
+        </div>
+    </md-toolbar>
+    <form name="uploadForm"   class="css-form" style ="background: url(src/background-6.jpg) no-repeat center center fixed"
+          ng-submit="submit(address)">
+        <md-dialog-content style = "float:left" >
+            <md-input-container flex style="float:top">
+                <label>data di registrazione</label>
+                <md-datepicker type="data" name="data" ng-model="registrazione.data" />
+            </md-input-container>
+            <md-input-container flex style="float:top">
+                <label>Scuola</label>
+                <input type="text" name="scuola" ng-model="registrazione.scuola" />
+            </md-input-container>
+            <md-input-container flex style="float:top">
+                <label>Fase</label>
+                <input type="text" name="fase" ng-model="registrazione.fase" />
+            </md-input-container>
+            <md-input-container flex style="float:top">
+                <label>Relatore</label>
+                <input type="text" name="relatore" ng-model="registrazione.relatore" />
+            </md-input-container>
+            <md-input-container flex style="float:top">
+                <label>Titolo</label>
+                <input type="text" name="titolo" ng-model="registrazione.titolo" />
+            </md-input-container>
+            <div>
+                <input type="submit" id="submit" value="{{azione}}"/>
+            </div>
+        </md-dialog-content>
+    </form>
+</md-dialog>
+</body>
+</html>

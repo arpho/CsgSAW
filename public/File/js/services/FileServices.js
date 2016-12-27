@@ -1,6 +1,19 @@
 'use strict';
 angular.module('CsgSAW.services').factory('FileService', ['$http','UserService', function($http,UserService) {
-        return {
+        return {splitName: function(name){
+                var tags = name.split(' - ')
+            /*var file = {}
+            file.data = tags[0]
+            file.scuola = tags[1]
+            file.fase = tags[2]
+            file.titolo = tags[3]
+            file.relatore = tags[4]*/
+            return tags
+        },
+        setTagFile(tags){
+        var registrazione = {data:new Date(tags[0]),scuola:tags[1],fase:tags[2],titolo:tags[3],relatore:tags[4]}
+        return registrazione
+        },
         upload : function(data,callbackSuccess, callbackFailure){
             var payload = UserService.generateDataPayload()
             /*data.token = payload.token

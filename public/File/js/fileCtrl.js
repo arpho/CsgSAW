@@ -1,33 +1,48 @@
 'use strict';
 angular.module('csgSAW.controllers').controller('FilesController',['$scope','UserService','$mdMedia','$mdDialog',
-'app-messages',   '$window','$rootScope','SchoolService','$mdToast','ConfigService','FileService','Upload',
+'app-messages',   '$window','$rootScope','$mdToast','ConfigService','FileService','Upload',
 function($scope,Users,$mdMedia,$mdDialog,messages,
- $window,$rootScope,Schools,$mdToast,Configs,FileService,Upload){
+ $window,$rootScope,$mdToast,Configs,FileService,Upload){
 
 
 
- var vm = this;
+ var vm = this,
+ checkFile = function(data,callback){
+    var useFullScreen = ($mdMedia('sm') || $mdMedia('xs'))  && $scope.customFullscreen;
+    // ilcontrollo passerà ad UploadController quindi passo data all'altro controller
+    messages.putMessage('uploadingFile',data)
+                         $mdDialog.show({
+                             controller: 'UploadController',
+                             controllerAs: 'ctrl',
+                             templateUrl: 'File/views/FileUploadPopup.html',
+                             parent: angular.element(document.body),
+                             targetEvent: null,
+                             clickOutsideToClose: false,
+                             fullScreen: useFullScreen
+                          })
+ }
      vm.submit = function(){ //function to call on form submit
          if (vm.upload_form.file.$valid && vm.file) { //check if from is valid
              vm.upload(vm.file); //call upload function
          }
      }
 
-
-console.log('uploaDER',Upload)
  vm.upload = function(file){
     console.log('upload')
     var data = new FormData()
     data.append('registrazione',file)
+    checkFile(data,function(data){
+        FileService.upload(data,
+            function(data){
+                console.log('callback success',data)
+            },
+            function(data){
+                console.log('callback failure',data)
+            }
+            )
 
-    FileService.upload(data,
-    function(data){
-        console.log('callback success',data)
-    },
-    function(data){
-        console.log('callback failure',data)
-    }
-    )
+    })
+
   }
  $scope.uploadFile = function(files){
      if (vm.file){
@@ -148,4 +163,21 @@ console.log('uploaDER',Upload)
     $rootScope.$on('loggedUser', function(){
      initialize()
     })
+ }]).controller('UploadController',['$scope','$rootScope','$mdDialog','app-messages','FileService','SchoolService','UserService',function($scope,$rootScope,$mdDialog,Messages,FileService,Schools,User){
+    $scope.title = 'Verifica dati  registrazione'
+    var self = this, data = User.generateDataPayload() // preparo la richiesta al server per la lista delle scuole
+    Schools.list(data).then(function(data){
+    //console.log('callback lista scuole',data)
+    $scope.schoolsList = data.data
+    User.setToken(data.token)
+    })
+    self.azione = "carica registrazione"
+    var data = Messages.getMessage('uploadingFile'),
+    tags = FileService.splitName(data.get('registrazione').name)
+    if (tags.length==5){
+    $scope.registrazione = FileService.setTagFile(tags)
+    }
+    self.cancel = function(){
+                                          $mdDialog.hide()
+                          }
  }])

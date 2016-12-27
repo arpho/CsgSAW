@@ -7,6 +7,9 @@ var storage = multer.diskStorage({ //multers disk storage settings
         },
         filename: function (req, file, cb) {
             var datetimestamp = Date.now();
+            console.log('filename', file)
+            console.log('nome upload: ',file.fieldname + '-' + datetimestamp + '.' + file.originalname.split('.')[file.originalname.split('.').length -1])
+            console.log('fields',req.fields)
             cb(null, file.fieldname + '-' + datetimestamp + '.' + file.originalname.split('.')[file.originalname.split('.').length -1]);
         }
     });
@@ -25,14 +28,26 @@ upload_destination = path.join(__dirname, '/uploads')
                                    res.json({error_code:1,err_desc:err});
                                    return;
                               }
-                               res.json({error_code:0,err_desc:null});
+                               //res.json({error_code:0,err_desc:null});
                                console.log('upload ok')
+                               console.log('uploading files1')
+                               var fs = require('fs'),formidable = require('formidable'),
+                               form = new formidable.IncomingForm();
+                               console.log('parsing form')
+                               form.parse(req,function(err, fields, files){
+                                   console.log('err:',err)
+                                   console.log('fields:',fields)
+                                   console.log('files:',files)
+                                   var checked = Token.renewToken(fields.token,fields.email)
+                                   console.log('token ok',checked.valido)
+                               });
+
                           })
     console.log('uploading files')
     var fs = require('fs'),formidable = require('formidable'),
     form = new formidable.IncomingForm();
 
-    console.log(req.files,'file2upload','.')
+    //console.log(req.files,'file2upload','.')
      var token,
             email, Token = require('../utilities/tokenGenerator'), fs = require("fs");
 
@@ -49,7 +64,7 @@ upload_destination = path.join(__dirname, '/uploads')
           }
         });
         console.log('config.find',storage)
-    form.on('file', function(field, file) {
+    form.on('registrazione', function(field, file) {
         console.log("file uploaded")
         fs.rename(file.path, path.join(form.uploadDir, file.name));
       });
@@ -57,7 +72,7 @@ upload_destination = path.join(__dirname, '/uploads')
         console.log('An error has occured: \n' + err);
       });
        // var upload = multer({storage: storage}).single('photo');
-        console.log('parsing req')
+        console.log('parsing req',err)
          form.parse(req,function(err, fields, files){
          console.log('err:',err)
          console.log('fields:',fields)
