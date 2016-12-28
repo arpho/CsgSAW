@@ -17,7 +17,7 @@
         </div>
     </md-toolbar>
     <form name="uploadForm"   class="css-form" style ="background: url(src/background-6.jpg) no-repeat center center fixed"
-          ng-submit="submit(address)">
+          ng-submit="submit(registrazione)">
         <md-dialog-content style = "float:left" >
             <md-input-container flex style="float:top">
                 <label>data di registrazione</label>
@@ -40,7 +40,7 @@
                 <input type="text" name="titolo" ng-model="registrazione.titolo" />
             </md-input-container>
             <div>
-                <input type="submit" id="submit" value="{{azione}}"/>
+                <input type="submit" id="submit" value="{{ctrl.azione}}" style="position:relative;left:853px;"/>
             </div>
         </md-dialog-content>
     </form>

@@ -1,5 +1,5 @@
 'use strict';
-var  multer = require('multer'), path = require('path');
+var  multer = require('multer'), path = require('path'),nome_upload;
 
 var storage = multer.diskStorage({ //multers disk storage settings
         destination: function (req, file, cb) {
@@ -7,6 +7,7 @@ var storage = multer.diskStorage({ //multers disk storage settings
         },
         filename: function (req, file, cb) {
             var datetimestamp = Date.now();
+            nome_upload = file.fieldname + '-' + datetimestamp + '.' + file.originalname.split('.')[file.originalname.split('.').length -1];
             console.log('filename', file)
             console.log('nome upload: ',file.fieldname + '-' + datetimestamp + '.' + file.originalname.split('.')[file.originalname.split('.').length -1])
             console.log('fields',req.fields)
@@ -35,11 +36,13 @@ upload_destination = path.join(__dirname, '/uploads')
                                form = new formidable.IncomingForm();
                                console.log('parsing form')
                                form.parse(req,function(err, fields, files){
+                                console.log('form parsed 38')
                                    console.log('err:',err)
-                                   console.log('fields:',fields)
+                                   console.log('fields39: ',fields)
+                                   console.log('tags 40: ',fields.tags)
                                    console.log('files:',files)
-                                   var checked = Token.renewToken(fields.token,fields.email)
-                                   console.log('token ok',checked.valido)
+
+                                   //console.log('token ok',checked.valido)
                                });
 
                           })
@@ -75,10 +78,11 @@ upload_destination = path.join(__dirname, '/uploads')
         console.log('parsing req',err)
          form.parse(req,function(err, fields, files){
          console.log('err:',err)
-         console.log('fields:',fields)
-         console.log('files:',files)
+         console.log('fields79: ',fields)
          var checked = Token.renewToken(fields.token,fields.email)
-                     console.log('token ok',checked.valido)
+         console.log('token valido:',checked.valido)
+         console.log(nome_upload,'esiste: ',fs.existsSync('./uploads/'+nome_upload))
+
          });
         //res.send(config)
 

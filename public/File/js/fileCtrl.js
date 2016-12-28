@@ -9,7 +9,7 @@ function($scope,Users,$mdMedia,$mdDialog,messages,
  var vm = this,
  checkFile = function(data,callback){
     var useFullScreen = ($mdMedia('sm') || $mdMedia('xs'))  && $scope.customFullscreen;
-    // ilcontrollo passerà ad UploadController quindi passo data all'altro controller
+    // il controllo passerà ad UploadController quindi passo data all'altro controller
     messages.putMessage('uploadingFile',data)
                          $mdDialog.show({
                              controller: 'UploadController',
@@ -32,14 +32,7 @@ function($scope,Users,$mdMedia,$mdDialog,messages,
     var data = new FormData()
     data.append('registrazione',file)
     checkFile(data,function(data){
-        FileService.upload(data,
-            function(data){
-                console.log('callback success',data)
-            },
-            function(data){
-                console.log('callback failure',data)
-            }
-            )
+
 
     })
 
@@ -163,21 +156,49 @@ function($scope,Users,$mdMedia,$mdDialog,messages,
     $rootScope.$on('loggedUser', function(){
      initialize()
     })
- }]).controller('UploadController',['$scope','$rootScope','$mdDialog','app-messages','FileService','SchoolService','UserService',function($scope,$rootScope,$mdDialog,Messages,FileService,Schools,User){
+ }]).controller('UploadController',['$scope','$rootScope','$mdDialog','app-messages','FileService','SchoolService','UserService',function($scope,$rootScope,$mdDialog,Messages,FileService,Schools,User)
+ {
     $scope.title = 'Verifica dati  registrazione'
-    var self = this, data = User.generateDataPayload() // preparo la richiesta al server per la lista delle scuole
+    var self = this, data = User.generateDataPayload(), // preparo la richiesta al server per la lista delle scuole
+    buildName = FileService.buildNameFromTags
+
+    self.cancel = function(){
+                                              $mdDialog.hide()
+                              }
+
     Schools.list(data).then(function(data){
     //console.log('callback lista scuole',data)
     $scope.schoolsList = data.data
-    User.setToken(data.token)
+    User.setToken(data.data.token)
     })
-    self.azione = "carica registrazione"
+
     var data = Messages.getMessage('uploadingFile'),
-    tags = FileService.splitName(data.get('registrazione').name)
-    if (tags.length==5){
-    $scope.registrazione = FileService.setTagFile(tags)
+        name = data.get('registrazione').name, //recupero il nome del file
+        estensione = name.substring(name.length-4), // estraggo l'ìestensione del file con il punto
+        nomeFile = name.substring(0,name.length-4), // rimuovo l'estensione del file
+        tags = FileService.splitName(nomeFile) // estraggo i tag dal titolo del file
+        $scope.registrazione = FileService.setTagFile(tags)
+    self.azione = "carica registrazione"
+    $scope.submit = function(registrazione){
+         // aggiungo i tags al dataform
+        data.append("dataRegistrazione", registrazione.data)
+        data.append("scuola",registrazione.scuola)
+        data.append("fase",registrazione.fase)
+        data.append("relatore",registrazione.relatore)
+        data.append("titolo",registrazione.titolo)
+        data.append("nomeFile",buildName(registrazione)+estensione)
+        //invio la richiesta al server
+        FileService.upload(data,
+                    function(data){
+                        console.log('callback success',data)
+                    },
+                    function(data){
+                        console.log('callback failure',data)
+                    }
+                    )
+
     }
-    self.cancel = function(){
-                                          $mdDialog.hide()
-                          }
- }])
+
+    }
+
+ ])

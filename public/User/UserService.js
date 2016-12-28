@@ -55,7 +55,7 @@ angular.module('CsgSAW.services').factory('UserService', ['$http', function($htt
             return false;// l'utente non gode di tale diritto
         },
         setToken: function(newToken){
-        token = newToken
+        token =  newToken
         },
         isLogged : function() {
             return logged;

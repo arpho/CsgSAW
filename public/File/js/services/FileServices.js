@@ -14,6 +14,15 @@ angular.module('CsgSAW.services').factory('FileService', ['$http','UserService',
         var registrazione = {data:new Date(tags[0]),scuola:tags[1],fase:tags[2],titolo:tags[3],relatore:tags[4]}
         return registrazione
         },
+        buildNameFromTags : function(tags){
+        /*
+        costruisce il nome del file dati i tags impostati nello uploadPopup
+        @param: tags {data:Date,titolo:String,relatore:String,fase:String,scuola:String}
+        @return: il nome del file da archiviare:String
+        */
+                                var data = tags.data, sep = ' - '
+                                return data.getYear()+ 1900 +'-'+(data.getMonth()+1) +'-' + data.getDate() + sep + tags.scuola + sep + tags.fase + sep + tags.titolo + sep + tags.relatore
+                                },
         upload : function(data,callbackSuccess, callbackFailure){
             var payload = UserService.generateDataPayload()
             /*data.token = payload.token
