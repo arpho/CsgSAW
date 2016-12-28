@@ -1,5 +1,5 @@
 'use strict';
-var  multer = require('multer'), path = require('path'),nome_upload;
+var  multer = require('multer'), path = require('path'),nome_upload,ffmetadata = require('ffmetadata'),async = require('async');
 
 var storage = multer.diskStorage({ //multers disk storage settings
         destination: function (req, file, cb) {
@@ -14,7 +14,8 @@ var storage = multer.diskStorage({ //multers disk storage settings
             cb(null, file.fieldname + '-' + datetimestamp + '.' + file.originalname.split('.')[file.originalname.split('.').length -1]);
         }
     });
-    var upload = multer({ //multer settings
+    var retrievePath = require('./configs_routing').retrievePath,
+    upload = multer({ //multer settings
                         storage: storage
                     }).single('registrazione');
  var config = require('../models/Config'),
@@ -82,6 +83,12 @@ upload_destination = path.join(__dirname, '/uploads')
          var checked = Token.renewToken(fields.token,fields.email)
          console.log('token valido:',checked.valido)
          console.log(nome_upload,'esiste: ',fs.existsSync('./uploads/'+nome_upload))
+         var setTags = function(data2pass,callback){ //wrapper di tagFacility.write
+                            var tags = {}
+                            require('../utilities/tagFacility').write('./uploads/'+nome_upload,tags,function(err,data){
+                                callback(err,data2pass)
+                            })
+                        }
 
          });
         //res.send(config)

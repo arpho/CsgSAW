@@ -21,6 +21,11 @@ module.exports = {
         }
 
 },
+retrievePath:function(callback){
+    config.find({label:'path'},function(err,config){
+        callback(err,config)
+    })
+},
 retrieve: function(req,res){
     var token = req.body.token,
         email = req.body.email, Token = require('../utilities/tokenGenerator'),

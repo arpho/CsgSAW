@@ -16,5 +16,6 @@ module.exports = mongoose.model('File', {
    relativePath:String,
    fogueo_istruttori:Boolean,
    fogueo:Boolean,
+   tipo:String,
 
 })
