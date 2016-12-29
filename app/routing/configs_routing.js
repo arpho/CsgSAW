@@ -23,6 +23,7 @@ module.exports = {
 },
 retrievePath:function(callback){
     config.find({label:'path'},function(err,config){
+    console.log('path: ',config)
         callback(err,config)
     })
 },

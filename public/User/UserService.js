@@ -30,6 +30,9 @@ angular.module('CsgSAW.services').factory('UserService', ['$http', function($htt
         },
         getNome : function(){
         return loggedUser.nome},
+        get_id : function(){
+            return loggedUser._id
+        },
         getCognome : function(){
         return loggedUser.cognome},
         getToken: function(){

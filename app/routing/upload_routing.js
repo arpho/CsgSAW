@@ -56,27 +56,23 @@ upload_destination = path.join(__dirname, '/uploads')
             email, Token = require('../utilities/tokenGenerator'), fs = require("fs");
 
     console.log('tokengenerator')
-    config.find({label:'path'}, function(err,config){
-        upload_destination = config
-        var storage = multer.diskStorage({
-          destination: function (request, file, callback) {
-            callback(null, storage);
-          },
-          filename: function (request, file, callback) {
-            console.log(file);
-            callback(null, file.originalname)
-          }
-        });
-        console.log('config.find',storage)
-    form.on('registrazione', function(field, file) {
+    var storage = multer.diskStorage({
+              destination: function (request, file, callback) {
+                callback(null, storage);
+              },
+              filename: function (request, file, callback) {
+                console.log(file);
+                callback(null, file.originalname)
+              }
+            });
+            console.log('config.find',storage)
+form.on('registrazione', function(field, file) {
         console.log("file uploaded")
         fs.rename(file.path, path.join(form.uploadDir, file.name));
       });
-    form.on('error', function(err) {
+form.on('error', function(err) {
         console.log('An error has occured: \n' + err);
       });
-       // var upload = multer({storage: storage}).single('photo');
-        console.log('parsing req',err)
          form.parse(req,function(err, fields, files){
          console.log('err:',err)
          console.log('fields79: ',fields)
@@ -84,13 +80,55 @@ upload_destination = path.join(__dirname, '/uploads')
          console.log('token valido:',checked.valido)
          console.log(nome_upload,'esiste: ',fs.existsSync('./uploads/'+nome_upload))
          var setTags = function(data2pass,callback){ //wrapper di tagFacility.write
-                            var tags = {}
+                            var tags = {};
+
+                            tags.titolo = fields.nomeFile
+                            tags.artista = fields.relatore
+                            tags.album = fields.titolo
+                            tags.compositore = fields.fase
+                            tags.genere = fields.scuola
                             require('../utilities/tagFacility').write('./uploads/'+nome_upload,tags,function(err,data){
+                            console.log('setTags err',err)
+                            console.log('settags data2pass: ',data2pass)
                                 callback(err,data2pass)
                             })
-                        }
-
-         });
+                        },
+         fileMover = function(path,callback){
+            require('../utilities/fileUtilities').movesFile('./uploads/'+nome_upload,path+'/'+fields.relativePath
+            +'/'+fields.nomeFile,callback)
+          },
+         makeDir = function(path,callback) { require('../utilities/fileUtilities').makedir(path+fields.relativePath,callback)
+         },insertDb = function(path,callback){
+         var fileRecord = {}
+         fileRecord.titolo = fields.titolo
+         fileRecord.fase = fields.fase
+         fileRecord.scuola = fields.scuola
+         fileRecord.relatore = fields.relatore
+         filerecord.data = fields.dataRegistrazione
+         fileRecord.operatore = require('mongoose').Types.ObjectId
+         fileRecord.paroleChiave = fields.paroleChiave || []
+         fieleRecord.wang = fields.wang
+         fileRecord.fogueo = fields.fogueo
+         fileRecord.fogueo_istruttori = fields.fogueo_istruttori
+         fileRecord.relativePath = fields.relativePath
+            require('./files_routing').insertFile(fileRecord,function(err){ /* wrapper alla funzione di callback per
+             adattare la funzione a waterfall*/
+             console.log('insertdb: ',err)
+            callback(err,path)
+            })
+         };
+         console.log('waterfall starts')
+         async.waterfall([
+                            retrievePath,
+                            makeDir,
+                            setTags,
+                            insertDb,
+                            fileMover
+                        ],function(error,success){
+                        console.log('waterfall done')
+                        if(err) console.log('errore',err)
+                        else console.log('success',err)
+                        })
         //res.send(config)
 
         })

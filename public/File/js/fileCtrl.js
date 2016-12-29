@@ -186,7 +186,9 @@ function($scope,Users,$mdMedia,$mdDialog,messages,
         data.append("fase",registrazione.fase)
         data.append("relatore",registrazione.relatore)
         data.append("titolo",registrazione.titolo)
-        data.append("nomeFile",buildName(registrazione)+estensione)
+        data.append("estenasione",estensione)
+        data.append("nomeFile",buildName(registrazione))
+        data.append("operatore",User.get_id())
         //invio la richiesta al server
         FileService.upload(data,
                     function(data){
