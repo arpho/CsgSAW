@@ -80,6 +80,7 @@ form.on('error', function(err) {
          console.log('token valido:',checked.valido)
          console.log(nome_upload,'esiste: ',fs.existsSync('./uploads/'+nome_upload))
          var setTags = function(data2pass,callback){ //wrapper di tagFacility.write
+                            console.log('settags',data2pass)
                             var tags = {};
 
                             tags.titolo = fields.nomeFile
@@ -87,47 +88,61 @@ form.on('error', function(err) {
                             tags.album = fields.titolo
                             tags.compositore = fields.fase
                             tags.genere = fields.scuola
-                            require('../utilities/tagFacility').write('./uploads/'+nome_upload,tags,function(err,data){
-                            console.log('setTags err',err)
-                            console.log('settags data2pass: ',data2pass)
+                            tags.date = fields.data
+                            console.log('tags',tags)
+                            require('../utilities/tagFacility').write('./uploads/'+nome_upload,tags,function(err){
+                            console.log('setTagscallback err',err)
+                            console.log('settags callback data2pass: ',data2pass)
                                 callback(err,data2pass)
                             })
                         },
          fileMover = function(path,callback){
-            require('../utilities/fileUtilities').movesFile('./uploads/'+nome_upload,path+'/'+fields.relativePath
-            +'/'+fields.nomeFile,callback)
+            require('../utilities/fileUtilities').moveFile('./uploads/'+nome_upload,path
+            +fields.nomeFile+fields.estensione,function(){
+                console.log('callback movefile,errori',err)
+                callback(err,path+fields.relativePath
+                                         +fields.nomeFile)
+
+            })
           },
-         makeDir = function(path,callback) { require('../utilities/fileUtilities').makedir(path+fields.relativePath,callback)
+         makeDir = function(path,callback) {
+         console.log('makedir root:',path)
+         console.log('relativePath:',fields.relativePath)
+         require('../utilities/fileUtilities').makedir(path,fields.relativePath,callback)
          },insertDb = function(path,callback){
          var fileRecord = {}
          fileRecord.titolo = fields.titolo
          fileRecord.fase = fields.fase
          fileRecord.scuola = fields.scuola
          fileRecord.relatore = fields.relatore
-         filerecord.data = fields.dataRegistrazione
-         fileRecord.operatore = require('mongoose').Types.ObjectId
+         fileRecord.data = fields.dataRegistrazione
+         fileRecord.operatore = require('mongoose').Types.ObjectId(fields.operatore)
          fileRecord.paroleChiave = fields.paroleChiave || []
-         fieleRecord.wang = fields.wang
+         fileRecord.wang = fields.wang
          fileRecord.fogueo = fields.fogueo
          fileRecord.fogueo_istruttori = fields.fogueo_istruttori
          fileRecord.relativePath = fields.relativePath
+         fileRecord.nomeFile = fields.nomeFile + fields.estensione
+         console.log('fileRecord',fileRecord)
+         console.log(path)
+         //console.log(joe)
             require('./files_routing').insertFile(fileRecord,function(err){ /* wrapper alla funzione di callback per
              adattare la funzione a waterfall*/
              console.log('insertdb: ',err)
-            callback(err,path)
+            callback(null,path)
             })
          };
-         console.log('waterfall starts')
+         console.log('waterfall starts***************************************************************************************************************')
          async.waterfall([
                             retrievePath,
                             makeDir,
-                            setTags,
-                            insertDb,
-                            fileMover
+                           setTags,
+                            fileMover,
+                            insertDb
                         ],function(error,success){
                         console.log('waterfall done')
                         if(err) console.log('errore',err)
-                        else console.log('success',err)
+                        else console.log('waterfall success')
                         })
         //res.send(config)
 

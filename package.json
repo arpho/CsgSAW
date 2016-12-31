@@ -17,6 +17,7 @@
     "method-override": "~2.0.2",
     "mongoose": "3.8.3",
     "multer": "^1.2.0",
+    "mv": "^2.1.1",
     "node-cache": "^3.2.1",
     "nodemailer": "^2.5.0",
     "password-hash-and-salt": "^0.1.3",

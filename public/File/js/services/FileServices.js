@@ -1,4 +1,8 @@
 'use strict';
+var formatData = function(data){
+                             return data.getYear()+ 1900 +'-'+(data.getMonth()+1) +'-' + data.getDate()
+                         }
+
 angular.module('CsgSAW.services').factory('FileService', ['$http','UserService', function($http,UserService) {
         return {splitName: function(name){
                 var tags = name.split(' - ')
@@ -14,6 +18,11 @@ angular.module('CsgSAW.services').factory('FileService', ['$http','UserService',
         var registrazione = {data:new Date(tags[0]),scuola:tags[1],fase:tags[2],titolo:tags[3],relatore:tags[4]}
         return registrazione
         },
+        buildRelativePath: function(registrazione){
+        //TODO implementare la logicadi questa funzione
+            return '/2_ARCHIVIO\ REGISTRAZIONI/8_FASE\ B/B20_Fogueo\ Studenti\ Fase B/'
+        },
+        formatData : formatData,
         buildNameFromTags : function(tags){
         /*
         costruisce il nome del file dati i tags impostati nello uploadPopup
