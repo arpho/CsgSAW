@@ -65,7 +65,6 @@ upload_destination = path.join(__dirname, '/uploads')
                 callback(null, file.originalname)
               }
             });
-            console.log('config.find',storage)
 form.on('registrazione', function(field, file) {
         console.log("file uploaded")
         fs.rename(file.path, path.join(form.uploadDir, file.name));

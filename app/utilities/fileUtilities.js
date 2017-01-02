@@ -43,6 +43,33 @@ creaFullPathAsync = function(root,path,callback){
 	async.series(functionList,function(err, results){
 	callback(null,root+path)
 	})
+	},
+	fileExist = function(req,res){
+	 var body = req.body,Token = require('../utilities/tokenGenerator'),checkToken = Token.renewToken(body.token,body.email)
+	 var data = {}, retrievePath = require('../routing/configs_routing').retrievePath
+	 data.token = checkToken.token
+	 if (!checkToken.valido)
+	 {
+	    data.success = false
+         data.expiredToken = true
+         res.json(data)
+	 }
+	 else
+	 {
+	    data.success = true
+
+	    retrievePath(function(err,resp){
+	    if(err){
+	        data.success = false
+	        rse.json(data)
+	    }
+	    //console.log('resp fileexist*******************************************************************************',resp)
+	    var fullPath = resp  + body.path + body.nomeFile + body.estensione
+	    console.log(fullPath)
+	    data.exists = fs.existsSync(fullPath)
+	    res.json(data)
+	    })
+	 }
 	}
 
 module.exports = {moveFile:function(oldPath,newPath,callback){
@@ -52,11 +79,9 @@ module.exports = {moveFile:function(oldPath,newPath,callback){
     @param newPath:String path completo posizione di destinazione
 
     */
-    console.log('moveFile,oldpath',oldPath)
-    console.log('newpath',newPath)
-    console.log('mv')
 
     require('mv')(oldPath,newPath,{mkdirp:true},callback)
 },
-makedir : creaFullPathAsync
+makedir : creaFullPathAsync,
+fileExists : fileExist
 }

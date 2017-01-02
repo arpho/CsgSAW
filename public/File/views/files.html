@@ -17,15 +17,13 @@
                    ngf-select
                    ng-model="up.file"
                    name="registrazione"  aria-label="seleziona un file da caricare" id="registrazione" file-model="registrazione" />
+                <span ng-show="up.uploaded"class="glyphicons glyphicons-tick"></span>
             <ul>
                 <li ng-repeat="file in files">{{file.name}}</li>
             </ul>
                 <button type="submit" class="btn btn-success btn-xs"  ng-disabled="item.isReady || item.isUploading || item.isSuccess">
                     <span class="glyphicon glyphicon-cloud-upload"></span> Upload
                 </button>
-                <div class="progress">
-                    <div class="progress-bar" role="progressbar"></div>
-                </div>
             <!--table>
                 <tr ng-repeat="file in $flow.files">
                     <td>{{$index+1}}</td>

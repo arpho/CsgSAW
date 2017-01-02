@@ -5,28 +5,34 @@ function($scope,Users,$mdMedia,$mdDialog,messages,
  $window,$rootScope,$mdToast,Configs,FileService,Upload){
 
 
-
- var vm = this,
+var useFullScreen = ($mdMedia('sm') || $mdMedia('xs'))  && $scope.customFullscreen;
+ var vm = this,showshowUPloadPopup = function(){
+    $mdDialog.show({
+                                 controller: 'UploadController',
+                                 controllerAs: 'ctrl',
+                                 templateUrl: 'File/views/FileUploadPopup.html',
+                                 parent: angular.element(document.body),
+                                 targetEvent: null,
+                                 clickOutsideToClose: false,
+                                 fullScreen: useFullScreen
+                              })
+ },
  checkFile = function(data,callback){
     var useFullScreen = ($mdMedia('sm') || $mdMedia('xs'))  && $scope.customFullscreen;
     // il controllo passerà ad UploadController quindi passo data all'altro controller
     messages.putMessage('uploadingFile',data)
-                         $mdDialog.show({
-                             controller: 'UploadController',
-                             controllerAs: 'ctrl',
-                             templateUrl: 'File/views/FileUploadPopup.html',
-                             parent: angular.element(document.body),
-                             targetEvent: null,
-                             clickOutsideToClose: false,
-                             fullScreen: useFullScreen
-                          })
+    showshowUPloadPopup()
  }
+    $rootScope.$on('showuploadPopup',showshowUPloadPopup)
      vm.submit = function(){ //function to call on form submit
          if (vm.upload_form.file.$valid && vm.file) { //check if from is valid
              vm.upload(vm.file); //call upload function
          }
      }
-
+ $rootScope.$on('uploadedFileSuccesed',function(evt,data){
+    console.log('uploaded')
+    self.uploaded = true
+ })
  vm.upload = function(file){
     console.log('upload')
     var data = new FormData()
@@ -85,44 +91,7 @@ function($scope,Users,$mdMedia,$mdDialog,messages,
             })
 
             }
-            $scope.save = function() {
-                $http({
-                    method: 'POST',
-                    url: "/api/upload/",
-                    //IMPORTANT!!! You might think this should be set to 'multipart/form-data'
-                    // but this is not true because when we are sending up files the request
-                    // needs to include a 'boundary' parameter which identifies the boundary
-                    // name between parts in this multi-part request and setting the Content-type
-                    // manually will not set this boundary parameter. For whatever reason,
-                    // setting the Content-type to 'false' will force the request to automatically
-                    // populate the headers properly including the boundary parameter.
-                    headers: { 'Content-Type': false },
-                    //This method will allow us to change how the data is sent up to the server
-                    // for which we'll need to encapsulate the model data in 'FormData'
-                    transformRequest: function (data) {
-                        var formData = new FormData();
-                        //need to convert our json object to a string version of json otherwise
-                        // the browser will do a 'toString()' on the object which will result
-                        // in the value '[Object object]' on the server.
-                        formData.append("model", angular.toJson(data.model));
-                        //now add all of the assigned files
-                        for (var i = 0; i < data.files; i++) {
-                            //add each file to the form data and iteratively name them
-                            formData.append("file" + i, data.files[i]);
-                        }
-                        return formData;
-                    },
-                    //Create an object that contains the model and files which will be transformed
-                    // in the above transformRequest method
-                    data: { model: $scope.model, files: $scope.files }
-                }).
-                success(function (data, status, headers, config) {
-                    alert("success!");
-                }).
-                error(function (data, status, headers, config) {
-                    alert("failed!");
-                });
-            };
+
 
     /*var uploader = $scope.Uploader = new FileUploader({
                 url: '/api/upload/'
@@ -182,54 +151,82 @@ function($scope,Users,$mdMedia,$mdDialog,messages,
         nomeFile = name.substring(0,name.length-4), // rimuovo l'estensione del file
         tags = FileService.splitName(nomeFile) // estraggo i tag dal titolo del file
         $scope.registrazione = FileService.setTagFile(tags)
-    self.azione = "carica registrazione"
-    $scope.submit = function(registrazione){
+        $scope.registrazione.estensione = estensione
+        self.azione = "carica registrazione"
+        var upload = function(registrazione)
+        {
             $scope.showSpinner = true
-             // aggiungo i tags al dataform
-            data.append("dataRegistrazione", registrazione.data)
-            data.append("scuola",registrazione.scuola)
-            data.append("fase",registrazione.fase)
-            data.append("relatore",registrazione.relatore)
-            data.append("titolo",registrazione.titolo)
-            data.append("estensione",estensione)
-            data.append("nomeFile",buildName(registrazione))
-            data.append("operatore",User.get_id())
-            data.append("data" ,FileService.formatData(registrazione.data))
-            data.append("relativePath",FileService.buildRelativePath(registrazione))
-            //invio la richiesta al server
-            FileService.upload(data,
-                        function(data){
-                            self.cancel()
-                            $scope.showSpinner = false
-                            $mdDialog.show(
-                                  $mdDialog.alert()
-                                    .parent(angular.element(document.querySelector('#popupContainer')))
-                                    .clickOutsideToClose(true)
-                                    .title('Esito upload')
-                                    .textContent('file caricato sul server normalmente')
-                                    .ariaLabel('Alert Dialog ')
-                                    .ok('Ok!')
-                                );
-                        },
-                        function(data){
-                            self.cancel()
-                            var text = 'il file non è stato caricato correttamente'
-                            if(data.data.tokenExpired) text = 'il token è scaduto! Effettua nuovamente il login e prova ancora'
-                            $scope.showASpinner = false
-                            $mdDialog.show(
-                                  $mdDialog.alert()
-                                    .parent(angular.element(document.querySelector('#popupContainer')))
-                                    .clickOutsideToClose(true)
-                                    .title('Esito Upload')
-                                    .textContent(text)
-                                    .ariaLabel('Alert Dialog ')
-                                    .ok('OK!')
-                                );
-                        }
-            )
+                         // aggiungo i tags al dataform
+                        data.append("dataRegistrazione", registrazione.data)
+                        data.append("scuola",registrazione.scuola)
+                        data.append("fase",registrazione.fase)
+                        data.append("relatore",registrazione.relatore)
+                        data.append("titolo",registrazione.titolo)
+                        data.append("estensione",estensione)
+                        data.append("nomeFile",buildName(registrazione))
+                        data.append("operatore",User.get_id())
+                        data.append("data" ,FileService.formatData(registrazione.data))
+                        data.append("relativePath",FileService.buildRelativePath(registrazione))
+                        //invio la richiesta al server
+                        FileService.upload(data,
+                                    function(data){
+                                        self.cancel()
+                                        $scope.showSpinner = false
+                                        $mdDialog.show(
+                                              $mdDialog.alert()
+                                                .parent(angular.element(document.querySelector('#popupContainer')))
+                                                .clickOutsideToClose(true)
+                                                .title('Esito upload')
+                                                .textContent('file caricato sul server normalmente')
+                                                .ariaLabel('Alert Dialog ')
+                                                .ok('Ok!')
+                                            );
+                                    $rootScope.$emit('uploadedFileSuccesed')
+                                    },
+                                    function(data){
+                                        self.cancel()
+                                        var text = 'il file non è stato caricato correttamente'
+                                        if(data.data.tokenExpired) text = 'il token è scaduto! Effettua nuovamente il login e prova ancora'
+                                        $scope.showASpinner = false
+                                        $mdDialog.show(
+                                              $mdDialog.alert()
+                                                .parent(angular.element(document.querySelector('#popupContainer')))
+                                                .clickOutsideToClose(true)
+                                                .title('Esito Upload')
+                                                .textContent(text)
+                                                .ariaLabel('Alert Dialog ')
+                                                .ok('OK!')
+                                            );
+                                    }
+                        )
+        }
+    $scope.submit = function(registrazione){
+        var path = FileService.buildRelativePath(registrazione), nomeFile = buildName(registrazione)
+        var data = {path:path,nomeFile:nomeFile,estensione:registrazione.estensione}
+        FileService.fileExists(data,function(resp){
+        console.log('fileExists success', resp)
+        },function(resp)
+        {
+            console.log('fileExist failure',resp)
+        })
+        var confirm = $mdDialog.confirm()
+                  .title('una registrazione con gli stessi dati è già presente ')
+                  .textContent('caricando questa registrazione sostituirai quella presente sul server')
+                  .ariaLabel('Lucky day')
+                  .ok('carica comunque')
+                  .cancel('Lascia perdere');
+
+            $mdDialog.show(confirm).then(function() {
+             $rootScope.$emit('showuploadPopup') // questo messaggio indica a fileController di mostrare uploadPopup
+              upload(registrazione) // invio la richiesta al server
+            }, function() {
+                self.cancel()
+            });
+          };
+        //
 
     }
 
-    }
+
 
  ])

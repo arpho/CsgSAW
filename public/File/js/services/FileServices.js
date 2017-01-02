@@ -32,6 +32,21 @@ angular.module('CsgSAW.services').factory('FileService', ['$http','UserService',
                                 var data = tags.data, sep = ' - '
                                 return data.getYear()+ 1900 +'-'+(data.getMonth()+1) +'-' + data.getDate() + sep + tags.scuola + sep + tags.fase + sep + tags.titolo + sep + tags.relatore
                                 },
+        fileExists : function(data,callbackSuccess,callbackFailure)
+        {
+            var payload = UserService.generateDataPayload()
+            data.token = payload.token
+            data.email = payload.email
+            $http.post('/api/fileExists/',data).then(function(resp)
+                                                {
+                                                UserService.setToken(resp.data) // rinnovo il token
+                                                callbackSuccess(resp)
+                                                }).catch(function(resp)
+                                                {
+                                                    UserService.setToken(resp.data) // rinnovo il token
+                                                    callbackFailure(resp)
+                                                })
+        },
         upload : function(data,callbackSuccess, callbackFailure){
             var payload = UserService.generateDataPayload()
             /*data.token = payload.token
@@ -49,8 +64,6 @@ angular.module('CsgSAW.services').factory('FileService', ['$http','UserService',
 //               processData: false
                }
             }).then(function(resp){
-            console.log('uploaded',resp)
-            console.log('Success ' +  'uploaded. Response: ' + resp);
             UserService.setToken(resp.data.token)
             callbackSuccess(resp)
             }, function (resp) {

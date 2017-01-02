@@ -24,7 +24,6 @@ module.exports = {
 retrievePath:function(callback){
     config.find({label:'path'},function(err,config){
     var path = config[0].actualValue
-    console.log('retrievedPath: ',path.substring(0,path.length-1)) //rimuovo lo / finale
         callback(err,path.substring(0,path.length-1))
     })
 },
