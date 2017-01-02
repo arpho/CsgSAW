@@ -48,11 +48,19 @@ angular.module('CsgSAW.services').factory('FileService', ['$http','UserService',
 
 //               processData: false
                }
-            }).then(function(data){
-            console.log('uploaded',data)
-            callbackSuccess(data)
-            }).catch(function(a){
+            }).then(function(resp){
+            console.log('uploaded',resp)
+            console.log('Success ' +  'uploaded. Response: ' + resp);
+            UserService.setToken(resp.data.token)
+            callbackSuccess(resp)
+            }, function (resp) {
+                         console.log('Error status: ' + resp.status);
+                     }, function (evt) {
+                         var progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
+                         console.log('progress: ' + progressPercentage + '% ' + evt.config.data.file.name);
+                     }).catch(function(a){
                 console.log('problemi uploading',a)
+            UserService.setToken(data.data.token)
                 callbackFailure(a)
             })
         }

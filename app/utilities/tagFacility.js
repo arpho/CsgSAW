@@ -6,8 +6,6 @@ module.exports = {
                                            @param file: percorso del file cui aggiungere i tags
                                            @param tags: tags da settare*/
     {
-        console.log('tagfacility file',file)
-        console.log('tags',tags)
         ffmetadata.write(file,tags,function(err){
             callback(err)
         })

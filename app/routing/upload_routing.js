@@ -91,23 +91,18 @@ form.on('error', function(err) {
                             tags.date = fields.data
                             console.log('tags',tags)
                             require('../utilities/tagFacility').write('./uploads/'+nome_upload,tags,function(err){
-                            console.log('setTagscallback err',err)
-                            console.log('settags callback data2pass: ',data2pass)
                                 callback(err,data2pass)
                             })
                         },
          fileMover = function(path,callback){
             require('../utilities/fileUtilities').moveFile('./uploads/'+nome_upload,path
             +fields.nomeFile+fields.estensione,function(){
-                console.log('callback movefile,errori',err)
                 callback(err,path+fields.relativePath
                                          +fields.nomeFile)
 
             })
           },
          makeDir = function(path,callback) {
-         console.log('makedir root:',path)
-         console.log('relativePath:',fields.relativePath)
          require('../utilities/fileUtilities').makedir(path,fields.relativePath,callback)
          },insertDb = function(path,callback){
          var fileRecord = {}
@@ -123,7 +118,6 @@ form.on('error', function(err) {
          fileRecord.fogueo_istruttori = fields.fogueo_istruttori
          fileRecord.relativePath = fields.relativePath
          fileRecord.nomeFile = fields.nomeFile + fields.estensione
-         console.log('fileRecord',fileRecord)
          console.log(path)
          //console.log(joe)
             require('./files_routing').insertFile(fileRecord,function(err){ /* wrapper alla funzione di callback per
@@ -132,18 +126,41 @@ form.on('error', function(err) {
             callback(null,path)
             })
          };
-         console.log('waterfall starts***************************************************************************************************************')
-         async.waterfall([
-                            retrievePath,
-                            makeDir,
-                           setTags,
-                            fileMover,
-                            insertDb
-                        ],function(error,success){
-                        console.log('waterfall done')
-                        if(err) console.log('errore',err)
-                        else console.log('waterfall success')
-                        })
+         var data = {}
+         data.token = checked.token
+         if(checked.valido)
+         {
+            data.tokenExpired = false
+             async.waterfall([
+                                retrievePath,
+                                makeDir,
+                               setTags,
+                                fileMover,
+                                insertDb
+                            ],function(error,success)
+                            {
+                                console.log('waterfall done')
+                                if(err)
+                                {
+                                    console.log('errore',err)
+                                    data.success = false
+                                }
+                                else
+                                {
+                                    console.log('waterfall success')
+                                    data.success = true
+                                }
+                                res.json(data)
+                            })
+         }
+         else
+         {
+            console.log('token scaduto')
+            data.success = false
+            data.tokenExpired = true
+            data.token = checked.token
+            res.json(data)
+         }
         //res.send(config)
 
         })

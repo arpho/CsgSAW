@@ -7,11 +7,25 @@
 
 <md-content >
     <body nv-file-drop="" Uploader="Uploader">
-<div ng-show="isLogged">
-    <md-input-container>
-        <h3>Upload queue</h3>
-        <p>Queue length: {{ Uploader.queue.length }}</p>
-         <input type="file" nv-file-select="" Uploader="Uploader"  />
+    <div ng-show="isLogged">
+        <md-input-container>
+            <form name="up.upload_form" id ="myForm" enctype="multipart/form-data" ng-submit ="uploadFile(file-registrazione)">
+
+            <h3>Upload queue</h3>
+            <p>Queue length: {{ files.length }}</p>
+            <input type="file"
+                   ngf-select
+                   ng-model="up.file"
+                   name="registrazione"  aria-label="seleziona un file da caricare" id="registrazione" file-model="registrazione" />
+            <ul>
+                <li ng-repeat="file in files">{{file.name}}</li>
+            </ul>
+                <button type="submit" class="btn btn-success btn-xs"  ng-disabled="item.isReady || item.isUploading || item.isSuccess">
+                    <span class="glyphicon glyphicon-cloud-upload"></span> Upload
+                </button>
+                <div class="progress">
+                    <div class="progress-bar" role="progressbar"></div>
+                </div>
             <!--table>
                 <tr ng-repeat="file in $flow.files">
                     <td>{{$index+1}}</td>
@@ -19,18 +33,18 @@
                     <td>{{file.msg}}</td>
                 </tr>
             </table-->
+            </form>
+        </md-input-container>
 
-    </md-input-container>
-    <button type="button" class="btn btn-success btn-xs" ng-click="item.upload()" ng-disabled="item.isReady || item.isUploading || item.isSuccess">
-        <span class="glyphicon glyphicon-upload"></span> Upload
-    </button>
-    <ul>
-        <li ng-repeat="item in Uploader.queue">
-            Name: <span ng-bind="item.file.name"></span><br/>
-            Name: <span ng-bind="item.file.name"></span><br/>
+        <ul>
+            <li ng-repeat="item in Uploader.queue">
+                Name: <span ng-bind="item.file.name"></span><br/>
+                Name: <span ng-bind="item.file.size"></span><br/>
 
-        </li>
-    </ul>
-</div>
-</body>
+            </li>
+        </ul>
+
+    </div>
+
+    </body>
 </md-content>

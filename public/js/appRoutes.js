@@ -30,7 +30,7 @@ angular.module('appRoutes', []).config(['$routeProvider', '$locationProvider', f
             controller:'SchoolController'
         })
         .when('/files',{
-            templateUrl:'File/views/files2.html',
+            templateUrl:'File/views/files.html',
             controller:'FilesController',
             controllerAs: 'up'
         })

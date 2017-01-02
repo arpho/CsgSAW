@@ -172,7 +172,7 @@ function($scope,Users,$mdMedia,$mdDialog,messages,
     $scope.schoolsList = data.data
     User.setToken(data.data.token)
     })
-
+    $scope.showSpinner = false
     var data = Messages.getMessage('uploadingFile'),
         formatData = function(date){
             return
@@ -184,6 +184,7 @@ function($scope,Users,$mdMedia,$mdDialog,messages,
         $scope.registrazione = FileService.setTagFile(tags)
     self.azione = "carica registrazione"
     $scope.submit = function(registrazione){
+            $scope.showSpinner = true
              // aggiungo i tags al dataform
             data.append("dataRegistrazione", registrazione.data)
             data.append("scuola",registrazione.scuola)
@@ -198,10 +199,32 @@ function($scope,Users,$mdMedia,$mdDialog,messages,
             //invio la richiesta al server
             FileService.upload(data,
                         function(data){
-                            console.log('callback success',data)
+                            self.cancel()
+                            $scope.showSpinner = false
+                            $mdDialog.show(
+                                  $mdDialog.alert()
+                                    .parent(angular.element(document.querySelector('#popupContainer')))
+                                    .clickOutsideToClose(true)
+                                    .title('Esito upload')
+                                    .textContent('file caricato sul server normalmente')
+                                    .ariaLabel('Alert Dialog ')
+                                    .ok('Ok!')
+                                );
                         },
                         function(data){
-                            console.log('callback failure',data)
+                            self.cancel()
+                            var text = 'il file non è stato caricato correttamente'
+                            if(data.data.tokenExpired) text = 'il token è scaduto! Effettua nuovamente il login e prova ancora'
+                            $scope.showASpinner = false
+                            $mdDialog.show(
+                                  $mdDialog.alert()
+                                    .parent(angular.element(document.querySelector('#popupContainer')))
+                                    .clickOutsideToClose(true)
+                                    .title('Esito Upload')
+                                    .textContent(text)
+                                    .ariaLabel('Alert Dialog ')
+                                    .ok('OK!')
+                                );
                         }
             )
 

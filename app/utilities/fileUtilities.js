@@ -15,7 +15,6 @@ creaFolderAsync = function(folder,callback){
 			}
 		}
 		else {
-			console.log('creata folder async: ',folder)
 			callback() //fine funzione serie
 		}
 		})
@@ -29,10 +28,6 @@ creaFullPath = function(root,path,callback){
 },
 creaFullPathAsync = function(root,path,callback){
 
-console.log('creaFullpath')
-console.log('root',root)
-console.log('path',path)
-console.log('callback',callback)
 	var folderList = path.split('/'), relativePath = root,functionList = [],
 	makeClosure = function(relativePath){
 	//console.log('creata closure',relativePath)
