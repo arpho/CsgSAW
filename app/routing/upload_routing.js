@@ -73,28 +73,23 @@ form.on('error', function(err) {
         console.log('An error has occured: \n' + err);
       });
          form.parse(req,function(err, fields, files){
-         console.log('err:',err)
-         console.log('fields79: ',fields)
          var checked = Token.renewToken(fields.token,fields.email)
-         console.log('token valido:',checked.valido)
-         console.log(nome_upload,'esiste: ',fs.existsSync('./uploads/'+nome_upload))
          var setTags = function(data2pass,callback){ //wrapper di tagFacility.write
-                            console.log('settags',data2pass)
                             var tags = {};
 
-                            tags.titolo = fields.nomeFile
-                            tags.artista = fields.relatore
+                            tags.title = fields.nomeFile
+                            tags.artist = fields.relatore
                             tags.album = fields.titolo
-                            tags.compositore = fields.fase
-                            tags.genere = fields.scuola
-                            tags.date = fields.data
-                            console.log('tags',tags)
+                            tags.comment = fields.fase
+                            tags.genre = fields.scuola
+                            tags.desc = fields.data
                             require('../utilities/tagFacility').write('./uploads/'+nome_upload,tags,function(err){
-                                callback(err,data2pass)
+                                console.log('tags settati:',tags,'errore: ',err)
+                                callback(null,data2pass)
                             })
                         },
          fileMover = function(path,callback){
-            require('../utilities/fileUtilities').moveFile('./uploads/'+nome_upload,path
+            require('../utilities/fileUtilities').moveFile('./uploads/'+nome_upload,path+ fields.relativePath
             +fields.nomeFile+fields.estensione,function(){
                 callback(err,path+fields.relativePath
                                          +fields.nomeFile)
@@ -109,6 +104,7 @@ form.on('error', function(err) {
          fileRecord.fase = fields.fase
          fileRecord.scuola = fields.scuola
          fileRecord.relatore = fields.relatore
+         fileRecord.estensione = fields.estensione
          fileRecord.data = fields.dataRegistrazione
          fileRecord.operatore = require('mongoose').Types.ObjectId(fields.operatore)
          fileRecord.paroleChiave = fields.paroleChiave || []
@@ -129,16 +125,17 @@ form.on('error', function(err) {
          data.token = checked.token
          if(checked.valido)
          {
+         console.log('token ok, parte waterfall***********************************************************************************************')
             data.tokenExpired = false
              async.waterfall([
                                 retrievePath,
-                                makeDir,
+                               // makeDir,
                                setTags,
                                 fileMover,
                                 insertDb
                             ],function(error,success)
                             {
-                                console.log('waterfall done')
+                                console.log('waterfall done',err,success)
                                 if(err)
                                 {
                                     console.log('errore',err)
@@ -149,6 +146,7 @@ form.on('error', function(err) {
                                     console.log('waterfall success')
                                     data.success = true
                                 }
+                                console.log('waterfall finish=======================================================================================================00000')
                                 res.json(data)
                             })
          }

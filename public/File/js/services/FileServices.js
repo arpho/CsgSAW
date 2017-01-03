@@ -39,7 +39,7 @@ angular.module('CsgSAW.services').factory('FileService', ['$http','UserService',
             data.email = payload.email
             $http.post('/api/fileExists/',data).then(function(resp)
                                                 {
-                                                UserService.setToken(resp.data) // rinnovo il token
+                                                UserService.setToken(resp.data.token) // rinnovo il token
                                                 callbackSuccess(resp)
                                                 }).catch(function(resp)
                                                 {

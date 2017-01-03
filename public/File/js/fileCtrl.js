@@ -185,6 +185,7 @@ var useFullScreen = ($mdMedia('sm') || $mdMedia('xs'))  && $scope.customFullscre
                                     },
                                     function(data){
                                         self.cancel()
+                                        $scope.showSpinner = false
                                         var text = 'il file non è stato caricato correttamente'
                                         if(data.data.tokenExpired) text = 'il token è scaduto! Effettua nuovamente il login e prova ancora'
                                         $scope.showASpinner = false
@@ -202,26 +203,31 @@ var useFullScreen = ($mdMedia('sm') || $mdMedia('xs'))  && $scope.customFullscre
         }
     $scope.submit = function(registrazione){
         var path = FileService.buildRelativePath(registrazione), nomeFile = buildName(registrazione)
-        var data = {path:path,nomeFile:nomeFile,estensione:registrazione.estensione}
+        var data = {relativePath:path,nomeFile:nomeFile,estensione:registrazione.estensione}
         FileService.fileExists(data,function(resp){
         console.log('fileExists success', resp)
+        if(resp.data.exists){
+            var confirm = $mdDialog.confirm()
+                              .title('una registrazione con gli stessi dati è già presente ')
+                              .textContent('caricando questa registrazione sostituirai quella presente sul server')
+                              .ariaLabel('Lucky day')
+                              .ok('carica comunque')
+                              .cancel('Lascia perdere');
+
+                        $mdDialog.show(confirm).then(function() {
+                         $rootScope.$emit('showuploadPopup') // questo messaggio indica a fileController di mostrare uploadPopup
+                          upload(registrazione) // invio la richiesta al server
+                        }, function() {
+                            self.cancel()
+                        });
+        }
+        else{
+            upload(registrazione)
+        }
         },function(resp)
         {
             console.log('fileExist failure',resp)
         })
-        var confirm = $mdDialog.confirm()
-                  .title('una registrazione con gli stessi dati è già presente ')
-                  .textContent('caricando questa registrazione sostituirai quella presente sul server')
-                  .ariaLabel('Lucky day')
-                  .ok('carica comunque')
-                  .cancel('Lascia perdere');
-
-            $mdDialog.show(confirm).then(function() {
-             $rootScope.$emit('showuploadPopup') // questo messaggio indica a fileController di mostrare uploadPopup
-              upload(registrazione) // invio la richiesta al server
-            }, function() {
-                self.cancel()
-            });
           };
         //
 

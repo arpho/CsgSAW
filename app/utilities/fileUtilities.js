@@ -45,32 +45,38 @@ creaFullPathAsync = function(root,path,callback){
 	})
 	},
 	fileExist = function(req,res){
+	console.log('fileExists??????????????????????????????????????????????????????????????????????????????????????????')
 	 var body = req.body,Token = require('../utilities/tokenGenerator'),checkToken = Token.renewToken(body.token,body.email)
 	 var data = {}, retrievePath = require('../routing/configs_routing').retrievePath
 	 data.token = checkToken.token
 	 if (!checkToken.valido)
 	 {
+	    console.log('token scaduto' )
 	    data.success = false
          data.expiredToken = true
          res.json(data)
 	 }
 	 else
 	 {
+	    console.log('token valido')
 	    data.success = true
+	    retrievePath(function(err,resp){ // recupero il root per comporre il path del file
+        	    if(err){
+        	        data.success = false
+        	        rse.json(data)
+        	    }
+        	    console.log('resp fileexist*******************************************************************************',resp)
+        	    var fullPath = resp  + body.relativePath + body.nomeFile + body.estensione
+        	    console.log('cerco il file: ',fullPath)
+        	    data.exists = fs.existsSync(fullPath)
+        	    console.log('file trovato:',data.exists)
+        	    console.log('----------------------------------------------------------------------------------------------------')
+        	    res.json(data)
+        	    })
+    }
 
-	    retrievePath(function(err,resp){
-	    if(err){
-	        data.success = false
-	        rse.json(data)
-	    }
-	    //console.log('resp fileexist*******************************************************************************',resp)
-	    var fullPath = resp  + body.path + body.nomeFile + body.estensione
-	    console.log(fullPath)
-	    data.exists = fs.existsSync(fullPath)
-	    res.json(data)
-	    })
 	 }
-	}
+
 
 module.exports = {moveFile:function(oldPath,newPath,callback){
     /*
@@ -79,7 +85,11 @@ module.exports = {moveFile:function(oldPath,newPath,callback){
     @param newPath:String path completo posizione di destinazione
 
     */
-
+    console.log('fileMove######################################################################################')
+    console.log('source',oldPath)
+    console.log('///////////////////////////////////////////////////////////////////////////////////////////////////////')
+    console.log('dest',newPath)
+    console.log('+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++')
     require('mv')(oldPath,newPath,{mkdirp:true},callback)
 },
 makedir : creaFullPathAsync,
