@@ -5,9 +5,8 @@ var  mongoose = require('mongoose');
 module.exports = mongoose.model('File', {
    titolo: String,
    fase:String,
-   sede:String,
    data:Date,
-   sede:String,
+   scuola:String,
    relatore:String,
    Wang:Boolean,
    paroleChiave:[String],

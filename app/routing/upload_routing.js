@@ -8,9 +8,6 @@ var storage = multer.diskStorage({ //multers disk storage settings
         filename: function (req, file, cb) {
             var datetimestamp = Date.now();
             nome_upload = file.fieldname + '-' + datetimestamp + '.' + file.originalname.split('.')[file.originalname.split('.').length -1];
-            console.log('filename', file)
-            console.log('nome upload: ',file.fieldname + '-' + datetimestamp + '.' + file.originalname.split('.')[file.originalname.split('.').length -1])
-            console.log('fields',req.fields)
             cb(null, file.fieldname + '-' + datetimestamp + '.' + file.originalname.split('.')[file.originalname.split('.').length -1]);
         }
     });
@@ -31,42 +28,29 @@ upload_destination = path.join(__dirname, '/uploads')
                                    return;
                               }
                                //res.json({error_code:0,err_desc:null});
-                               console.log('upload ok')
-                               console.log('uploading files1')
                                var fs = require('fs'),formidable = require('formidable'),
                                form = new formidable.IncomingForm();
-                               console.log('parsing form')
                                form.parse(req,function(err, fields, files){
-                                console.log('form parsed 38')
-                                   console.log('err:',err)
-                                   console.log('fields39: ',fields)
-                                   console.log('tags 40: ',fields.tags)
-                                   console.log('files:',files)
 
                                    //console.log('token ok',checked.valido)
                                });
 
                           })
-    console.log('uploading files')
     var fs = require('fs'),formidable = require('formidable'),
     form = new formidable.IncomingForm();
 
     //console.log(req.files,'file2upload','.')
      var token,
             email, Token = require('../utilities/tokenGenerator'), fs = require("fs");
-
-    console.log('tokengenerator')
     var storage = multer.diskStorage({
               destination: function (request, file, callback) {
                 callback(null, storage);
               },
               filename: function (request, file, callback) {
-                console.log(file);
                 callback(null, file.originalname)
               }
             });
 form.on('registrazione', function(field, file) {
-        console.log("file uploaded")
         fs.rename(file.path, path.join(form.uploadDir, file.name));
       });
 form.on('error', function(err) {
@@ -83,9 +67,8 @@ form.on('error', function(err) {
                             tags.comment = fields.fase
                             tags.genre = fields.scuola
                             tags.desc = fields.data
-                            require('../utilities/tagFacility').write('./uploads/'+nome_upload,tags,function(err){
-                                console.log('tags settati:',tags,'errore: ',err)
-                                callback(null,data2pass)
+                            require('../utilities/tagFacility').write('./uploads/'+nome_upload,tags,function(err){('tags settati:',tags,'errore: ',err)
+                                callback(null,data2pass) //TODO      passare err al poasto di null nella chiamata a callback
                             })
                         },
          fileMover = function(path,callback){
@@ -113,8 +96,6 @@ form.on('error', function(err) {
          fileRecord.fogueo_istruttori = fields.fogueo_istruttori
          fileRecord.relativePath = fields.relativePath
          fileRecord.nomeFile = fields.nomeFile + fields.estensione
-         console.log(path)
-         //console.log(joe)
             require('./files_routing').insertFile(fileRecord,function(err){ /* wrapper alla funzione di callback per
              adattare la funzione a waterfall*/
              console.log('insertdb: ',err)
@@ -125,7 +106,6 @@ form.on('error', function(err) {
          data.token = checked.token
          if(checked.valido)
          {
-         console.log('token ok, parte waterfall***********************************************************************************************')
             data.tokenExpired = false
              async.waterfall([
                                 retrievePath,
@@ -146,7 +126,6 @@ form.on('error', function(err) {
                                     console.log('waterfall success')
                                     data.success = true
                                 }
-                                console.log('waterfall finish=======================================================================================================00000')
                                 res.json(data)
                             })
          }
