@@ -67,7 +67,8 @@ form.on('error', function(err) {
                             tags.comment = fields.fase
                             tags.genre = fields.scuola
                             tags.desc = fields.data
-                            require('../utilities/tagFacility').write('./uploads/'+nome_upload,tags,function(err){('tags settati:',tags,'errore: ',err)
+                            require('../utilities/tagFacility').write('./uploads/'+nome_upload,tags,function(err){
+                                console.log('tags settati:',tags,'errore: ',err)
                                 callback(null,data2pass) //TODO      passare err al poasto di null nella chiamata a callback
                             })
                         },

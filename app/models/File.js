@@ -18,5 +18,7 @@ module.exports = mongoose.model('File', {
    nomeFile:String,
    estensione:String,
    tipo:String,
+   codiceTema:String,
+
 
 })

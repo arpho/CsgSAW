@@ -1,6 +1,37 @@
 'use strict'
-var fs = require('fs'),async = require('async'),
-creaFolderAsync = function(folder,callback){
+var fs = require('fs'),async = require('async')
+var root,importSingleFile = function(file){
+    /*
+    importa un singolo file nel database
+    @param file:{nomeFile:AString,fullPath:String, relativePath:String}
+    @param callback:function(err)
+    */
+    var Tag = require(./tagFacility),
+    recordFile = Tag.buildRecordFile(Tag.splitName(file.nomeFile)),
+    tema = Tag.buildTema(Tag.spliTema(file.relativePath))
+    return tema
+
+
+},
+
+walkSync = function(dir, filelist) {
+  var fs = fs || require('fs'),
+      files = fs.readdirSync(dir);
+  filelist = filelist || [];
+  files.forEach(function(file) {
+    if (fs.statSync(dir +'/'+ file).isDirectory()) {
+      filelist = walkSync(dir + '/'+file , filelist);
+      //console.log(dir +'/'+ file+'************************************************')
+    }
+    else {
+      filelist.push({nomeFile:file,fullpath:dir+'/',relativePath:dir.substring(root.length)});
+    }
+  });
+  return filelist;
+};
+
+
+var creaFolderAsync = function(folder,callback){
 	//console.log('creo async ' +folder)
 	fs.mkdir(folder,function(err,data){
 		if (err) {
@@ -18,6 +49,14 @@ creaFolderAsync = function(folder,callback){
 			callback() //fine funzione serie
 		}
 		})
+},retrieveAllFiles: function(dir){
+/*
+ritorna la lista di tutti i file in una directory e nelle sue sottodirectory
+@param directory da esaminare:String
+@return [{nomeFile:AString,fullPath:String, relativePath:String}]
+*/
+root = dir
+return walkSync(root)
 },
 creaFullPath = function(root,path,callback){
 	var folderList = path.split('/'), relativePath = root
@@ -44,6 +83,8 @@ creaFullPathAsync = function(root,path,callback){
 	callback(null,root+path)
 	})
 	},
+
+
 	fileExist = function(req,res){
 	 var body = req.body,Token = require('../utilities/tokenGenerator'),checkToken = Token.renewToken(body.token,body.email)
 	 var data = {}, retrievePath = require('../routing/configs_routing').retrievePath
