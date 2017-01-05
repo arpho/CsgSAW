@@ -1,15 +1,31 @@
 'use strict'
 var fs = require('fs'),async = require('async')
-var root,importSingleFile = function(file){
+var root,importSingleFile = function(file,callback){
     /*
     importa un singolo file nel database
     @param file:{nomeFile:AString,fullPath:String, relativePath:String}
     @param callback:function(err)
     */
-    var Tag = require(./tagFacility),
+    var Tag = require('./tagFacility'),
     recordFile = Tag.buildRecordFile(Tag.splitName(file.nomeFile)),
-    tema = Tag.buildTema(Tag.spliTema(file.relativePath))
-    return tema
+    tema = Tag.buildTema(Tag.splitTema(file.relativePath)),
+    Tema = require('../models/Tema'),
+    File = require('../models/File');
+    callback({tema:tema,recordFile:recordFile})
+    var async = require('async')
+    async.parallel([
+
+
+    function(callback)
+    {
+        tema.update({code:tema.code},tema,{upsert:true},callback)
+    },
+    function(callback)
+    {
+        File.update({data:recordFile.data,
+        titolo:recordFile.titolo,scuola:recordFile.scuola},recordFile,{upsert:true},callback)
+    }
+    ],callback)
 
 
 },
@@ -49,7 +65,7 @@ var creaFolderAsync = function(folder,callback){
 			callback() //fine funzione serie
 		}
 		})
-},retrieveAllFiles: function(dir){
+},retrieveAllFiles = function(dir){
 /*
 ritorna la lista di tutti i file in una directory e nelle sue sottodirectory
 @param directory da esaminare:String
@@ -124,5 +140,6 @@ module.exports = {moveFile:function(oldPath,newPath,callback){
     require('mv')(oldPath,newPath,{mkdirp:true},callback)
 },
 makedir : creaFullPathAsync,
-fileExists : fileExist
+fileExists : fileExist,
+importSingleFile:importSingleFile
 }
