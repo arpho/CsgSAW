@@ -5,6 +5,7 @@ var  mongoose = require('mongoose');
 module.exports = mongoose.model('Tema', {
    titolo: String,
    fase:String,
-   code: String
+   code: String,
+   relativePath:String
 
 })

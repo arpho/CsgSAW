@@ -16,7 +16,8 @@ check4Wang = function(txt){
 var writer = new id3.Writer(), buildTema = function(fields)
                                                {
 
-                                                   return {code:fields[0],titolo:fields[1],fase:fields[0].match(/A|B/)[0]}
+                                                   return {code:fields[0],titolo:fields[1],
+                                                   fase:fields[0].match(/A|B/)[0],relativePath:fields[2]}
                                                };
 module.exports = {
     splitName: function(name){
@@ -30,6 +31,7 @@ module.exports = {
     splitTema: function(txt){
         var step0 = txt.split('/') // isolo la cartella del tema
         var step1 = step0[2].split('_') // scompongo il tema in codice e titolo
+        step1.push(txt.substring(1)+'/') // questo è il relativePath del tema
         return step1
     },
     buildTema: buildTema,

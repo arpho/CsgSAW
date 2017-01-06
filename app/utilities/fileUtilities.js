@@ -12,20 +12,20 @@ var root,importSingleFile = function(file,callback){
     Tema = require('../models/Tema'),
     File = require('../models/File');
     callback({tema:tema,recordFile:recordFile})
-    var async = require('async')
+    /*var async = require('async')
     async.parallel([
 
 
     function(callback)
     {
-        tema.update({code:tema.code},tema,{upsert:true},callback)
+        Tema.update({code:tema.code},tema,{upsert:true},callback)
     },
     function(callback)
     {
         File.update({data:recordFile.data,
         titolo:recordFile.titolo,scuola:recordFile.scuola},recordFile,{upsert:true},callback)
     }
-    ],callback)
+    ],callback)*/
 
 
 },

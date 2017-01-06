@@ -32,8 +32,8 @@ expected2 = {
 fileRecord = { nomeFile: '2010-10-05 - MI - Fase B - Raggio della Creazione - Reggy.mp3',
                  fullpath: '/media/giuseppe/KINGSTONE/2_ARCHIVIO REGISTRAZIONI/8_FASE B/B31_IL Raggio della creazione/',
                  relativePath: '/8_FASE B/B31_IL Raggio della creazione' }
-var expectedTema = {code:'B31',fase:'B',titolo:'IL Raggio della creazione'},
- expectedTema2 = {code:'B20',fase:'B',titolo:'Fogueo Studenti Fase B'},
+var expectedTema = {code:'B31',fase:'B',titolo:'IL Raggio della creazione',relativePath:'8_FASE B/B31_IL Raggio della creazione/'},
+ expectedTema2 = {code:'B20',fase:'B',titolo:'Fogueo Studenti Fase B',relativePath:'8_FASE B/B20_Fogueo Studenti Fase B/'},
 expectedFile = {
     data: new Date('2010-10-05'),
     scuola:'MI',
@@ -62,8 +62,8 @@ tap.same(Tag.buildRecordFile(Tag.splitName(file2)),expected2,'file2 tags:ok')
 tap.true(Tag.checkTemaFase(file2),'è un tema di fase')
 tap.false(Tag.checkTemaFase(file1),'non è un tema di fase')
 tap.true(Tag.checkTemaFase(file3),'è un tema di fase')
-tap.same(Tag.splitTema('/8_Fase B/B25_Pratica Yin Yang'),['B25','Pratica Yin Yang'],'split tema')
-tap.same(Tag.buildTema(Tag.splitTema('/8_Fase B/B25_Pratica Yin Yang')),{code:'B25',titolo:'Pratica Yin Yang',fase:'B'},'Tema')
+tap.same(Tag.splitTema('/8_Fase B/B25_Pratica Yin Yang'),['B25','Pratica Yin Yang','8_Fase B/B25_Pratica Yin Yang/'],'split tema')
+tap.same(Tag.buildTema(Tag.splitTema('/8_Fase B/B25_Pratica Yin Yang')),{code:'B25',titolo:'Pratica Yin Yang',fase:'B',relativePath:'8_Fase B/B25_Pratica Yin Yang/'},'Tema')
 fileUtilities.importSingleFile(fileRecord,function(resp){
     tap.same(resp.tema, expectedTema,'tema estratto correttamente')
     tap.same(resp.recordFile,expectedFile,'recordFIle0 generato correttamente')
