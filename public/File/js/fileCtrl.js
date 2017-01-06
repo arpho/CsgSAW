@@ -3,7 +3,14 @@ angular.module('csgSAW.controllers').controller('FilesController',['$scope','Use
 'app-messages',   '$window','$rootScope','$mdToast','ConfigService','FileService','Upload',
 function($scope,Users,$mdMedia,$mdDialog,messages,
  $window,$rootScope,$mdToast,Configs,FileService,Upload){
-
+$scope.batchImport = function() {
+        console.log('batchImport')
+        FileService.batchImport({},function(resp) {
+            console.log('batch concluso bene',resp)
+        },function(resp) {
+            console.log('batch concluso male',resp)
+        })
+    }
 
 var useFullScreen = ($mdMedia('sm') || $mdMedia('xs'))  && $scope.customFullscreen;
  var vm = this,showshowUPloadPopup = function(){
@@ -142,6 +149,7 @@ var useFullScreen = ($mdMedia('sm') || $mdMedia('xs'))  && $scope.customFullscre
     User.setToken(data.data.token)
     })
     $scope.showSpinner = false
+
     var data = Messages.getMessage('uploadingFile'),
         formatData = function(date){
             return

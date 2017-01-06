@@ -3,6 +3,7 @@ var formatData = function(data){
                              return data.getYear()+ 1900 +'-'+(data.getMonth()+1) +'-' + data.getDate()
                          }
 
+
 angular.module('CsgSAW.services').factory('FileService', ['$http','UserService', function($http,UserService) {
         return {splitName: function(name){
                 var tags = name.split(' - ')
@@ -14,6 +15,8 @@ angular.module('CsgSAW.services').factory('FileService', ['$http','UserService',
             file.relatore = tags[4]*/
             return tags
         },
+
+
         setTagFile(tags){
         var registrazione = {data:new Date(tags[0]),scuola:tags[1],fase:tags[2],titolo:tags[3],relatore:tags[4]}
         return registrazione
@@ -76,7 +79,19 @@ angular.module('CsgSAW.services').factory('FileService', ['$http','UserService',
             UserService.setToken(data.data.token)
                 callbackFailure(a)
             })
-        }
+        },
+        batchImport : function(data,callbackSuccess,callbackFailure) {
+                    var payload = UserService.generateDataPayload()
+                                data.token = payload.token
+                                data.email = payload.email
+                                $http.post('/api/batchImport/',data).then(function(resp) {
+                                    UserService.setToken(resp.data.token)
+                                    callbackSuccess(resp)
+                                }).catch(function(resp) {
+                                    UserService.setToken(resp.data.token)
+                                    callbackFailure(resp)
+                                })
+                },
         }
         }
     ])

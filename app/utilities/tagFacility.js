@@ -17,16 +17,21 @@ var writer = new id3.Writer(), buildTema = function(fields)
                                                {
 
                                                    return {code:fields[0],titolo:fields[1],
-                                                   fase:fields[0].match(/A|B/)[0],relativePath:fields[2]}
+                                                   fase:fields[0].match(/A|B/)[0],relativePath:fields[2]} //TODO fix error
                                                };
 module.exports = {
     splitName: function(name){
-        return name.split(' - ')
+        var out = name.split(' - ')
+        out.push(name) // aggiungo il nome del file perchè sia disponibile per buildRecordFile
+        return out
     },
     buildRecordFile: function(tags){
+        console.log('buildRecordFile: ',tags)
         return {data:new Date(tags[0]),scuola:tags[1],fase:tags[2],titolo:tags[3],
         relatore:tags[4].substring(0,tags[4].length - 4),estensione:tags[4].substring(tags[4].length - 4),
-        wang:check4Wang(tags[4]),fogueo_istruttori:check4fogueoIstruttori(tags[3]),fogueo:check4fogueo(tags[3])}
+        wang:check4Wang(tags[4]),fogueo_istruttori:check4fogueoIstruttori(tags[3]),fogueo:check4fogueo(tags[3]),
+        nomeFile: tags[5]
+        }
     },
     splitTema: function(txt){
         var step0 = txt.split('/') // isolo la cartella del tema

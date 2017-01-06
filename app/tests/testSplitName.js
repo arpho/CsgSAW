@@ -13,6 +13,7 @@ expected = {
     data:new Date('2009-11-08'),
     scuola:'MI',
     fase:'_',
+    nomeFile: '2009-11-08 - MI - _ - Essere istruttori_(parte finale del fogueo) - Wang.mp3',
     titolo:'Essere istruttori_(parte finale del fogueo)',
     relatore:'Wang',
     estensione:'.mp3',
@@ -27,6 +28,7 @@ expected2 = {
     fase:'Fase A',
     titolo:'Cos\'è la Gnosi',
     relatore:'Teresa',
+    nomeFile: '2010-05-04 - _ - Fase A - Cos\'è la Gnosi - Teresa.mp3',
     estensione:'.mp3'
 },
 fileRecord = { nomeFile: '2010-10-05 - MI - Fase B - Raggio della Creazione - Reggy.mp3',
@@ -37,6 +39,7 @@ var expectedTema = {code:'B31',fase:'B',titolo:'IL Raggio della creazione',relat
 expectedFile = {
     data: new Date('2010-10-05'),
     scuola:'MI',
+    nomeFile: '2010-10-05 - MI - Fase B - Raggio della Creazione - Reggy.mp3',
     fase: 'Fase B',
     titolo:'Raggio della Creazione',
     relatore:'Reggy',
@@ -54,6 +57,7 @@ expectedFile2 = {
     titolo:'Fogueo Temi Fase A',
     relatore:'_',
     estensione:'.mp3',
+    nomeFile:'2016-01-26 - MI - Fase B - Fogueo Temi Fase A - _.mp3',
     wang: false
 },
 fileUtilities = require('../utilities/fileUtilities')
@@ -71,7 +75,7 @@ fileUtilities.importSingleFile(fileRecord,function(resp){
 
 fileUtilities.importSingleFile(fileRecord2,function(resp){
     tap.same(resp.tema, expectedTema2,'tema estratto correttamente')
-    tap.same(expectedFile2,resp.recordFile,'recordFIle2 generato correttamente')
+    tap.same(resp.recordFile,expectedFile2,'recordFIle2 generato correttamente')
 })
 //console.log(Tag.buildRecordFile(Tag.splitName(file1)))
 //console.log('tema di fase',Tag.checkTemaFase(file2))

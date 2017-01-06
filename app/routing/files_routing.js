@@ -11,6 +11,9 @@ importFiles:function(req,res)
 {
     var fileUtilities = require('../utilities/fileUtilities'),
     configs = require('./configs_routing')
-    configs.retrievePath()
+    configs.retrievePath(function(err,rootPath)
+    {
+        var fileList = fileUtilities.retrieveAllFile(rootPath)
+    })
 }
 }

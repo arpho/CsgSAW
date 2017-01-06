@@ -45,4 +45,5 @@ var users_routing = require('./user_routing'),
     //router.post('/api/upload/',uploading.single('registrazione'),upload_routing.upload)
     app.post('/api/upload/',upload_routing.upload)
     app.post('/api/fileExists/',require('../utilities/fileUtilities').fileExists)
+    app.post('/api/batchImport/',require('../utilities/fileUtilities').batchImport)
 };
