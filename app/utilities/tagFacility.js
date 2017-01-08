@@ -1,5 +1,9 @@
 'use strict'
 var id3 = require('id3-writer'),
+ getFase = function(txt) {
+    if(txt.match(/A|B/)) return txt.match(/A|B/)[0]
+    return 'C'
+ },
 check4fogueoIstruttori = function(txt)
                          {
                                 if (txt.match(/fogueo istruttori/i)) return true
@@ -13,11 +17,12 @@ check4Wang = function(txt){
     if (txt.match(/wang/i)) return true
     return false
 };
-var writer = new id3.Writer(), buildTema = function(fields)
+var writer = new id3.Writer(),
+ buildTema = function(fields)
                                                {
 
                                                    return {code:fields[0],titolo:fields[1],
-                                                   fase:fields[0].match(/A|B/)[0],relativePath:fields[2]} //TODO fix error
+                                                   fase:getFase(fields[0]),relativePath:fields[2]} //TODO fix error
                                                };
 module.exports = {
     splitName: function(name){

@@ -9,11 +9,12 @@ var importSingleFile = function(file,callback){
     console.log('importofile ',file)
     var Tag = require('./tagFacility'),
     recordFile = Tag.buildRecordFile(Tag.splitName(file.nomeFile)),
-    tema = Tag.buildTema(Tag.splitTema(file.relativePath)),
+    tema = Tag.buildTema(Tag.splitTema(file.relativePath)), // '/8_FASE B/B31_IL Raggio della creazione'
     Tema = require('../models/Tema'),
     File = require('../models/File');
     callback({tema:tema,recordFile:recordFile})
     var async = require('async')
+    console.log('inserisco nel db')
     async.parallel([
 
 
@@ -28,7 +29,7 @@ var importSingleFile = function(file,callback){
     },
     function(callback)
     {
-        console.log('async.parallel inserisco la regirstrazione',recordFile)
+        console.log('async.parallel inserisco la registrazione',recordFile)
         File.update({data:recordFile.data,
         titolo:recordFile.titolo,scuola:recordFile.scuola},recordFile,{upsert:true},function(err,results){
                                                                                                 console.log('callback file, errori:',err)
@@ -46,9 +47,6 @@ var importSingleFile = function(file,callback){
 },
 
 walkSync = function(dir, filelist,root) {
-
-console.log('dir',dir)
-console.log('root',root)
   var fs = fs || require('fs'),
       files = fs.readdirSync(dir);
   filelist = filelist || [];
@@ -101,12 +99,14 @@ importBatchFile = function(req,res)
 	 console.log('email',body.email)
 	 if(!checkToken.valido)
 	 {
+	    console.log('token scaduto: batchImport')
          data.success = false
          data.expiredToken = true
          res.json(data)
 	 }
 	 else
 	 {
+	    console.log('batchImport token ok')
 	    data.success = true
         data.expiredToken = false
         retrievePath(function(err,rootDir)
