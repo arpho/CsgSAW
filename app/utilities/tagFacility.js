@@ -39,8 +39,15 @@ module.exports = {
         }
     },
     splitTema: function(txt){
-        var step0 = txt.split('/') // isolo la cartella del tema
-        var step1 = step0[2].split('_') // scompongo il tema in codice e titolo
+        console.log('tema',txt,'******************************************************************************************************************')
+        var step0 = txt.split('/'), // isolo la cartella del tema
+        step1 = ['',step0[step0.length]] // preparo step1 perché funzioni in tutti i casi il primo elemento non è mai utilizzato,ilsecondo è il titolo
+        console.log('/////////////////////////////////////////////////////////////////////////////////////splittedtema',step0,step0.length)
+        //if (step0.length>2)
+            if (step0[2])
+                step1 = step0[2].split('_') // scompongo il tema in codice e titolo
+            else
+                step1 = step0[1].split('_')
         step1.push(txt.substring(1)+'/') // questo è il relativePath del tema
         return step1
     },

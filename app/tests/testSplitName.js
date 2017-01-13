@@ -57,7 +57,7 @@ expectedTema3 = {
  expectedFile3 = {
      data: new Date('2012-06-06'),
      scuola:'MI',
-     fase: 'Fase C',
+     fase: '_',
      fogueo_istruttori:false,
      fogueo: false,
      titolo:'Risponde alle domande degli studenti',
@@ -69,7 +69,7 @@ expectedTema3 = {
  expectedFile4 = {
      data: new Date('2005-02-01'),
      scuola:'_',
-     fase: 'Fase C',
+     fase: '_',
      fogueo_istruttori:false,
      fogueo: false,
      titolo:'Il Peccato Originale Il Libro Aperto il Libro Chiuso',
