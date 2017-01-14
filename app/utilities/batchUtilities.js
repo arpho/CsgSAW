@@ -8,6 +8,14 @@ class TemaFaseAB {
  this.titolo = recordFile.relativePath.split('/')[2].split('_')[1]
  }
 
+ getJson() {
+    return {
+        titolo: this.titolo,
+        fase: this.fase,
+        code: this.code
+    }
+ }
+
  getFase() {
     return this.fase
  }
@@ -33,77 +41,114 @@ var retrieveRelatore = function(txt) {
 }
 
 class Registrazione {
-constructor(recordFile){
-var nomeFile = recordFile.nomeFile
-this.data = new Date(nomeFile.split(' - ')[0])
-this.titolo = nomeFile.split(' - ')[3]
-this.scuola = nomeFile.split(' - ')[1]
-this.fase = nomeFile.split(' - ')[2]
-this.relatore = retrieveRelatore(nomeFile.split(' - ')[4])
-this.estensione = retrieveEstensione(nomeFile.split(' - ')[4])
-this.nomeFile = nomeFile
-this.relativePath = recordFile.relativePath +'/'
-}
+    constructor(recordFile){
+        var nomeFile = recordFile.nomeFile
+        this.data = new Date(nomeFile.split(' - ')[0])
+        this.titolo = nomeFile.split(' - ')[3]
+        this.scuola = nomeFile.split(' - ')[1]
+        this.fase = nomeFile.split(' - ')[2]
+        this.relatore = retrieveRelatore(nomeFile.split(' - ')[4])
+        this.estensione = retrieveEstensione(nomeFile.split(' - ')[4])
+        this.nomeFile = nomeFile
+        this.relativePath = recordFile.relativePath +'/'
+        this.wang = this.fromWang(this.nomeFile)
+        this.fogueo_istruttori = this.isFogueoIstruttori(this.nomeFile)
 
-getRelativePath() {
-    return this.relativePath
-}
+    }
 
-getNomeFile() {
-    return this.nomeFile
-}
+    isFogueoIstruttori(txt) {
+        return !(txt.search(/fogueo istruttori/i) == -1)
+    }
 
-getEstensione() {
-    return this.estensione
-}
+    fromWang(txt) {
+    return !txt.search(/wang/i) == -1
+    }
 
-getFase() {
-    return this.fase
-}
+    getJson() {
+    return {
+        fogueo_istruttori: this.fogueo_istruttori,
+        wang: this.wang,
+        titolo: this.titolo,
+        fase: this.fase,
+        data: this.data,
+        scuola: this.scuola,
+        relatore: this.relatore,
+        relativePath: this.relativePath,
+        nomeFile:this.nomeFile,
+        estensione: this.estensione,
+    }
+    }
 
-getRelatore() {
-return this.relatore
-}
+    getRelativePath() {
+        return this.relativePath
+    }
 
-getScuola() {
-     return this.scuola
-}
+    getNomeFile() {
+        return this.nomeFile
+    }
 
-getTitolo() {
-     return this.titolo
-}
+    getEstensione() {
+        return this.estensione
+    }
 
-getDate() {
-    return this.data
-}
+    getFase() {
+        return this.fase
+    }
+
+    getRelatore() {
+    return this.relatore
+    }
+
+    getScuola() {
+         return this.scuola
+    }
+
+    getTitolo() {
+         return this.titolo
+    }
+
+    getDate() {
+        return this.data
+    }
 }
 
 class TemaFaseC {
-constructor(recordFile){
-    this.relativePath = recordFile.relativePath + '/'
-    this.fase = 'FASE C'
-    this.code = recordFile.relativePath.split('/')[1].split('_')[0]
-    this.titolo = recordFile.relativePath.split('/')[1].split('_')[1]
+    constructor(recordFile){
+            //super(recordFile)
+            this.relativePath = recordFile.relativePath + '/'
+            this.fase = 'FASE C'
+            this.code = recordFile.relativePath.split('/')[1].split('_')[0]
+            this.titolo = recordFile.relativePath.split('/')[1].split('_')[1]
+    }
+    getFase() {
+        return this.fase
+     }
+     getCode() {
+        return this.code
+     }
+
+     getTitolo() {
+        return this.titolo
+     }
+
+     getRelativePath() {
+         return this.relativePath
+     }
 }
-getFase() {
-    return this.fase
- }
- getCode() {
-    return this.code
- }
 
- getTitolo() {
-    return this.titolo
- }
+class AnnoEsoteerico extends TemaFaseAB {
 
- getRelativePath() {
-     return this.relativePath
- }
+    constructor(recordFile) {
+        super(recordFile)
+        this.fase =  'FASE C'
+    }
+
 }
 
 
 module.exports = {
 TemaFaseAB : TemaFaseAB,
 TemaFaseC : TemaFaseC,
-Registrazione : Registrazione
+Registrazione : Registrazione,
+AnnoEsoterico : AnnoEsoteerico,
 }
