@@ -1,6 +1,10 @@
 'use strict'
-var fs = require('fs'),async = require('async')
-var importSingleFile = function(file,callback){
+var fs = require('fs'),async = require('async'),
+importSingleRecord = function(recordFile,callback) {
+    var File =require('.batchUtilities').FileAudio,record = new File(recordFile)
+     record.insertOneRecord(record.getTema().getJson(),record.getRegistrazione().getJson(),callback)
+},
+ importSingleFile = function(file,callback){
     /*
     importa un singolo file nel database
     @param file:{nomeFile:AString,fullPath:String, relativePath:String}
@@ -117,7 +121,7 @@ importBatchFile = function(req,res)
             res.json(data)
             }
             var fileList = walkSync(rootDir,null,rootDir)
-            async.each(fileList,importSingleFile,function(err) {
+            async.each(fileList,importSingleRecord,function(err) { //TODO to check
                 console.log('finished batch import',err)
                 data.success = true
                 if(err) data.success = false

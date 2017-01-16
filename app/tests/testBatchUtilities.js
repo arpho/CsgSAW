@@ -14,7 +14,8 @@ var testFaseA = { nomeFile: '2015-03-31 - MI - Fase B - La pratica dello Yin e Y
         relativePath: '/1_WANG' }, tap = require('tap'),temaFaseAB = require('../utilities/batchUtilities').TemaFaseAB,
         temaFaseC = require('../utilities/batchUtilities').TemaFaseC,
         Registrazione = require('../utilities/batchUtilities').Registrazione,
-        AnnoEsoterico = require('../utilities/batchUtilities').AnnoEsoterico
+        AnnoEsoterico = require('../utilities/batchUtilities').AnnoEsoterico,
+        FileRegistrazione = require('../utilities/batchUtilities').FileAudio
         console.log('started')
 
         var annoEsoterico = { nomeFile: '2012-06-06 - MI - Fase C - livello comprensione dei tre fattori - Wang.mp3',
@@ -22,22 +23,42 @@ var testFaseA = { nomeFile: '2015-03-31 - MI - Fase B - La pratica dello Yin e Y
                                 relativePath: '/1_WANG/1_Wang-Anno Esoterico' }
 
         var temaB = new temaFaseAB(testFaseA),
+
         registrazioneFaseA = new Registrazione(testFaseA),
+        fileRegistrazioneWang = new FileRegistrazione(testWang),
+        fileRegistrazioneFaseA = new FileRegistrazione(testFaseA),
+        fileRegistrazioneAnnoEaoterico = new FileRegistrazione(annoEsoterico),
         temaWang = new temaFaseC(testWang),
-        testAnnoEsoteerico = new AnnoEsoterico(annoEsoterico),
+        TestAnnoEsoterico = new AnnoEsoterico(annoEsoterico),
         fogueoIstruttori = new temaFaseC(testFogueoIstruttori),
-        fogueoIstruttoriRegistrazione = new Registrazione(testFogueoIstruttori)
+        fogueoIstruttoriRegistrazione = new Registrazione(testFogueoIstruttori),
+        fileFogueoistruttori = new FileRegistrazione(testFogueoIstruttori)
+
+
+
+        ////////////////test fileAudio
+        tap.notSame(fileRegistrazioneFaseA.tema,fileRegistrazioneFaseA.getTema,'ottengo una copia del tema')
+        tap.equal(fileRegistrazioneFaseA.getTema().whois(),'FaseAB', 'tema di fase AB riconosciuto')
+        tap.equal(fileRegistrazioneWang.getTema().whois(),'Fase C','tema di fase C')
+        tap.equal(fileRegistrazioneAnnoEaoterico.getTema().whois(),'annoEsoterico','tema mercoledì esoterico riconosciuto')
+        tap.equal(fileFogueoistruttori.getTema().whois(),'Fase C','file fogueo istruttori ok')
+
         /////////////////// test temaB
         tap.equal(temaB.getCode(),'B25','check code ok')
         tap.equal(temaB.getTitolo(),'Pratica Yin Yang','check titolo ok')
         tap.equal(temaB.getFase(),'FASE B','check fase ok')
         tap.equal(temaB.getRelativePath(),'/8_FASE B/B25_Pratica Yin Yang/' ,'fase B path ok')
+        tap.equal(temaB.whois(),'FaseAB','whois fase B')
+
+
+
 
         /////////////////////// test tema wang
         tap.equal(temaWang.getCode(),'1','check code wang ok')
         tap.equal(temaWang.getFase(),'FASE C','temawang fase ok')
         tap.equal(temaWang.getRelativePath(),'/1_WANG/','temaWang ok path')
         tap.equal(temaWang.getTitolo(),'WANG','check titolo temaWang ok')
+        tap.equal(temaWang.whois(),'Fase C')
 
         /////////////////test tema fogueo istruttori
         tap.equal(fogueoIstruttori.getRelativePath(),'/5_FOGUEO Istruttori/','test fogueoIstruttori, path ok' )
@@ -45,6 +66,7 @@ var testFaseA = { nomeFile: '2015-03-31 - MI - Fase B - La pratica dello Yin e Y
         tap.equal(fogueoIstruttori.getTitolo(),'FOGUEO Istruttori','check titolo fogueoIstruttori ok')
         tap.equal(fogueoIstruttori.getFase(),'FASE C','check fase fogueo istruttori ok')
         tap.true(fogueoIstruttoriRegistrazione.getJson().fogueo_istruttori,'fogueoistruttori json.fogueo_istruttori ok')
+        tap.equal(fogueoIstruttori.whois(),'Fase C')
         ////test registrazione fase A
         tap.same(new Date('2015-03-31'),registrazioneFaseA.getDate(),'data registrazione fase A ok')
         tap.equal(registrazioneFaseA.getTitolo(),'La pratica dello Yin e Yang','titolo registrazione fase A ok')
@@ -62,10 +84,11 @@ var testFaseA = { nomeFile: '2015-03-31 - MI - Fase B - La pratica dello Yin e Y
         tap.false(registrazioneFaseA.getJson().wang,'anno registrazionefaseA json.wang')
 
         //////// test annoesoterico
-        tap.equal(testAnnoEsoteerico.getCode(),'1','annoEsoterico code ok')
-        tap.equal(testAnnoEsoteerico.getFase(),'FASE C','annoEsoterico fase ok')
-        tap.equal(testAnnoEsoteerico.getTitolo(),'Wang-Anno Esoterico','annoEsoterico titolo ok')
-        tap.true(testAnnoEsoteerico.getJson().code,'anno esoterico json.code')
-        tap.true(testAnnoEsoteerico.getJson().fase,'anno esoterico json.fase')
-        tap.true(testAnnoEsoteerico.getJson().titolo,'anno esoterico json.titolo')
-        tap.false(testAnnoEsoteerico.getJson().fogueo_istruttori,'anno esoterico json fogueo Istruttori')
+        tap.equal(TestAnnoEsoterico.getCode(),'1','annoEsoterico code ok')
+        tap.equal(TestAnnoEsoterico.getFase(),'FASE C','annoEsoterico fase ok')
+        tap.equal(TestAnnoEsoterico.getTitolo(),'Wang-Anno Esoterico','annoEsoterico titolo ok')
+        tap.true(TestAnnoEsoterico.getJson().code,'anno esoterico json.code')
+        tap.true(TestAnnoEsoterico.getJson().fase,'anno esoterico json.fase')
+        tap.true(TestAnnoEsoterico.getJson().titolo,'anno esoterico json.titolo')
+        tap.false(TestAnnoEsoterico.getJson().fogueo_istruttori,'anno esoterico json fogueo Istruttori')
+        tap.equal(TestAnnoEsoterico.whois(),'annoEsoterico','anno esoterico whois ok')
