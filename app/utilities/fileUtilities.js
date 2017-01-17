@@ -1,9 +1,16 @@
 'use strict'
 var fs = require('fs'),async = require('async'),
-importSingleRecord = function(recordFile,callback) {
-    var File =require('.batchUtilities').FileAudio,record = new File(recordFile)
-     record.insertOneRecord(record.getTema().getJson(),record.getRegistrazione().getJson(),callback)
+incrementCounter = function(counter){
+/*
+incrementaun contatore
+@param il contatore da incrementare: String
+*/
+
+                        var n = cache.retrieve('counter')
+                        cache.setCache('counter',n+1)
 },
+,
+importSingleRecord = require('./batchUtilities').insertBatchFile,
  importSingleFile = function(file,callback){
     /*
     importa un singolo file nel database
@@ -24,9 +31,14 @@ importSingleRecord = function(recordFile,callback) {
 
     function(callback)
     {
-        console.log('async.parallel inserisco il tema ',tema)
-        Tema.update({code:tema.code},tema,{upsert:true},function(err,results){
+        Tema.update({code:tema.code},tema,{upsert:true},function(err,numAffected,raw){
+            if(!err){
+                if(!raw.updatedExisting) // inserito nuovo tema
+                    incrementCounter('importedTemaCounter')
 
+                else
+                    incrementCounter('updatedTemaCounter')
+            }
             console.log('callback tema, errori:',err)
             callback(err)
         })
@@ -96,9 +108,11 @@ return walkSync(dir,null,dir)
 },
 importBatchFile = function(req,res)
 {   console.log('batch import')
-	 var body = req.body,Token = require('../utilities/tokenGenerator'),
+
+	 var body = req.body,Token = require('../utilities/tokenGenerator'), cache = require('./wrapperCache')
 	 checkToken = Token.renewToken(body.token,body.email),retrievePath = require('../routing/configs_routing').retrievePath,
 	 data = {token : checkToken.token}
+
 	 console.log('token',body.token)
 	 console.log('email',body.email)
 	 if(!checkToken.valido)
@@ -109,7 +123,10 @@ importBatchFile = function(req,res)
          res.json(data)
 	 }
 	 else
-	 {
+	 {  cache.setCache( 'importedFileCounter',0) // inizializzo il contatore dei file importati
+	     cache.setCache( 'updatedFileCounter',0) // inizializzo il contatore dei file aggiornati
+	     cache.setCache( 'updatedtemaCounter',0) // inizializzo il contatore dei temi aggiornati
+	 cache.setCache( 'importedTemaCounter',0) // inizializzo il contatore dei temi importati
 	    console.log('batchImport token ok')
 	    data.success = true
         data.expiredToken = false
@@ -123,7 +140,9 @@ importBatchFile = function(req,res)
             var fileList = walkSync(rootDir,null,rootDir)
             async.each(fileList,importSingleRecord,function(err) { //TODO to check
                 console.log('finished batch import',err)
+                console.log(' sono stati elaborati',fileList.length,' file')
                 data.success = true
+                data.fileCaricati = fileList.length
                 if(err) data.success = false
                 res.json(data)
             })
@@ -197,7 +216,7 @@ module.exports = {moveFile:function(oldPath,newPath,callback){
 },
 makedir : creaFullPathAsync,
 fileExists : fileExist,
-importSingleFile:importSingleFile,
+//importSingleFile:importSingleFile,
 batchImport: importBatchFile,
 retrieveAllFiles: retrieveAllFiles,
 }

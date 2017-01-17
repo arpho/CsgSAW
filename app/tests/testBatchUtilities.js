@@ -15,20 +15,21 @@ var testFaseA = { nomeFile: '2015-03-31 - MI - Fase B - La pratica dello Yin e Y
         temaFaseC = require('../utilities/batchUtilities').TemaFaseC,
         Registrazione = require('../utilities/batchUtilities').Registrazione,
         AnnoEsoterico = require('../utilities/batchUtilities').AnnoEsoterico,
-        FileRegistrazione = require('../utilities/batchUtilities').FileAudio
-        console.log('started')
+        FileRegistrazione = require('../utilities/batchUtilities').FileAudio,
+        Tema = require('../utilities/batchUtilities').Tema
 
         var annoEsoterico = { nomeFile: '2012-06-06 - MI - Fase C - livello comprensione dei tre fattori - Wang.mp3',
                                 fullpath: '/media/giuseppe/KINGSTONE/2_ARCHIVIO REGISTRAZIONI/1_WANG/1_Wang-Anno Esoterico/',
                                 relativePath: '/1_WANG/1_Wang-Anno Esoterico' }
 
         var temaB = new temaFaseAB(testFaseA),
-
+        WrapperTemaB = new Tema(testFaseA),
         registrazioneFaseA = new Registrazione(testFaseA),
         fileRegistrazioneWang = new FileRegistrazione(testWang),
         fileRegistrazioneFaseA = new FileRegistrazione(testFaseA),
         fileRegistrazioneAnnoEaoterico = new FileRegistrazione(annoEsoterico),
         temaWang = new temaFaseC(testWang),
+        TemaWrapperWang = new Tema(testWang),
         TestAnnoEsoterico = new AnnoEsoterico(annoEsoterico),
         fogueoIstruttori = new temaFaseC(testFogueoIstruttori),
         fogueoIstruttoriRegistrazione = new Registrazione(testFogueoIstruttori),
@@ -40,6 +41,7 @@ var testFaseA = { nomeFile: '2015-03-31 - MI - Fase B - La pratica dello Yin e Y
         tap.notSame(fileRegistrazioneFaseA.tema,fileRegistrazioneFaseA.getTema,'ottengo una copia del tema')
         tap.equal(fileRegistrazioneFaseA.getTema().whois(),'FaseAB', 'tema di fase AB riconosciuto')
         tap.equal(fileRegistrazioneWang.getTema().whois(),'Fase C','tema di fase C')
+        tap.equal(fileRegistrazioneWang.getCode(),'1','codice tema da registrazione')
         tap.equal(fileRegistrazioneAnnoEaoterico.getTema().whois(),'annoEsoterico','tema mercoledì esoterico riconosciuto')
         tap.equal(fileFogueoistruttori.getTema().whois(),'Fase C','file fogueo istruttori ok')
 
@@ -51,14 +53,24 @@ var testFaseA = { nomeFile: '2015-03-31 - MI - Fase B - La pratica dello Yin e Y
         tap.equal(temaB.whois(),'FaseAB','whois fase B')
 
 
+        tap.equal(WrapperTemaB.getCode(),'B25','check code ok')
+        tap.equal(WrapperTemaB.getTitolo(),'Pratica Yin Yang','check titolo ok')
+        tap.equal(WrapperTemaB.getFase(),'FASE B','check fase ok')
+        tap.equal(WrapperTemaB.getRelativePath(),'/8_FASE B/B25_Pratica Yin Yang/' ,'fase B path ok')
+        tap.equal(WrapperTemaB.whois(),'FaseAB','whois fase B')
+
+
 
 
         /////////////////////// test tema wang
         tap.equal(temaWang.getCode(),'1','check code wang ok')
+        tap.equal(TemaWrapperWang.getCode(),'1','check code wrapper wang ok')
+        tap.equal(TemaWrapperWang.getFase(),'FASE C','temawang wrapper fase ok')
+        tap.equal(TemaWrapperWang.getRelativePath(),'/1_WANG/','temaWang wrapper ok path')
+        tap.equal(TemaWrapperWang.getTitolo(),'WANG','check wrapper titolo temaWang ok')
         tap.equal(temaWang.getFase(),'FASE C','temawang fase ok')
         tap.equal(temaWang.getRelativePath(),'/1_WANG/','temaWang ok path')
         tap.equal(temaWang.getTitolo(),'WANG','check titolo temaWang ok')
-        tap.equal(temaWang.whois(),'Fase C')
 
         /////////////////test tema fogueo istruttori
         tap.equal(fogueoIstruttori.getRelativePath(),'/5_FOGUEO Istruttori/','test fogueoIstruttori, path ok' )
