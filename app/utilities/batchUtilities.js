@@ -1,10 +1,18 @@
 'use strict';
 
+var cache = require('./wrapperCache'), pushInCache = function(key,item) {
+        var lista = cache.retrieve(key)
+        lista.push(item)
+        cache.setCache(key,lista)
+    }
+
 class TemaFaseAB {
  constructor(recordFile){
  this.relativePath = recordFile.relativePath +'/'
  if (recordFile.relativePath.split('/')[1])
     this.fase = recordFile.relativePath.split('/')[1].substring(2)
+ else
+    pushInCache('wrongFile',recordFile) // aggiungo il record alla lista dei file che hanno pèresentato problemi
  if (recordFile.relativePath.split('/')[2])
     this.code = recordFile.relativePath.split('/')[2].split('_')[0]
  if (this.titolo = recordFile.relativePath.split('/')[2])

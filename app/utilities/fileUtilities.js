@@ -1,5 +1,6 @@
 'use strict'
 var fs = require('fs'),async = require('async'),
+
 incrementCounter = function(counter){
 /*
 incrementaun contatore
@@ -9,7 +10,7 @@ incrementaun contatore
                         var n = cache.retrieve('counter')
                         cache.setCache('counter',n+1)
 },
-,
+
 importSingleRecord = require('./batchUtilities').insertBatchFile,
  importSingleFile = function(file,callback){
     /*
@@ -123,9 +124,11 @@ importBatchFile = function(req,res)
          res.json(data)
 	 }
 	 else
-	 {  cache.setCache( 'importedFileCounter',0) // inizializzo il contatore dei file importati
+	 {
+	     cache.setCache('wrongFile',[])
+	     cache.setCache( 'importedFileCounter',0) // inizializzo il contatore dei file importati
 	     cache.setCache( 'updatedFileCounter',0) // inizializzo il contatore dei file aggiornati
-	     cache.setCache( 'updatedtemaCounter',0) // inizializzo il contatore dei temi aggiornati
+	     cache.setCache( 'updatedTemaCounter',0) // inizializzo il contatore dei temi aggiornati
 	 cache.setCache( 'importedTemaCounter',0) // inizializzo il contatore dei temi importati
 	    console.log('batchImport token ok')
 	    data.success = true
@@ -143,6 +146,11 @@ importBatchFile = function(req,res)
                 console.log(' sono stati elaborati',fileList.length,' file')
                 data.success = true
                 data.fileCaricati = fileList.length
+                data.fileImportati = cache.retrieve('importedFileCounter')
+                data.fileAggiornati = cache.retrieve('updatedFileCounter')
+                data.temiImportati = cache.retrieve('importedTemaCounter')
+                data.temiAggiornati = cache.retrieve('updatedTemaCounter')
+                data.wrongFile = cache.retrieve('wrongFile')
                 if(err) data.success = false
                 res.json(data)
             })
