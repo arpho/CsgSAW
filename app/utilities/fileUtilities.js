@@ -86,6 +86,26 @@ var filesList = function(req,res) {
     query = body.query||{},
     start = body.start,
     end = body.end, async = require('async')
+    async.parallel([
+        function(callback) {
+            File.count(query,function(err,count){
+            callback(err,count)
+            })
+            },
+            function(callback) {
+            // TODO check cache for result
+                File.find(query,function(err,files) {
+                callback(err,files)
+                })
+            }
+            ], function(err,resp) {
+             if(!err){
+                var data = { files: resp[1].slice(start,end),count: resp[0]}
+                data.success = true
+                }
+                res.json(data)
+            }
+    ])
 
 },
  creaFolderAsync = function(folder,callback){
