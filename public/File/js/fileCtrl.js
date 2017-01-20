@@ -1,6 +1,6 @@
 'use strict';
 angular.module('csgSAW.controllers').controller('FilesController',['$scope','UserService','$mdMedia','$mdDialog',
-'app-messages',   '$window','$rootScope','$mdToast','ConfigService','FileService','Upload',
+'app-messages',   '$window','$rootScope','$mdToast','ConfigService','FileService','Upload','$q',
 function($scope,Users,$mdMedia,$mdDialog,messages,
  $window,$rootScope,$mdToast,Configs,FileService,Upload){
 $scope.batchImport = function() {
@@ -72,6 +72,8 @@ var useFullScreen = ($mdMedia('sm') || $mdMedia('xs'))  && $scope.customFullscre
      };
  };
  var initialize = function(){
+    var data = { start:0,end:100}
+
     //a simple model to bind to and send to the server
         $scope.model = {
             name: "",

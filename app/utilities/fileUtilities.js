@@ -80,7 +80,15 @@ walkSync = function(dir, filelist,root) {
 };
 
 
-var creaFolderAsync = function(folder,callback){
+var filesList = function(req,res) {
+    body = req.body,Token = require('./tokenGenerator'), cache = require('./wrapperCache'),
+    checkToken = Token.renewToken(body.token,body.email), File = require('../models/File'),
+    query = body.query||{},
+    start = body.start,
+    end = body.end, async = require('async')
+
+},
+ creaFolderAsync = function(folder,callback){
 	//console.log('creo async ' +folder)
 	fs.mkdir(folder,function(err,data){
 		if (err) {
@@ -110,7 +118,7 @@ return walkSync(dir,null,dir)
 importBatchFile = function(req,res)
 {   console.log('batch import')
 
-	 var body = req.body,Token = require('../utilities/tokenGenerator'), cache = require('./wrapperCache')
+	 var body = req.body,Token = require('../utilities/tokenGenerator'), cache = require('./wrapperCache'),
 	 checkToken = Token.renewToken(body.token,body.email),retrievePath = require('../routing/configs_routing').retrievePath,
 	 data = {token : checkToken.token}
 
@@ -227,4 +235,5 @@ fileExists : fileExist,
 //importSingleFile:importSingleFile,
 batchImport: importBatchFile,
 retrieveAllFiles: retrieveAllFiles,
+filesList: filesList
 }

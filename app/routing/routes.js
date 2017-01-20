@@ -12,7 +12,8 @@ var users_routing = require('./user_routing'),
  roles_routing = require('./roles_routing'),
  schools_routing = require('./schools_routing'),
  upload_routing = require('./upload_routing'),
- configs_routing = require('./configs_routing');
+ configs_routing = require('./configs_routing'),
+ files_routing = require('./files_routing');
  app.use(busboy())
  //app.use(fileUpload())
      // server routes ===========================================================
@@ -46,4 +47,5 @@ var users_routing = require('./user_routing'),
     app.post('/api/upload/',upload_routing.upload)
     app.post('/api/fileExists/',require('../utilities/fileUtilities').fileExists)
     app.post('/api/batchImport/',require('../utilities/fileUtilities').batchImport)
+    app.post('/api/fileList/',files_routing.filesList)
 };

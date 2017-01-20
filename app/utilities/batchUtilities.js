@@ -1,7 +1,7 @@
 'use strict';
 
 var cache = require('./wrapperCache'), pushInCache = function(key,item) {
-        var lista = cache.retrieve(key)
+        var lista = cache.retrieve(key) ||[]
         lista.push(item)
         cache.setCache(key,lista)
     }
@@ -73,9 +73,28 @@ class Registrazione {
         this.fogueo_istruttori = this.isFogueoIstruttori(this.nomeFile)
 
     }
+
     setCode(code) {
     this.codeTema = code
     }
+
+    getCode() {
+        return this.codeTema
+    }
+
+    getFase() {
+        return this.fase
+    }
+
+    getScuola() {
+        return this.scuola
+    }
+
+    isValid() {
+     return this.getTitolo() && this.getNomeFile() && this.getCode() && this.getFase() && this.getScuola() && this.getRelatore()
+    }
+
+    //getRelatore
 
     isFogueoIstruttori(txt) {
         return !(txt.search(/fogueo istruttori/i) == -1)
@@ -219,6 +238,10 @@ class FileAudio{
         })
     }
 
+    isValid() {
+        return this.tema.isValid() && this.registrazione.isValid()
+    }
+
     getTema() {
         return this.tema
     }
@@ -255,6 +278,10 @@ class Tema{
             this.tema = new TemaFaseAB(recordFile) // tema fase A o B
         }
 
+    isValid() {
+        return this.getCode() && this.getTitolo() && this.getRelativePath()
+    }
+
     getCode() {
         return this.tema.getCode()
     }
@@ -286,7 +313,12 @@ wrapper di insertOnerecord per utilizzarlain async.each
 @param funzione di callback fornita da async
 */
     var  file  = new FileAudio(recordFile)
-    file.insertOneRecord(file.getTema().getJson(),file.getRegistrazione().getJson(),callback)
+    if (file.isValid())
+        file.insertOneRecord(file.getTema().getJson(),file.getRegistrazione().getJson(),callback)
+    else{
+        pushInCache(recordFile)
+        callback()
+    }
 }
 
 module.exports = {

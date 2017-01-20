@@ -15,5 +15,6 @@ importFiles:function(req,res)
     {
         var fileList = fileUtilities.retrieveAllFile(rootPath)
     })
-}
+},
+filesList: require('../utilities/fileUtilities').filesList
 }
