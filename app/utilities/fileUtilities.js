@@ -104,8 +104,8 @@ var filesList = function(req,res) {
                 data.success = true
                 }
                 res.json(data)
-            }
-    ])
+            })
+
 
 },
  creaFolderAsync = function(folder,callback){
