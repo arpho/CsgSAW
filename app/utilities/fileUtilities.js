@@ -81,32 +81,51 @@ walkSync = function(dir, filelist,root) {
 
 
 var filesList = function(req,res) {
-    body = req.body,Token = require('./tokenGenerator'), cache = require('./wrapperCache'),
+console.log(' getting the filesList')
+    var body = req.body,Token = require('./tokenGenerator'), cache = require('./wrapperCache'),
     checkToken = Token.renewToken(body.token,body.email), File = require('../models/File'),
     query = body.query||{},
     start = body.start,
     end = body.end, async = require('async')
-    async.parallel([
-        function(callback) {
-            File.count(query,function(err,count){
-            callback(err,count)
-            })
-            },
+    if(checkToken.valido){
+        console.log('token ok')
+
+        async.parallel([
             function(callback) {
-            // TODO check cache for result
-                File.find(query,function(err,files) {
-                callback(err,files)
+                File.count(query,function(err,count){
+                callback(err,count)
                 })
-            }
-            ], function(err,resp) {
-             if(!err){
-                var data = { files: resp[1].slice(start,end),count: resp[0]}
-                data.success = true
+                },
+                function(callback) {
+                // TODO check cache for result
+                    File.find(query,function(err,files) {
+                    callback(err,files)
+                    })
                 }
-                res.json(data)
-            })
+                ], function(err,resp) {
+                 if(!err){
+                    var data = { files: resp[1].slice(start,end),count: resp[0]}
+                    data.token = checkToken.token
+                    data.success = true
+                    data.msg = 'loaded files list'
+                    }
+                  else
+                  data.success = false
+                  data.msg = 'errore del server'
+                  data.expiredToken = false
+                  data.token = checkToken.token
+                    res.json(data)
+                })
+    }
+    else {
+     console.log('token scaduto')
+     var data = {expiredToken:true,
+        token : checkToken.token}
+        data.msg = 'Token Scaduto!!!'
+        res.json(data)
 
 
+}
 },
  creaFolderAsync = function(folder,callback){
 	//console.log('creo async ' +folder)

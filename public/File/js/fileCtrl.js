@@ -2,7 +2,7 @@
 angular.module('csgSAW.controllers').controller('FilesController',['$scope','UserService','$mdMedia','$mdDialog',
 'app-messages',   '$window','$rootScope','$mdToast','ConfigService','FileService','Upload','$q',
 function($scope,Users,$mdMedia,$mdDialog,messages,
- $window,$rootScope,$mdToast,Configs,FileService,Upload){
+ $window,$rootScope,$mdToast,Configs,FileService,Upload,$q){
 $scope.batchImport = function() {
         console.log('batchImport')
         FileService.batchImport({},function(resp) {
@@ -72,7 +72,15 @@ var useFullScreen = ($mdMedia('sm') || $mdMedia('xs'))  && $scope.customFullscre
      };
  };
  var initialize = function(){
-    var data = { start:0,end:100}
+    var data = { start:0,end:100},
+    promises = {
+    filesList :FileService.filesList(data)
+    }
+    $q.all(promises).then(function(result){
+        //console.log('$q then',result)
+        $scope.filesList = result.filesList.data.files
+        console.log('filesList',$scope.filesList)
+    })
 
     //a simple model to bind to and send to the server
         $scope.model = {

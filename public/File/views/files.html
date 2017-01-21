@@ -51,16 +51,27 @@
         <thead>
         <tr>
             <td>
-                sede
+                Data
             </td>
             <td>
-                denominazione
+                Fase
             </td>
-            <td>indirizzo</td>
+            <td>scuola</td>
+            <td>Titolo</td>
+            <td>relatore</td>
+            <td>Selezionato</td>
         </tr>
         </thead>
         <tbody>
-        <tr ng-repeat="file in files" >
+        <tr ng-repeat="file in filesList" >
+            <td><span>{{file.data| date:dd/MM/yyyy}}</span></td>
+            <td><span>{{file.fase}}</span></td>
+            <td><span>{{file.scuola}}</span></td>
+            <td><span>{{file.titolo}}</span></td>
+            <td><span>{{file.relatore}}</span></td>
+            <td>  <md-switch ng-model="file.selected" aria-label="Switch 2" ng-true-value="'yup'" ng-false-value="'nope'" class="md-warn"></md-switch>
+            </td>
+        </tr>
             <td>
     </body>
 </md-content>
