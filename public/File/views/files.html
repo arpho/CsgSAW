@@ -48,6 +48,10 @@
 
     </div>
     <table  class="table  table-striped" >
+        <span><button ng-click="previousPage(actualPage)" class="ion-arrow-left-b"></button></span>
+        <span>pagina: {{actualPage}} di {{pages}}</span>
+        <span> files da {{limits.start}} a {{limits.end}}</span>
+        <span><button  ng-click="nextPage(actualPage)" class="ion-arrow-right-b"></button></span>
         <thead>
         <tr>
 
@@ -75,5 +79,14 @@
             </td>
         </tr>
             <td>
+            </td>
+        </tbody>
+    </table>
+    <div style="float:right">
+        <span><button ng-click="previousPage(actualPage)" class="ion-arrow-left-b"></button></span>
+        <span>pagina: {{actualPage}} di {{pages}}</span>
+        <span> files da {{limits.start}} a {{limits.end}}</span>
+        <span><button  ng-click="nextPage(actualPage)" class="ion-arrow-right-b"></button></span>
+    </div>
     </body>
 </md-content>

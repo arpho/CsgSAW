@@ -71,7 +71,32 @@ var useFullScreen = ($mdMedia('sm') || $mdMedia('xs'))  && $scope.customFullscre
 
      };
  };
+ var changePage = function(limits) {
+    FileService.filesList(limits,function(resp){
+        $scope.filesList = resp.data.files
+        $scope.limits = limits
+    })
+ }
  var initialize = function(){
+    $scope.limits = {}
+    $scope.actualPage = 1
+    $scope.limits.start = 1
+    $scope.limits.end = 100
+    $scope.offset = 100
+    $scope.nextPage  = function(actualPage ) {
+        if( actualPage<=$scope.pages){
+            $scope.actualPage = actualPage +1
+            var limits = FileService.calculateLimits($scope.actualPage,$scope.offset)
+            changePage(limits)
+        }
+    }
+    $scope.previousPage = function(actualPage) {
+        if(actualPage>1){
+            $scope.actualPage = actualPage -1
+             var limits = FileService.calculateLimits($scope.actualPage,$scope.offset)
+             changePage(limits)
+        }
+    }
     var data = { start:0,end:100},
     promises = {
     filesList :FileService.filesList(data)
@@ -79,7 +104,7 @@ var useFullScreen = ($mdMedia('sm') || $mdMedia('xs'))  && $scope.customFullscre
     $q.all(promises).then(function(result){
         //console.log('$q then',result)
         $scope.filesList = result.filesList.data.files
-        console.log('filesList',$scope.filesList)
+        $scope.pages = Math.floor(result.filesList.data.count/$scope.offset)
     })
 
     //a simple model to bind to and send to the server

@@ -41,9 +41,23 @@ angular.module('CsgSAW.services').factory('FileService', ['$http','UserService',
                         data.email = payload.email
                         return $http.post('/api/fileList/',data).then(function(resp) {
                                                              UserService.setToken(resp.data.token) // rinnovo il token
-                                                             //callbackSuccess(resp)
-                                                             return resp
+
+                                                             if(callbackSuccess) {
+                                                                callbackSuccess(resp)
+                                                             }
+                                                             else
+                                                                return resp
                                                              })
+
+        },
+        calculateLimits : function(actualPage,offset) {
+        /*
+            calcola  i limityi da inviare al server per il paging
+        */
+            var out = {}
+            out.start = (actualPage-1)  * offset
+            out.end = actualPage * offset
+             return out
 
         },
         fileExists : function(data,callbackSuccess,callbackFailure)
