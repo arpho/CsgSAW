@@ -50,6 +50,18 @@ angular.module('CsgSAW.services').factory('FileService', ['$http','UserService',
                                                              })
 
         },
+        removeElementById : function(list, element) {
+        /*
+        rimuove un elemento da una lista un base al suo _id
+         @param lista di oggetti[element]
+         @param element oggetto da rimuovere
+         @note gli elementi devono avere il campo _id
+        */
+            for (var i = 0;i<list.length; i++) {
+             if(list[i]._id == element._id)
+                list.splice(i,1)
+            }
+        },
         calculateLimits : function(actualPage,offset) {
         /*
             calcola  i limityi da inviare al server per il paging

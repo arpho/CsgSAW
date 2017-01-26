@@ -71,7 +71,9 @@ var useFullScreen = ($mdMedia('sm') || $mdMedia('xs'))  && $scope.customFullscre
 
      };
  };
- var changePage = function(limits) {
+ var changePage = function(limits) {/*
+    aggiorna la lista dei file per il cambio di pagina
+ */
     $scope.showSpinner = true
     FileService.filesList(limits,function(resp){
         $scope.showSpinner = false
@@ -80,14 +82,32 @@ var useFullScreen = ($mdMedia('sm') || $mdMedia('xs'))  && $scope.customFullscre
         if ($scope.actualPage == $scope.pages)
         $scope.limits.end = $scope.filesCount
     })
+ },
+
+ removeSelection = function(file) {
+ /*
+ wrapper di removeElementById
+ */
+    FileService.removeElementById($scope.selectedFiles,file)
  }
  var initialize = function(){
     $scope.limits = {}
+    $scope.download =  function() {
+                          console.log('download')
+                       },
     $scope.actualPage = 1
     $scope.limits.start = 1
     $scope.limits.end = 100
     $scope.offset = 100
     $scope.showSpinner = true
+
+    $scope.selectedFiles = []
+    $scope.changeSelection = function(file) {
+        if(file.selected)
+            $scope.selectedFiles.push(file)
+        else
+            removeSelection(file)
+    }
     $scope.nextPage  = function(actualPage ) {
         if( actualPage<=$scope.pages){
             $scope.actualPage = actualPage +1

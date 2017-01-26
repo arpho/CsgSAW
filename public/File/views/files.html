@@ -10,7 +10,7 @@
     <body nv-file-drop="" Uploader="Uploader">
     <div ng-show="isLogged">
         <md-input-container>
-            <form name="up.upload_form" id ="myForm" enctype="multipart/form-data" ng-submit ="uploadFile(file-registrazione)">
+            <form name="up.upload_form" id ="myForm" enctype="multipart/form-data"  ng-submit ="uploadFile(file-registrazione)">
 
             <h3>Upload queue</h3>
             <p>Queue length: {{ files.length }}</p>
@@ -38,7 +38,6 @@
             </button>
 
         </md-input-container>
-
         <ul>
             <li ng-repeat="item in Uploader.queue">
                 Name: <span ng-bind="item.file.name"></span><br/>
@@ -47,7 +46,12 @@
             </li>
         </ul>
 
+
+
+
     </div>
+    <md-button class="md-fab md-primary  md-fab-top-right ion-android-download" ng-show ="selectedFiles.length>0"ng-click="download($event)" aria-label="download registrazioni" position="tr">
+    </md-button>
     <table  class="table  table-striped" >
         <span><button ng-click="previousPage(actualPage)" class="ion-arrow-left-b"></button></span>
         <span>pagina: {{actualPage}} di {{pages}}</span>
@@ -63,9 +67,9 @@
             <td>
                 Fase
             </td>
-            <td>scuola</td>
+            <td>Scuola</td>
             <td>Titolo</td>
-            <td>relatore</td>
+            <td>Relatore</td>
             <td>Selezionato</td>
         </tr>
         </thead>
@@ -76,7 +80,7 @@
             <td><span>{{file.scuola}}</span></td>
             <td><span>{{file.titolo}}</span></td>
             <td><span>{{file.relatore}}</span></td>
-            <td>  <md-switch ng-model="file.selected" aria-label="Switch 2" ng-true-value="'yup'" ng-false-value="'nope'" class="md-warn"></md-switch>
+            <td>  <md-switch ng-model="file.selected" ng-change="changeSelection(file)" aria-label="Switch 2"  class="md-warn"></md-switch>
             </td>
         </tr>
             <td>
