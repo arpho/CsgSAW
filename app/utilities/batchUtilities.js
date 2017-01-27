@@ -27,7 +27,8 @@ class TemaFaseAB {
     return {
         titolo: this.titolo,
         fase: this.fase,
-        code: this.code
+        code: this.code,
+        relativePath: this.relativePath
     }
  }
 
@@ -178,7 +179,8 @@ class TemaFaseC {
          return {
              titolo: this.titolo,
              fase: this.fase,
-             code: this.code
+             code: this.code,
+             relativePath: this.relativePath
          }
      }
      getRelativePath() {
@@ -265,8 +267,6 @@ class FileAudio{
 
 class Tema{
     constructor(recordFile) {
-            console.log('elaboro',recordFile)
-            console.log('-------------------------------------------------------------------------------------------------')
             if(recordFile.relativePath.split('/').length==2) { // tema di fase C
                 this.tema = new TemaFaseC(recordFile)
                 return
@@ -308,7 +308,7 @@ class Tema{
 }
 
 var insertBatchFile = function(recordFile,callback) {/*
-wrapper di insertOnerecord per utilizzarlain async.each
+wrapper di insertOnerecord per utilizzarla in async.each
 @param: recordFile item fornito da syncWalk {nomeFile:string,fullPath:string,relativePath:string}
 @param funzione di callback fornita da async
 */
