@@ -74,9 +74,11 @@ var useFullScreen = ($mdMedia('sm') || $mdMedia('xs'))  && $scope.customFullscre
  var changePage = function(limits) {/*
     aggiorna la lista dei file per il cambio di pagina
  */
-    $scope.showSpinner = true
+ //setto il testo del toast
+    $scope.showSpinner = true // mostro lo spinner
     FileService.filesList(limits,function(resp){
-        $scope.showSpinner = false
+        $scope.showSpinner = false // nascondo lo showSpinner
+        //$mdToast.hide()  // nascondo il toast
         $scope.filesList = resp.data.files
         $scope.limits = limits
         if ($scope.actualPage == $scope.pages)
@@ -93,7 +95,15 @@ var useFullScreen = ($mdMedia('sm') || $mdMedia('xs'))  && $scope.customFullscre
  var initialize = function(){
     $scope.limits = {}
     $scope.download =  function() {
-                          console.log('download')
+                          console.log('downloading ',$scope.selectedFiles)
+                          var data = {}
+                          data.files = $scope.selectedFiles
+                          FileService.download(data,function(resp){
+                            console.log('success',resp);
+
+                          },function(resp){
+                            console.log('failure',resp);
+                          })
                        },
     $scope.actualPage = 1
     $scope.limits.start = 1

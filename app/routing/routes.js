@@ -48,4 +48,5 @@ var users_routing = require('./user_routing'),
     app.post('/api/fileExists/',require('../utilities/fileUtilities').fileExists)
     app.post('/api/batchImport/',require('../utilities/fileUtilities').batchImport)
     app.post('/api/fileList/',files_routing.filesList)
+    app.post('/api/download/',require('./download_routing'))
 };

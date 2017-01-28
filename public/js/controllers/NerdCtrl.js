@@ -1,7 +1,7 @@
 angular.module('csgSAW.controllers').controller('NerdController',['$scope','$mdDialog','$mdMedia','$mdToast','UserService'
 ,'app-messages','$rootScope',
   function($scope,$mdDialog,$mdMedia, $mdToast,User,messages,$rootScope) {
-
+    var isDlgOpen;
     $scope.tagline = 'Nothing beats a pocket protector!';
     messages.putMessage('toastTitle','Test');
     messages.putMessage('toastBody','questo è un toast test')

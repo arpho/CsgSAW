@@ -87,6 +87,18 @@ angular.module('CsgSAW.services').factory('FileService', ['$http','UserService',
                                                     callbackFailure(resp)
                                                 })
         },
+        download : function(data,callbackSuccess,callbackFailure) {
+          var payload = UserService.generateDataPayload()
+          data.token = payload.token
+          data.email = payload.email
+          $http.post('/api/download/',data).then(function(resp) {
+            UserService.setToken(resp.data.token)
+            callbackSuccess(resp)
+          }).catch(function(resp){
+            UserService.setToken(resp.data.token)
+            callbackFailure(resp)
+          })
+        },
         upload : function(data,callbackSuccess, callbackFailure){
             var payload = UserService.generateDataPayload()
             /*data.token = payload.token
