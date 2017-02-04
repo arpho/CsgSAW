@@ -5,7 +5,12 @@ var mongoose       = require('mongoose');
 var bodyParser     = require('body-parser');
 var methodOverride = require('method-override');
 var multer = require('multer');
-
+var helmet = require('helmet'),
+morgan = require('morgan'),
+cache = require('./app/utilities/wrapperCache')
+cache.setCache('projectRoot',__dirname)
+app.use(helmet())
+app.use(morgan('dev'))
 // config files
 var db = require('./config/db');
 var https = require('https');
@@ -25,7 +30,7 @@ var HOST = 'localhost';
  mongoose.connect(db.url); // connect to our mongoDB database (commented out after you enter in your own credentials)
  //app.use(formidable());
 // get all data/stuff of the body (POST) parameters
-app.use(bodyParser.json()); // parse application/json 
+app.use(bodyParser.json()); // parse application/json
 //app.use(bodyParser.json({ type: 'application/vnd.api+json' })); // parse application/vnd.api+json as json
 //app.use(bodyParser.urlencoded({ extended: true })); // parse application/x-www-form-urlencoded
 
@@ -41,7 +46,3 @@ https.createServer(options,app).listen(port)
 console.log('Magic https  happens on port ' + port); 			// shoutout to the user
 exports = module.exports = app; 						// expose app
 // https ====================================================================
-
-
-
-
