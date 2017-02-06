@@ -1,5 +1,35 @@
 'use strict'
-var fs = require('fs'),async = require('async'),
+var fs = require('fs-extra'),async = require('async'), cache = require('./wrapperCache'),
+removeSingleFile = function(path,callback) {
+    fs.remove(path,callback)
+},
+cleanDirectory = function(dir, callback) {
+var async = require('async')
+    fs.readdir(dir,function(err,files) {
+        if(!err) {
+            async.each(files, (file,callback)=>{
+                var path = cache.retrieve('projectRoot')+'/app/temp/'+ file
+                removeSingleFile(path,callback)
+            },callback)
+        }
+    })
+
+},
+zipFiles = function(path,callback) {
+    var destinazione = path,
+     src = destinazione,
+    execString = "zip -r " + destinazione + '/registrazioni.zip '+ src,
+    exec = require('child_process').exec,
+    child = exec(execString)
+    child.on('error',(err) => {
+        console.log("errore creando l'archivio",err)
+        callback(err)
+    })
+    child.on('close',() => {
+        console.log('archivio ok')
+        callback
+    })
+},
 
 incrementCounter = function(counter){
 /*
@@ -145,7 +175,14 @@ console.log(' getting the filesList')
 			callback() //fine funzione serie
 		}
 		})
-},retrieveAllFiles = function(dir){
+},
+createDirectory = (path,next) => {
+    var mkdirp = require('mkdirp')
+    mkdirp(path,(err) => {
+        next(err)
+    })
+},
+retrieveAllFiles = function(dir){
 /*
 ritorna la lista di tutti i file in una directory e nelle sue sottodirectory
 @param directory da esaminare:String
@@ -274,5 +311,9 @@ fileExists : fileExist,
 //importSingleFile:importSingleFile,
 batchImport: importBatchFile,
 retrieveAllFiles: retrieveAllFiles,
-filesList: filesList
+filesList: filesList,
+removeSingleFile:removeSingleFile,
+cleanDirectory:cleanDirectory,
+zipFiles:zipFiles,
+createDirectory:createDirectory
 }

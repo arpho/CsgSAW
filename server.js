@@ -10,7 +10,12 @@ morgan = require('morgan'),
 cache = require('./app/utilities/wrapperCache')
 cache.setCache('projectRoot',__dirname)
 app.use(helmet())
-app.use(morgan('dev'))
+if(require('./config/configs').morgan) {
+
+	var morgan = require('morgan')
+	app.use(morgan('dev'))
+}
+
 // config files
 var db = require('./config/db');
 var https = require('https');
