@@ -16,6 +16,7 @@ var async = require('async')
 
 },
 zipFiles = function(path,callback) {
+    console.log('creo archivio')
     var destinazione = path,
      src = destinazione,
     execString = "zip -r " + destinazione + '/registrazioni.zip '+ src,
@@ -27,7 +28,7 @@ zipFiles = function(path,callback) {
     })
     child.on('close',() => {
         console.log('archivio ok')
-        callback
+        callback()
     })
 },
 
