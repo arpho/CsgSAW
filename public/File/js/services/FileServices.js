@@ -4,7 +4,7 @@ var formatData = function(data){
                          }
 
 
-angular.module('CsgSAW.services').factory('FileService', ['$http','UserService', function($http,UserService) {
+angular.module('CsgSAW.services').factory('FileService', ['$http','UserService','$window', function($http,UserService,$window) {
         return {splitName: function(name){
                 var tags = name.split(' - ')
             /*var file = {}
@@ -50,6 +50,9 @@ angular.module('CsgSAW.services').factory('FileService', ['$http','UserService',
                                                              })
 
         },
+        downloadFile :(data) => {
+            return $http.post('/api/downloadFile/',data)
+        },
         removeElementById : function(list, element) {
         /*
         rimuove un elemento da una lista un base al suo _id
@@ -93,6 +96,7 @@ angular.module('CsgSAW.services').factory('FileService', ['$http','UserService',
           data.email = payload.email
           $http.post('/api/download/',data).then(function(resp) {
             UserService.setToken(resp.data.token)
+            $window.open('/download');
             callbackSuccess(resp)
           }).catch(function(resp){
             UserService.setToken(resp.data.token)

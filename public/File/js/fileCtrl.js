@@ -100,7 +100,12 @@ var useFullScreen = ($mdMedia('sm') || $mdMedia('xs'))  && $scope.customFullscre
                           data.files = $scope.selectedFiles
                           FileService.download(data,function(resp){
                             console.log('success',resp);
-
+                            var data = {folder:resp.data.folder}
+                            /*FileService.downloadFile(data).then((err)=>{
+                                console.log('download done',err)
+                            }).catch((err)=>{
+                                console.log('error',err)
+                            })*/
                           },function(resp){
                             console.log('failure',resp);
                           })

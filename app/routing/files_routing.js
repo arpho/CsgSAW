@@ -11,7 +11,7 @@ downloadFile : (req,res) => {
     var folder = req.body.folder
     var data = {result:'ok'},
     path = require('../utilities/wrapperCache').retrieve('projectRoot') + '/app/temp/'+ folder  + '/registrazioni.zip'
-    console.log('path',path)
+    console.log('path in files_routing',path)
     res.download(path,'registrazioni.zip', (err) => {
         console.log('download done',err)
     })
