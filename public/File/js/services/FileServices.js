@@ -94,9 +94,9 @@ angular.module('CsgSAW.services').factory('FileService', ['$http','UserService',
           var payload = UserService.generateDataPayload()
           data.token = payload.token
           data.email = payload.email
-          $http.post('/api/download/',data).then(function(resp) {
-            UserService.setToken(resp.data.token)
-            $window.open('/download');
+          $http.post('/api/download/',data, {responseType:'arraybuffer'}).then(function(resp) {
+            //UserService.setToken(resp.data.token)
+            //$window.open('/download','_self');
             callbackSuccess(resp)
           }).catch(function(resp){
             UserService.setToken(resp.data.token)

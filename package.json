@@ -10,6 +10,7 @@
     "crypto-js": "^3.1.6",
     "express": "^4.14.0",
     "express-formidable": "^1.0.0",
+    "express-zip": "^2.0.1",
     "eyed3": "0.0.1",
     "fileupload": "^1.0.0",
     "formidable": "^1.0.17",

@@ -1,8 +1,8 @@
 'use strict';
 angular.module('csgSAW.controllers').controller('FilesController',['$scope','UserService','$mdMedia','$mdDialog',
-'app-messages',   '$window','$rootScope','$mdToast','ConfigService','FileService','Upload','$q',
+'app-messages',   '$window','$rootScope','$mdToast','ConfigService','FileService','Upload','$q','FileSaver',
 function($scope,Users,$mdMedia,$mdDialog,messages,
- $window,$rootScope,$mdToast,Configs,FileService,Upload,$q){
+ $window,$rootScope,$mdToast,Configs,FileService,Upload,$q,FileSaver){
 $scope.batchImport = function() {
         console.log('batchImport')
         FileService.batchImport({},function(resp) {
@@ -95,12 +95,15 @@ var useFullScreen = ($mdMedia('sm') || $mdMedia('xs'))  && $scope.customFullscre
  var initialize = function(){
     $scope.limits = {}
     $scope.download =  function() {
-                          console.log('downloading ',$scope.selectedFiles)
                           var data = {}
                           data.files = $scope.selectedFiles
                           FileService.download(data,function(resp){
-                            console.log('success',resp);
-                            var data = {folder:resp.data.folder}
+                              var blob = new Blob([resp], {type: "application/octet-stream"})
+                              FileSaver.saveAs(blob,'registrazioni.zip',(err) => {
+                                  console.log('saved success,error',err);
+                              })
+
+                            //var data = {folder:resp.data.folder}
                             /*FileService.downloadFile(data).then((err)=>{
                                 console.log('download done',err)
                             }).catch((err)=>{

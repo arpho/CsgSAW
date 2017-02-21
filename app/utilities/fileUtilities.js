@@ -112,7 +112,7 @@ walkSync = function(dir, filelist,root) {
 
 
 var filesList = function(req,res) {
-console.log(' getting the filesList')
+//console.log(' getting the filesList')
     var body = req.body,Token = require('./tokenGenerator'), cache = require('./wrapperCache'),
     checkToken = Token.renewToken(body.token,body.email), File = require('../models/File'),
     query = body.query||{},
