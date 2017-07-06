@@ -36,6 +36,7 @@
     "tap": "^6.3.0"
   },
   "scripts": {
-    "test": "tap test/*.js"
+    "test": "tap test/*.js",
+    "develop": "nodemon server.js"
   }
 }

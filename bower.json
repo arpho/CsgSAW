@@ -15,7 +15,7 @@
     "Ionicons": "ionicons#^2.0.1",
     "roboto-fontface": "^0.5.0",
     "angular-moment": "^0.10.3",
-    "angular-ivh-treeview": "^1.0.4",
+    "angular-ivh-treeview": "^1.0.6",
     "ng-flow": "~2",
     "angular-file-upload": "^2.3.4",
     "ngstorage": "^0.3.11",
