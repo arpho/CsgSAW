@@ -8,13 +8,13 @@ var multer = require('multer');
 var helmet = require('helmet'),
 morgan = require('morgan'),
 cache = require('./app/utilities/wrapperCache')
-cache.setCache('projectRoot',__dirname)
+//cache.setCache('projectRoot',__dirname)
 app.use(helmet())
-if(require('./config/configs').morgan) {
+/*if(require('./config/configs').morgan) {
 
 	var morgan = require('morgan')
 	app.use(morgan('dev'))
-}
+}*/
 
 // config files
 var db = require('./config/db');

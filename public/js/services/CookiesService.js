@@ -1,6 +1,4 @@
-angular.module('CsgSAW.services').factory('cookiesService', ['ngCookies', function ($scope,
+angular.module('CsgSAW.services').factory('CookiesServiceSAW', ['$scope', 'ngCookies', function ($scope,
     $Cookies) {
-    $scope.$storage = $localStorage;
-    console.log('cookiesService')
-    return $localStorage;
+
 }])
