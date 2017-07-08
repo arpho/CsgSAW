@@ -49,5 +49,6 @@ require('./app/routing/routes')(app); // pass our application into our routes
 var https = require('https');
 https.createServer(options,app).listen(port)
 console.log('Magic https  happens on port ' + port); 			// shoutout to the user
-exports = module.exports = app; 						// expose app
+app.root = __dirname // root del progetto
+ module.exports = app; 						// expose app
 // https ====================================================================
