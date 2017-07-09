@@ -1,9 +1,9 @@
 'use strict';
 angular.module('csgSAW.controllers').controller('LoginController', ['$scope', 'UserService', '$mdMedia', '$mdDialog',
-    'app-messages', '$window', '$rootScope',
+    'app-messages', '$window', '$rootScope','CookiesService',
     function ($scope, Users, $mdMedia, $mdDialog, messages,
-        $window, $rootScope) {
-        var self = this;
+        $window, $rootScope,Cookies) {
+        var self = this;  
         $scope.daRicordare = function (b) { /*testo della combo box*/
             if (b) return 'Si'
             return 'No'
@@ -28,8 +28,8 @@ angular.module('csgSAW.controllers').controller('LoginController', ['$scope', 'U
                         return dat;
                     }
                     var today = new Date();
-                    /*    $cookies.put('username',$scope.user.email,{expires:today.addDays(30)})
-                        $cookies.put('password',$scope.user.password,{expires:today.addDays(30)})
+                        Cookies.put('username',$scope.user.email,{expires:today.addDays(30)})
+                    /*    $cookies.put('password',$scope.user.password,{expires:today.addDays(30)})
                         $cookies.put('remember',$scope.user.remember,{expires:today.addDays(30)})*/
                 } else {
                     /*$cookies.remove('username')

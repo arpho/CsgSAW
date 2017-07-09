@@ -1,4 +1,12 @@
-angular.module('CsgSAW.services').factory('CookiesServiceSAW', ['$scope', 'ngCookies', function ($scope,
-    $Cookies) {
-
-}])
+angular.module('CsgSAW.services',['ngCookies']).factory('CookiesService', [ '$cookies', function (
+    Cookies) {
+	return {
+		put:(key,value,options) => {
+		Cookies.putObject(key,value,options)
+	},
+	get: (key) =>{
+		return Cookies.get(key)
+	}
+}
+}
+])
