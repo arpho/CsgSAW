@@ -15,7 +15,8 @@ angular.module('csgSAW.controllers').controller('LoginController', ['$scope', 'U
             $mdDialog.hide();
         };
         $scope.user = {}
-        $scope.user.remember = true // Boolean($cookies.get('remember').replace('"',''))
+	console.log('remember', Cookies.get('remember'))
+        $scope.user.remember = true // Boolean(Cookies.get('remember').replace('"',''))
         $scope.user.email = 'arpho@iol.it' //$cookies.get('username').replace('"','')
         $scope.user.password = 'me' // $cookies.get('password').replace('"','')
         $scope.submit = function (user) {
