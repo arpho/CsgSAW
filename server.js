@@ -6,7 +6,7 @@ var bodyParser     = require('body-parser');
 var methodOverride = require('method-override');
 var multer = require('multer');
 var helmet = require('helmet'),
-morgan = require('morgan'),
+//morgan = require('morgan'),
 cache = require('./app/utilities/wrapperCache')
 //cache.setCache('projectRoot',__dirname)
 app.use(helmet())
@@ -41,10 +41,11 @@ app.use(bodyParser.json()); // parse application/json
 
 //app.use(methodOverride('X-HTTP-Method-Override')); // override with the X-HTTP-Method-Override header in the request. simulate DELETE/PUT
 app.use(express.static(__dirname + '/public')); // set the static files location /public/img will be /img for users
-
+const siteRouting = require('./app/routing/routers/site')
 // routes ==================================================
-require('./app/routing/routes')(app); // pass our application into our routes
-
+//require('./app/routing/routes')(app); // pass our application into our routes deprecated
+const userRouting = require('./app/routing/routers/user');
+app.use('/',siteRouting);
 // start app ===============================================
 var https = require('https');
 https.createServer(options,app).listen(port)
