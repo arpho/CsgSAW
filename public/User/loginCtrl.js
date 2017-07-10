@@ -16,7 +16,8 @@ angular.module('csgSAW.controllers').controller('LoginController', ['$scope', 'U
         };
         $scope.user = {}
 	console.log('remember', Cookies.get('remember'))
-        $scope.user.remember = true // Boolean(Cookies.get('remember').replace('"',''))
+	var remember = Cookies.get('remember');
+        $scope.user.remember = remember||false // Boolean(Cookies.get('remember').replace('"',''))
         $scope.user.email = 'arpho@iol.it' //$cookies.get('username').replace('"','')
         $scope.user.password = 'me' // $cookies.get('password').replace('"','')
         $scope.submit = function (user) {
