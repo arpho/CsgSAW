@@ -3,6 +3,7 @@ module.exports = function(req,res){
         /*
         confronta i campi words delle due funzioni per verificare che siano uguali*/
     var user = req.body;
+    console.log('login requested',user);
     const checkPassword = function(pwd1,pwd2){
 	    
         if (pwd1.words === pwd2.words) return true
