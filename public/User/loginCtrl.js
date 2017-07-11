@@ -10,17 +10,18 @@ angular.module('csgSAW.controllers').controller('LoginController', ['$scope', 'U
         }
         $scope.title = ' Autenticazione utente'
         $scope.label = "questa è un'etichetta"
-        $scope.submiutButton = 'autentica'
+        $scope.submitButton = 'Autentica'
         self.cancel = function ($event) {
             $mdDialog.hide();
         };
         $scope.user = {}
-	console.log('remember', Cookies.get('remember'))
-	var remember = Cookies.get('remember');
+	var remember = Cookies.get('remember')|| false;
+	    console.log('remember',remember )
         $scope.user.remember = remember||false // Boolean(Cookies.get('remember').replace('"',''))
         $scope.user.email = 'arpho@iol.it' //$cookies.get('username').replace('"','')
         $scope.user.password = 'me' // $cookies.get('password').replace('"','')
         $scope.submit = function (user) {
+            console.log('login submitted!',user);
             $scope.showSpinner = true;
             Users.login(user).then(function (res) {
                 if ($scope.user.remember) {

@@ -1,4 +1,4 @@
-angular.module('CsgSAW.services').factory('Geek', ['$http', function($http) {
+angular.module('CsgSAW.services').factory('Utility', ['$http', function($http) {
 
 	
 

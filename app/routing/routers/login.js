@@ -2,7 +2,9 @@
 module.exports = function(req,res){
         /*
         confronta i campi words delle due funzioni per verificare che siano uguali*/
-    var user = req.body, checkPassword = function(pwd1,pwd2){
+    var user = req.body;
+    const checkPassword = function(pwd1,pwd2){
+	    
         if (pwd1.words === pwd2.words) return true
         var out = true
         for(var i = 0;i<pwd1.words.length;i++)
@@ -10,9 +12,9 @@ module.exports = function(req,res){
             out = out &&(pwd1.words[i] ==pwd2.words[i])
         }
         return out
-    },
-    userLogin = require('../../models/User'),
-    crypto = require("crypto-js")
+    };
+    const userLogin = require('../../models/User');
+    const crypto = require("crypto-js");
 
     var authenticated, tokenGenerator = require('../../utilities/tokenGenerator'), cache = require('../../utilities/wrapperCache')
     userLogin.findOne({email:user.email,enabled:true},function(err,authenticatingUser){

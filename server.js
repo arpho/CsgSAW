@@ -44,8 +44,9 @@ app.use(express.static(__dirname + '/public')); // set the static files location
 const siteRouting = require('./app/routing/routers/site')
 // routes ==================================================
 //require('./app/routing/routes')(app); // pass our application into our routes deprecated
-const userRouting = require('./app/routing/routers/user');
 app.use('/',siteRouting);
+const userRouting = require('./app/routing/routers/user');
+app.use('/api/user',userRouting);
 // start app ===============================================
 var https = require('https');
 https.createServer(options,app).listen(port)

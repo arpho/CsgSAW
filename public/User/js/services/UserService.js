@@ -23,6 +23,7 @@ angular.module('CsgSAW.services').factory('UserService', ['$http', function($htt
             return $http.post('/api/user/trash',data)
         },
         login: function(user){
+	    console.log('requested login',user);
             return $http.post('/api/user/login/',user)
         },
         setLoggedUser : function(user){
