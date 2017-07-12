@@ -15,11 +15,13 @@ angular.module('csgSAW.controllers').controller('LoginController', ['$scope', 'U
             $mdDialog.hide();
         };
         $scope.user = {}
-	var remember = Cookies.get('remember')|| false;
-	    console.log('remember',remember )
-        $scope.user.remember = remember||false // Boolean(Cookies.get('remember').replace('"',''))
-        $scope.user.email = 'arpho@iol.it' //$cookies.get('username').replace('"','')
+        //var remember = Cookies.get('remember')|| false;
+        var user = Cookies.get('user',true);
+	    console.log('user from cookies',user )
+        $scope.user = user||$scope.user 
+       /* $scope.user.email = 'arpho@iol.it' //$cookies.get('username').replace('"','')
         $scope.user.password = 'me' // $cookies.get('password').replace('"','')
+        $scope.user.remember = Boolean(user.remember);*/
         $scope.submit = function (user) {
             console.log('login submitted!',user);
             $scope.showSpinner = true;
@@ -31,13 +33,9 @@ angular.module('csgSAW.controllers').controller('LoginController', ['$scope', 'U
                         return dat;
                     }
                     var today = new Date();
-                        Cookies.put('username',$scope.user.email,{expires:today.addDays(30)})
-                    /*    $cookies.put('password',$scope.user.password,{expires:today.addDays(30)})
-                        $cookies.put('remember',$scope.user.remember,{expires:today.addDays(30)})*/
+                        Cookies.put('user',$scope.user,{expires:today.addDays(30)})
                 } else {
-                    /*$cookies.remove('username')
-                    $cookies.remove('password')
-                    $cookies.remove('remember')*/
+                    Cookies.remove('user');
                 }
                 Users.setLoggedUser(res.data.authenticatingUser)
                 Users.setToken(res.data.token);

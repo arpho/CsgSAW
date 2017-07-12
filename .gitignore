@@ -17,3 +17,7 @@ node_modules
 public/libs
 /sketchbook/
 /uploads/
+
+*.save
+
+package-lock\.json

@@ -13,7 +13,7 @@ angular.module('csgSAW.controllers').controller('NerdController',['$scope','$mdD
                                    templateUrl: 'User/loginPopup.html',
                                    parent: angular.element(document.body),
                                    targetEvent: ev,
-                                   clickOutsideToClose: true,
+                                   clickOutsideToClose: false,
                                    fullScreen: useFullScreen
                                 })
                        }

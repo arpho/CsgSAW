@@ -32,7 +32,9 @@ var port = process.env.PORT || 9090; // set our port
 var HOST = 'localhost';
 
 //server = https.createServer(options, app).listen(port, HOST);
- mongoose.connect(db.url); // connect to our mongoDB database (commented out after you enter in your own credentials)
+ mongoose.connect(db.url,{
+     useMongoClient:true
+ }); // connect to our mongoDB database (commented out after you enter in your own credentials)
  //app.use(formidable());
 // get all data/stuff of the body (POST) parameters
 app.use(bodyParser.json()); // parse application/json
