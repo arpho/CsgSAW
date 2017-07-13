@@ -3,9 +3,7 @@ module.exports = function(req,res){
         /*
         confronta i campi words delle due funzioni per verificare che siano uguali*/
     var user = req.body;
-    console.log('login requested',user);
     const checkPassword = function(pwd1,pwd2){
-	   console.log('checking password',pwd1,pwd2); 
         if (pwd1.words === pwd2.words) return true
         var out = true
         for(var i = 0;i<pwd1.words.length;i++)
@@ -19,7 +17,6 @@ module.exports = function(req,res){
 
     var authenticated, tokenGenerator = require('../../utilities/tokenGenerator'), cache = require('../../utilities/wrapperCache')
     userLogin.findOne({email:user.email,enabled:true},function(err,authenticatingUser){
-	console.log('found user in login.js');
         if(err ||!authenticatingUser){
         res.status(404).send()
         return

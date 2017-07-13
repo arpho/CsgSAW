@@ -17,13 +17,8 @@ angular.module('csgSAW.controllers').controller('LoginController', ['$scope', 'U
         $scope.user = {}
         //var remember = Cookies.get('remember')|| false;
         var user = Cookies.get('user',true);
-	    console.log('user from cookies',user )
         $scope.user = user||$scope.user 
-       /* $scope.user.email = 'arpho@iol.it' //$cookies.get('username').replace('"','')
-        $scope.user.password = 'me' // $cookies.get('password').replace('"','')
-        $scope.user.remember = Boolean(user.remember);*/
         $scope.submit = function (user) {
-            console.log('login submitted!',user);
             $scope.showSpinner = true;
             Users.login(user).then(function (res) {
                 if ($scope.user.remember) {
