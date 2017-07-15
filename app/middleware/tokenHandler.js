@@ -7,17 +7,12 @@ module.exports = (req,res,next)=>{
     const email = req.body.email;
     check = Token.renewToken(token,email)
     if(!check.valido){
-        res.error('token scaduto')
+        res.error(400,);// token scaduto
     }
     else{
             res.out = {};
             res.out.token = check.token;
-        if(!Cache.retrieve('testing')){ // non siamo in fase di test
-            next()
-        }
-        else{
-            //testing
-            next(req,res);
-        }
+	    console.log('res.out',res.out);
+            next();
     }
 }
